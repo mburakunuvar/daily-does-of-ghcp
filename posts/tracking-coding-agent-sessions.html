@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Compaction and Infinite Sessions in CLI and SDK — Daily Dose of GHCP</title>
+  <title>Tracking Coding Agent Sessions — Daily Dose of GHCP</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -53,7 +53,7 @@
         <li>
           <a href="tracking-coding-agent-sessions.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-            Compaction and Infinite Sessions in CLI and SDK
+            Tracking Coding Agent Sessions
           </a>
         </li>
       </ul>
@@ -75,163 +75,152 @@
     <!-- Post header -->
     <div class="post-header">
       <div class="post-meta">
-        <span class="date-badge">01 March 2026</span>
-        <span class="badge">⌨️ Copilot CLI</span>
+        <span class="date-badge">27 February 2026</span>
+        <span class="badge">🤖 Copilot coding agent</span>
       </div>
-      <h1 class="post-title">Compaction and Infinite Sessions in CLI and SDK</h1>
+      <h1 class="post-title">Tracking Coding Agent Sessions</h1>
     </div>
 
     <!-- Post body -->
     <div class="post-body">
 
       <p>
-        Copilot CLI features <strong>infinite sessions</strong> — you never run out of context window.
-        The system automatically manages context through <strong>intelligent compaction</strong>
-        that summarizes conversation history while preserving essential information.
-        You can work on long, complex tasks without worrying about context limits.
+        When you delegate a task to the GitHub Copilot coding agent, it runs autonomously in a
+        remote sandbox — often for minutes at a time. GitHub gives you <strong>7 surfaces</strong>
+        to track, steer, and stop those sessions without losing context: GitHub.com UI, GitHub CLI,
+        VS Code, JetBrains IDEs, Eclipse, Raycast, and GitHub Mobile.
       </p>
 
       <blockquote>
-        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+        <strong>Availability:</strong> Copilot Pro, Pro+, Business, and Enterprise plans.
       </blockquote>
 
-      <h3>Session Storage Location</h3>
+      <h3>Session lifecycle states</h3>
 
-      <pre><code>~/.copilot/session-state/{session-id}/
-├── events.jsonl      # Full session history
-├── workspace.yaml    # Metadata
-├── plan.md           # Implementation plan (if created)
-├── checkpoints/      # Compaction history
-└── files/            # Persistent artifacts</code></pre>
-
-      <h3>Key Benefits</h3>
-      <ul>
-        <li>No context window limits during CLI sessions</li>
-        <li>Automatic context compaction — no manual intervention needed</li>
-        <li>Full session history preserved in <code>events.jsonl</code></li>
-        <li>Implementation plans and artifacts persist across the session</li>
-      </ul>
-
-      <h3>Tips</h3>
-      <blockquote>
-        Compaction is handled automatically. Use <code>/compact</code> only if you need to manually
-        trigger it — this is rarely necessary.
-      </blockquote>
-
-      <h3>Session management commands (Copilot CLI)</h3>
-      <ul>
-        <li><code>/session</code> — show info about the current session</li>
-        <li><code>/session checkpoints</code> — list compaction checkpoints</li>
-        <li><code>/session checkpoints NUMBER</code> — show details for a specific checkpoint</li>
-        <li><code>/session files</code> — list temporary files created during the session</li>
-        <li><code>/session plan</code> — show the current plan (if one exists)</li>
-        <li><code>/context</code> — visualize context/token usage</li>
-        <li><code>/clear</code> or <code>/new</code> — start fresh between unrelated tasks</li>
-      </ul>
-
-      <h3>Is this available in the SDK, IDE, or GitHub.com UI?</h3>
-
-      <p>
-        Infinite sessions with automatic context compaction is available in <strong>Copilot CLI</strong> and
-        the <strong>Copilot SDK</strong> (Node.js, Python, Go, .NET), which share the same underlying compaction
-        mechanism. It is <strong>not available</strong> in IDE extensions (e.g., VS Code) or on
-        <strong>GitHub.com</strong> (repositories, issues, PRs, etc.).
-      </p>
+      <p>Every coding agent session moves through a formal lifecycle that you can observe from any of the 7 surfaces:</p>
 
       <table>
         <thead>
           <tr>
-            <th>Feature</th>
-            <th>Copilot CLI</th>
-            <th>Copilot SDK</th>
-            <th>IDE (VS Code, etc.)</th>
-            <th>GitHub.com UI</th>
+            <th>State</th>
+            <th>Meaning</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Infinite sessions</td>
-            <td>✅</td>
-            <td>✅</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td><strong>Running</strong></td>
+            <td>Copilot is actively working — making tool calls, editing files, running tests</td>
           </tr>
           <tr>
-            <td>Automatic context compaction</td>
-            <td>✅</td>
-            <td>✅</td>
-            <td>❌</td>
-            <td>❌</td>
+            <td><strong>Completed</strong></td>
+            <td>The session finished and a pull request (or result) has been produced</td>
           </tr>
           <tr>
-            <td>Persistent session storage</td>
-            <td>✅</td>
-            <td>✅</td>
-            <td>❌</td>
-            <td>❌</td>
-          </tr>
-          <tr>
-            <td>Context window limits</td>
-            <td>None</td>
-            <td>None</td>
-            <td>Model-dependent</td>
-            <td>Model-dependent</td>
+            <td><strong>Archived</strong></td>
+            <td>The session has been dismissed from the active list</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>Enabling infinite sessions in the SDK</h3>
+      <h3>Where you can track agent sessions</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>How to access</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GitHub.com UI</strong></td>
+            <td>Agents panel (nav bar icon) → <strong>View all</strong> to open the Agents tab</td>
+            <td>Shows running and past sessions across all repos. You can also <strong>steer</strong> or <strong>stop</strong> a session from here.</td>
+          </tr>
+          <tr>
+            <td><strong>GitHub CLI</strong></td>
+            <td><code>gh agent-task list</code> / <code>gh agent-task view --repo OWNER/REPO PR#</code></td>
+            <td>Requires <strong>GitHub CLI v2.80.0+</strong> (public preview). Add <code>--log</code> for session logs, <code>--follow</code> to stream live.</td>
+          </tr>
+          <tr>
+            <td><strong>VS Code</strong></td>
+            <td><strong>GitHub Pull Requests</strong> extension → GitHub icon in sidebar → click session → <strong>View Session</strong></td>
+            <td>Can also click <strong>Open in VS Code</strong> from the GitHub agents tab (currently VS Code Insiders only).</td>
+          </tr>
+          <tr>
+            <td><strong>JetBrains IDEs</strong></td>
+            <td><strong>GitHub Coding Agent Jobs</strong> button in sidebar, or <strong>Open Job List</strong> after delegating</td>
+            <td>Public preview. Shows status; right-click → <strong>Cancel Job</strong> to stop.</td>
+          </tr>
+          <tr>
+            <td><strong>Eclipse</strong></td>
+            <td>Agents icon at top-right of chat window, or <strong>Open Job List</strong> after delegating</td>
+            <td>Public preview. Same status/cancel workflow as JetBrains.</td>
+          </tr>
+          <tr>
+            <td><strong>Raycast</strong></td>
+            <td>GitHub Copilot extension → <strong>View Tasks</strong> command</td>
+            <td>macOS only. Press ⌘L to view session logs.</td>
+          </tr>
+          <tr>
+            <td><strong>GitHub Mobile</strong></td>
+            <td>Home → Agents section → <strong>Agent Tasks</strong></td>
+            <td>Filter by Open / Merged / etc.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Viewing session logs</h3>
 
       <p>
-        The Copilot SDK supports infinite sessions via programmatic session creation and resumption.
-        Infinite sessions are <strong>enabled by default</strong> for custom integrations, or you can
-        opt in explicitly:
+        Session logs expose Copilot's internal monologue: every tool invocation, file edit, test run,
+        and validation step. Three surfaces support log viewing:
       </p>
-
-      <pre><code>const session = await client.createSession({
-  model: "gpt-5",
-  infiniteSessions: { enabled: true }
-});</code></pre>
-
-      <p>
-        The SDK uses the <strong>same compaction mechanism as the CLI</strong> — conversation history is
-        automatically summarised in the background when approaching the token limit, preserving essential
-        context without interrupting execution.
-      </p>
-
-      <h3>In the IDE and GitHub.com UI</h3>
       <ul>
-        <li>Each chat conversation has a <strong>bounded context window</strong> tied to the underlying model</li>
-        <li>When the context limit is reached, older messages may be dropped or no longer considered</li>
-        <li>There is <strong>no Copilot CLI-style automatic compaction</strong> (checkpoints) or local session artifacts (for example, <code>events.jsonl</code>, <code>plan.md</code>)</li>
+        <li><strong>GitHub.com UI</strong> — open the session in the Agents tab and scroll the log viewer</li>
+        <li><strong>VS Code</strong> — click <strong>View Session</strong> in the GitHub Pull Requests panel</li>
+        <li><strong>GitHub CLI</strong> — append <code>--log</code> (snapshot) or <code>--follow</code> (live stream) to <code>gh agent-task view</code></li>
+      </ul>
+
+      <h3>Steering a running session</h3>
+
+      <p>
+        You can redirect Copilot mid-task without stopping it. From the <strong>Agents tab on GitHub.com</strong>,
+        select a running session and enter a new prompt. Each steering message costs
+        <strong>1 premium request</strong>.
+      </p>
+
+      <h3>Stopping a session</h3>
+
+      <p>
+        To halt a session before it completes, use the <strong>Stop session</strong> button in the session
+        log viewer on GitHub.com, or right-click → <strong>Cancel Job</strong> in JetBrains / Eclipse.
+        Stopping a session does not delete any work already committed to the branch.
+      </p>
+
+      <h3>Bringing a session to your local machine</h3>
+
+      <ul>
+        <li>From the agents tab on GitHub.com, click <strong>Continue in GitHub Copilot CLI</strong> to resume the session locally</li>
+        <li>In Copilot CLI, use <code>/resume</code> to reconnect to any coding agent session (including ones started on GitHub.com)</li>
       </ul>
 
       <blockquote>
-        <strong>Note:</strong> IDE/GitHub.com may keep a conversation thread in the UI, but that does not imply “infinite” context.
-      </blockquote>
-
-      <h3>Workarounds in IDE / GitHub.com UI</h3>
-      <ul>
-        <li>Use file references/attachments to keep relevant code in context (IDE: <code>#file</code>; GitHub.com: attach/select relevant repo files or reference paths)</li>
-        <li>Break long tasks into smaller, focused conversations</li>
-        <li>Summarize previous progress manually at the start of a new chat</li>
-      </ul>
-
-      <blockquote>
-        <strong>Tip:</strong> For long, complex multi-step tasks, <strong>Copilot CLI</strong> is the better tool
-        due to its infinite session capability.
+        <strong>Tip:</strong> Use <code>/resume</code> to pick up a remote coding agent session in your terminal
+        and continue the task with full local tool access.
       </blockquote>
 
       <h3>Documentation</h3>
       <ul>
         <li>
-          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank" rel="noopener">
-            CLI Best Practices — Infinite Sessions ↗
+          <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions" target="_blank" rel="noopener">
+            Tracking GitHub Copilot's sessions ↗
           </a>
         </li>
         <li>
-          <a href="https://github.com/github/copilot-sdk/blob/main/nodejs/README.md" target="_blank" rel="noopener">
-            Copilot SDK — Node.js README (GitHub) ↗
+          <a href="https://docs.github.com/en/copilot/concepts/agents/coding-agent/agent-management" target="_blank" rel="noopener">
+            About agent management ↗
           </a>
         </li>
       </ul>
