@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tracking Coding Agent Sessions — Daily Dose of GHCP</title>
+  <title>Compaction and Infinite Sessions — Daily Dose of GHCP</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -45,13 +45,13 @@
           </a>
         </li>
         <li>
-          <a href="tracking-sessions.html" class="active">
+          <a href="compaction-and-infinite-sessions.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-            Tracking Coding Agent Sessions
+            Compaction and Infinite Sessions
           </a>
         </li>
         <li>
-          <a href="infinite-sessions.html">
+          <a href="tracking-coding-agent-sessions.html">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
             Compaction and Infinite Sessions in CLI and SDK
           </a>
@@ -78,7 +78,7 @@
         <span class="date-badge">02 March 2026</span>
         <span class="badge">🤖 Copilot coding agent</span>
       </div>
-      <h1 class="post-title">Tracking Coding Agent Sessions</h1>
+      <h1 class="post-title">Compaction and Infinite Sessions</h1>
     </div>
 
     <!-- Post body -->
@@ -95,10 +95,46 @@
       </blockquote>
 
       <h3>Important distinction: agent sessions vs chat sessions</h3>
-      <ul>
-        <li><strong>Agent sessions</strong> (this entry) are <em>coding-agent tasks</em> — designed to be visible across all 7 surfaces listed above</li>
-        <li><strong>Chat sessions</strong> (Copilot Chat threads in VS Code / GitHub.com) are a separate concept with their own per-surface history — they do <strong>not</strong> appear in the coding-agent session list</li>
-      </ul>
+      <p>Not all Copilot sessions are the same. The term "session" covers three meaningfully different concepts depending on where and how Copilot runs:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Examples</th>
+            <th>Runs where</th>
+            <th>Trackable across surfaces?</th>
+            <th>Lifecycle states</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chat session</strong></td>
+            <td>VS Code Copilot Chat, GitHub.com Chat, JetBrains Chat</td>
+            <td>Inline, inside your editor or browser</td>
+            <td>No — surface-local history only</td>
+            <td>None — conversation thread only</td>
+          </tr>
+          <tr>
+            <td><strong>Agentic chat session</strong></td>
+            <td>VS Code Agent Mode, GitHub.com Agent Mode, JetBrains Agent Mode, Copilot CLI interactive mode</td>
+            <td>Locally in your editor/terminal, or inline in the browser</td>
+            <td>No — surface-local only</td>
+            <td>None — runs inline, no formal lifecycle</td>
+          </tr>
+          <tr>
+            <td><strong>Coding agent session</strong></td>
+            <td>GitHub coding agent, Copilot SDK agents</td>
+            <td>Remote sandbox on GitHub</td>
+            <td>Yes — visible across all 7 surfaces</td>
+            <td>Running / Completed / Archived</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The key distinction that matters: <strong>did Copilot run autonomously in a remote environment?</strong> If yes, it is a coding agent session with a full task lifecycle. If it ran inline in your editor or CLI, it is agentic chat — no cross-surface tracking, no formal states.</p>
+
+      <p>Note: <strong>Copilot CLI</strong> interactive mode behaves like agentic chat (inline, local). The <code>/resume</code> command lets you reconnect to a <em>coding agent session</em> started elsewhere — the CLI itself does not generate a tracked session.</p>
 
       <h3>Bring a session to your local environment</h3>
       <ul>
@@ -157,7 +193,7 @@
           <tr>
             <td><strong>Raycast</strong></td>
             <td>GitHub Copilot extension → <strong>View Tasks</strong> command</td>
-            <td>Works on Windows &amp; macOS. Press ⌘L to view session logs.</td>
+            <td>macOS only. Press ⌘L to view session logs.</td>
           </tr>
           <tr>
             <td><strong>GitHub Mobile</strong></td>
