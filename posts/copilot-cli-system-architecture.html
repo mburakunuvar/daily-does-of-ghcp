@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot CLI System Architecture Deep Dive — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-cli-system-architecture.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">04 March 2026</span>
+        <span class="badge">⚙️ Copilot CLI</span>
+      </div>
+      <h1 class="post-title">Copilot CLI System Architecture Deep Dive</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        GitHub Copilot CLI is not a thin wrapper around a model API — it is a layered runtime with
+        distinct responsibilities at each level. Understanding <strong>how the six architectural
+        layers collaborate</strong> gives you an accurate mental model for debugging unexpected
+        behaviour, tuning performance, and extending the CLI with plugins, MCP servers, and custom
+        agents.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+      </blockquote>
+
+      <h3>The six architectural layers</h3>
+
+      <p>
+        Each layer has a clearly bounded responsibility and communicates with adjacent layers through
+        defined interfaces. The table below shows the six layers from top (user-facing) to bottom
+        (infrastructure):
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Primary responsibility</th>
+            <th>Key components</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>User Interface</strong></td>
+            <td>Render input/output and handle user interaction</td>
+            <td>Input handler, timeline renderer, status bar, permission dialogs</td>
+          </tr>
+          <tr>
+            <td><strong>Session Management</strong></td>
+            <td>Persist conversation state and compact context automatically</td>
+            <td>Session store (<code>~/.copilot/session-state/</code>), compaction loop, checkpoints</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Execution</strong></td>
+            <td>Orchestrate agent lifecycle and delegation patterns</td>
+            <td>Main agent, subagents via <code>read_agent</code>, background delegation (<code>&amp;</code> / <code>/delegate</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>Tool &amp; Extension</strong></td>
+            <td>Provide tools, MCP integrations, plugins, skills, and LSP servers</td>
+            <td>Built-in tools, MCP servers, plugin system, skills, LSP integration</td>
+          </tr>
+          <tr>
+            <td><strong>Model &amp; API</strong></td>
+            <td>Route requests to the right model and stream responses</td>
+            <td>Model router, Copilot API client, streaming, retry/error handling</td>
+          </tr>
+          <tr>
+            <td><strong>Permission &amp; Security</strong></td>
+            <td>Authenticate the user and gate file/tool access</td>
+            <td>Token resolver, permission manager, parallel approval, path allowlist</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>User Interface layer</h3>
+
+      <p>
+        The UI layer adapts its rendering to three distinct modes. Choosing the right mode can
+        meaningfully improve your experience in constrained terminals or for accessibility needs:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Flag</th>
+            <th>Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Standard Terminal</strong></td>
+            <td><em>(default)</em></td>
+            <td>CI pipelines, SSH sessions, any terminal</td>
+          </tr>
+          <tr>
+            <td><strong>Alt-Screen</strong></td>
+            <td><code>--alt-screen</code></td>
+            <td>Full-screen diffs (<code>/diff</code>), mouse selection, scrollable history</td>
+          </tr>
+          <tr>
+            <td><strong>Screen Reader</strong></td>
+            <td><code>--screen-reader</code></td>
+            <td>Accessibility-optimised output — static text replaces spinners</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The <strong>timeline renderer</strong> displays the full conversation history including
+        expandable tool executions. The <strong>status bar</strong> surfaces the current working
+        directory, git branch, selected model, and IDE connection status — all without interrupting
+        the active prompt.
+      </p>
+
+      <h3>Session Management layer</h3>
+
+      <p>
+        Sessions are persisted to disk in a structured format that cleanly separates storage from
+        presentation. The new format lives under <code>~/.copilot/session-state/</code>; a legacy
+        format under <code>history-session-state/</code> is migrated automatically on resume.
+      </p>
+
+      <pre><code>~/.copilot/
+├── session-state/            # Current session format
+│   └── &lt;session-id&gt;/
+│       ├── metadata.json     # Model usage, token counts, PRU, file changes
+│       ├── messages/         # Full conversation history
+│       └── checkpoints/      # Rewind points (Esc Esc to access)
+└── history-session-state/    # Legacy format (auto-migrated on --resume)</code></pre>
+
+      <p>
+        The <strong>compaction loop</strong> is the mechanism that enables infinite sessions.
+        When the context window reaches 95 % of the model's token limit, the runtime automatically
+        compresses the conversation history in the background and re-injects a summary — without
+        pausing your work. Any messages sent during compaction are queued and delivered once
+        compaction finishes.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Compaction behaviour</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Trigger threshold</td>
+            <td>95 % of the active model's token limit</td>
+          </tr>
+          <tr>
+            <td>What is preserved</td>
+            <td>Tool call sequences, file edit history, reasoning summaries (for models that support extended thinking)</td>
+          </tr>
+          <tr>
+            <td>Rewind checkpoints</td>
+            <td>Snapshots saved before each compaction so you can restore the full uncompressed history — press <kbd>Esc Esc</kbd> to access them interactively</td>
+          </tr>
+          <tr>
+            <td>Manual trigger</td>
+            <td><code>/compact</code> command</td>
+          </tr>
+          <tr>
+            <td>Message queuing</td>
+            <td>Messages sent mid-compaction are automatically queued and replayed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Agent Execution layer</h3>
+
+      <p>
+        Agents are defined in Markdown files with YAML frontmatter. The frontmatter declares which
+        tools the agent may use, whether it can invoke the model, and any agent-specific MCP server
+        configurations:
+      </p>
+
+      <pre><code>---
+name: my-agent
+description: A focused code-review agent
+tools: [view, grep, glob, shell]
+infer: true
+---
+You are a careful code reviewer …</code></pre>
+
+      <p>
+        The layer supports three delegation patterns that control whether execution is synchronous,
+        delegated to a subagent, or fully backgrounded:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Pattern</th>
+            <th>How to invoke</th>
+            <th>Blocks the main agent?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Switch agent</strong></td>
+            <td><code>/agent &lt;name&gt;</code> or <code>--agent &lt;name&gt;</code> flag</td>
+            <td>Yes — replaces the active agent for the session</td>
+          </tr>
+          <tr>
+            <td><strong>Subagent delegation</strong></td>
+            <td><code>read_agent</code> tool (called by the model)</td>
+            <td>Yes — main agent waits for the subagent result</td>
+          </tr>
+          <tr>
+            <td><strong>Background execution</strong></td>
+            <td><code>/delegate &lt;task&gt;</code> or prefix the message with <code>&amp;</code></td>
+            <td>No — runs concurrently; results appear in the timeline</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Tool &amp; Extension layer</h3>
+
+      <p>
+        This layer is the richest in the architecture. It exposes built-in tools, Model Context
+        Protocol (MCP) server integrations, a plugin system, reusable skills, and LSP-based code
+        intelligence — all composable with each other.
+      </p>
+
+      <p><strong>Built-in tools</strong> cover the most common agent actions:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tool</th>
+            <th>Purpose</th>
+            <th>Permission required</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>view</code> / <code>view_range</code></td>
+            <td>Read file contents (full or range)</td>
+            <td>Read path approval</td>
+          </tr>
+          <tr>
+            <td><code>edit</code></td>
+            <td>Modify file contents</td>
+            <td>Write path approval</td>
+          </tr>
+          <tr>
+            <td><code>shell</code></td>
+            <td>Execute shell commands</td>
+            <td>Command approval + path</td>
+          </tr>
+          <tr>
+            <td><code>grep</code> / <code>glob</code></td>
+            <td>Search codebase (uses bundled ripgrep)</td>
+            <td>Read path approval</td>
+          </tr>
+          <tr>
+            <td><code>web_fetch</code></td>
+            <td>Fetch web content</td>
+            <td>URL permission</td>
+          </tr>
+          <tr>
+            <td><code>apply_patch</code></td>
+            <td>Apply unified diff patches</td>
+            <td>Write path approval</td>
+          </tr>
+          <tr>
+            <td><code>store_memory</code></td>
+            <td>Persist facts to repository memory</td>
+            <td>Memory enabled</td>
+          </tr>
+          <tr>
+            <td><code>read_agent</code></td>
+            <td>Delegate to a subagent</td>
+            <td>None</td>
+          </tr>
+          <tr>
+            <td><code>ask_user</code></td>
+            <td>Request clarification interactively</td>
+            <td>None</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        <strong>Plugins</strong> extend the CLI with custom agents, bundled MCP servers, skills, and
+        LSP configurations. They live under <code>~/.copilot/plugins/&lt;plugin-name&gt;/</code> and
+        are managed with <code>/plugin install</code>, <code>/plugin update</code>, and
+        <code>/plugin uninstall</code>.
+      </p>
+
+      <p>
+        <strong>Skills</strong> are reusable Markdown prompt templates invocable as slash commands
+        (e.g. <code>/my-skill</code>). They survive compaction — the skill definition is re-injected
+        into the compacted context — making them reliable across long-running sessions.
+      </p>
+
+      <h3>Model &amp; API layer</h3>
+
+      <p>
+        The model router decouples the agent from any specific AI provider. You switch models with
+        <code>/model &lt;name&gt;</code> and the selection persists across sessions. The CLI supports
+        both Claude and GPT model families, with per-model tracking of token consumption and Premium
+        Request Usage (PRU) multipliers.
+      </p>
+
+      <p>
+        The API client communicates with per-subscription endpoints (enabling data-residency
+        requirements), streams responses token-by-token, and retries automatically on server errors.
+        You can disable streaming with <code>--stream off</code> or route requests through a proxy
+        via the <code>HTTPS_PROXY</code> environment variable.
+      </p>
+
+      <h3>Permission &amp; Security layer</h3>
+
+      <p>
+        Authentication uses a five-step token resolution chain, evaluated in order:
+      </p>
+
+      <ol>
+        <li><code>COPILOT_GITHUB_TOKEN</code> environment variable</li>
+        <li><code>GH_TOKEN</code> environment variable</li>
+        <li><code>GITHUB_TOKEN</code> environment variable</li>
+        <li><code>gh</code> CLI authentication store</li>
+        <li><code>GITHUB_ASKPASS</code> script</li>
+      </ol>
+
+      <p>
+        The <strong>permission manager</strong> gates every file system operation and external tool
+        call. By default the allowlist covers the current working directory and the system temp
+        directory; every other path requires explicit user approval.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Flag</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--allow-all</code> / <code>--yolo</code></td>
+            <td>Auto-approve all permissions for the session</td>
+          </tr>
+          <tr>
+            <td><code>--allow-all-paths</code></td>
+            <td>Auto-approve all file-path access (prompts still appear for other tool types)</td>
+          </tr>
+          <tr>
+            <td><code>--disable-parallel-tools-execution</code></td>
+            <td>Require sequential approval — no concurrent tool calls</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        When multiple tools execute in parallel (the default), the first approval of a given
+        permission type with "Approve for session" automatically resolves all pending requests of the
+        same type — dramatically reducing approval fatigue in large agentic tasks.
+      </p>
+
+      <h3>How the layers interact: a control-flow walkthrough</h3>
+
+      <p>
+        The following pseudocode traces a single user message from input to response, showing which
+        layer handles each step:
+      </p>
+
+      <pre><code>1. UI layer        — receives multi-line input; renders timeline entry
+2. Session layer   — appends message to disk; checks context window usage
+3. Agent layer     — selects active agent; assembles system prompt + instructions
+4. Permission layer — verifies authentication token is valid
+5. Model layer     — sends context window to Copilot API; streams response tokens
+6. Agent layer     — parses model output; detects tool-call requests
+7. Permission layer — prompts user to approve each tool (unless pre-approved)
+8. Tool layer      — executes approved tools concurrently; collects results
+9. Session layer   — appends tool results to context; checks 95 % threshold
+                     └─ if threshold reached → compaction loop fires →
+                        compress history → re-inject summary → continue
+10. Model layer    — re-invokes model with updated context (ReAct loop)
+11. UI layer       — renders final response and updated timeline</code></pre>
+
+      <blockquote>
+        <strong>Key insight:</strong> Steps 6–10 form the <strong>ReAct loop</strong> (Reason → Act
+        → Observe → Reason…). The model is not called once per user message — it is called once per
+        <em>reasoning step</em>, which may involve dozens of tool invocations before producing a
+        final response.
+      </blockquote>
+
+      <h3>Configuration hierarchy</h3>
+
+      <p>
+        The CLI resolves configuration from multiple files with a defined precedence. Lower entries
+        in the table are overridden by higher entries at runtime:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Scope</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>~/.copilot/config</code></td>
+            <td>User-global</td>
+            <td>Persistent CLI settings (log level, banner, screen reader, experimental)</td>
+          </tr>
+          <tr>
+            <td><code>~/.copilot/mcp-config.json</code></td>
+            <td>User-global</td>
+            <td>Global MCP server definitions</td>
+          </tr>
+          <tr>
+            <td><code>~/.copilot/lsp-config.json</code></td>
+            <td>User-global</td>
+            <td>User-level LSP server configurations</td>
+          </tr>
+          <tr>
+            <td><code>.vscode/mcp.json</code></td>
+            <td>Workspace</td>
+            <td>Workspace-scoped MCP servers (shared via source control)</td>
+          </tr>
+          <tr>
+            <td><code>.github/lsp.json</code></td>
+            <td>Repository</td>
+            <td>Repository-level LSP server configurations</td>
+          </tr>
+          <tr>
+            <td><code>.github/copilot-instructions.md</code></td>
+            <td>Repository</td>
+            <td>Custom instructions injected into every session in this repo</td>
+          </tr>
+          <tr>
+            <td><code>.copilot-instructions.md</code></td>
+            <td>Repository root</td>
+            <td>Alternative location for custom instructions</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli" target="_blank" rel="noopener">
+            About GitHub Copilot CLI ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices" target="_blank" rel="noopener">
+            Copilot CLI best practices ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://deepwiki.com/github/copilot-cli/6.1-system-architecture-overview" target="_blank" rel="noopener">
+            DeepWiki — Copilot CLI 6.1 System Architecture Overview ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
