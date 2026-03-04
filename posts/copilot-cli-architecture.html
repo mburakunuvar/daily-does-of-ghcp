@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot CLI System Architecture Deep Dive — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-cli-architecture.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">04 March 2026</span>
+        <span class="badge">⌨️ Copilot CLI</span>
+      </div>
+      <h1 class="post-title">Copilot CLI System Architecture Deep Dive</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        GitHub Copilot CLI is more than a thin wrapper around an LLM. It is a layered agent runtime
+        whose components — the <strong>entry-point</strong>, <strong>session engine</strong>,
+        <strong>tool subsystem</strong>, <strong>context manager</strong>, <strong>customization
+        layer</strong>, and <strong>delegation bridge</strong> — all collaborate in well-defined ways.
+        Understanding that architecture helps you predict behavior, diagnose failures, and extend the
+        CLI purposefully.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+      </blockquote>
+
+      <h3>High-level component map</h3>
+
+      <p>
+        At the outermost level the CLI exposes two interfaces that converge on the same internal agent
+        loop:
+      </p>
+
+      <pre><code>┌─────────────────────────────────────────────┐
+│               GitHub Copilot CLI            │
+│                                             │
+│  ┌──────────────┐    ┌─────────────────┐    │
+│  │  Interactive  │    │  Programmatic   │    │
+│  │  interface   │    │  interface      │    │
+│  │  (copilot)   │    │  (copilot -p …) │    │
+│  └──────┬───────┘    └────────┬────────┘    │
+│         └──────────┬──────────┘             │
+│                    ▼                        │
+│          ┌──────────────────┐               │
+│          │   Agent Loop     │               │
+│          │  (ReAct engine)  │               │
+│          └────────┬─────────┘               │
+│      ┌────────────┼─────────────┐           │
+│      ▼            ▼             ▼           │
+│  Session      Tool           Context        │
+│  Engine      Subsystem       Manager        │
+│      │            │             │           │
+│      ▼            ▼             ▼           │
+│  ~/.copilot/  shell/write/   compaction     │
+│  session-     MCP/Skills     + token        │
+│  state/                      budget         │
+└─────────────────────────────────────────────┘</code></pre>
+
+      <h3>Entry point: two interfaces, one loop</h3>
+
+      <p>
+        The CLI boots in one of two modes, both of which feed the same agent loop:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Interface</th>
+            <th>How to invoke</th>
+            <th>What it does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Interactive</strong></td>
+            <td><code>copilot</code></td>
+            <td>Opens a REPL-style session. You type prompts, Copilot responds and may call tools. Supports slash commands, plan mode (Shift+Tab), inline tool-approval UI, and context visualization.</td>
+          </tr>
+          <tr>
+            <td><strong>Programmatic</strong></td>
+            <td><code>copilot -p "…"</code> or piped input</td>
+            <td>Runs a single prompt non-interactively and exits. Designed for scripts, CI pipelines, and automation. Use <code>--allow-tool</code> or <code>--allow-all-tools</code> to skip approval prompts.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>The agent loop (ReAct engine)</h3>
+
+      <p>
+        The core of the CLI is a <strong>ReAct loop</strong> — the model Reasons, takes an Action
+        (tool call), Observes the result, and Reasons again. This cycle continues until the model
+        emits a final response instead of another tool call.
+      </p>
+
+      <pre><code>┌──────────────────────────────────────────────┐
+│                  Agent Loop                  │
+│                                              │
+│  User prompt ──► Context Window ──► LLM      │
+│                       ▲              │       │
+│                       │         ┌────▼────┐  │
+│                       │         │ Tool    │  │
+│                       │         │ call?   │  │
+│                       │         └────┬────┘  │
+│                       │    Yes       │       │
+│                       │◄─── result ──┘       │
+│                       │                      │
+│                    No │ ──► Final response    │
+│                       │     to user          │
+└──────────────────────────────────────────────┘</code></pre>
+
+      <p>
+        The loop runs entirely inside a single OS process. Tool calls are synchronous from the
+        model's perspective — execution pauses, the tool runs, its output is appended to the context
+        window, and the model resumes generation.
+      </p>
+
+      <h3>Session engine</h3>
+
+      <p>
+        The session engine owns <strong>durable state</strong>. Every conversation is backed by a
+        directory on disk:
+      </p>
+
+      <pre><code>~/.copilot/session-state/{session-id}/
+├── events.jsonl      # Append-only log of every turn
+├── workspace.yaml    # Session metadata (model, dates, repo path)
+├── plan.md           # Structured plan, if one was created
+├── checkpoints/      # Compaction snapshots (one per compaction cycle)
+└── files/            # Temporary artifacts produced by the session</code></pre>
+
+      <p>
+        Key responsibilities of the session engine:
+      </p>
+
+      <ul>
+        <li><strong>Create</strong> a fresh session directory when a new conversation starts.</li>
+        <li><strong>Persist</strong> every event (user message, tool call, tool result, model
+          response) to <code>events.jsonl</code> as it happens — enabling crash recovery and
+          forensic inspection.</li>
+        <li><strong>Resume</strong> an existing session (via <code>/resume</code> or
+          <code>--session-id</code>) by replaying its events into the context window.</li>
+        <li><strong>Hand off</strong> to the cloud coding agent when <code>/delegate</code> is
+          used — the session ID travels with the delegation so the agent can write back results.</li>
+      </ul>
+
+      <h3>Tool subsystem</h3>
+
+      <p>
+        The tool subsystem is the agent's <strong>effector layer</strong> — it translates LLM
+        intent into real-world actions. Tools are organized into four families:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Family</th>
+            <th>Examples</th>
+            <th>Approval model</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Shell</strong></td>
+            <td><code>bash</code>, <code>git</code>, <code>npm run test</code></td>
+            <td>Per-command approval (or allowlisted via <code>--allow-tool</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>File I/O</strong></td>
+            <td><code>write</code>, <code>read</code>, <code>patch</code></td>
+            <td>Scoped to trusted directories; write requires approval</td>
+          </tr>
+          <tr>
+            <td><strong>MCP servers</strong></td>
+            <td>GitHub MCP, custom MCP servers, third-party integrations</td>
+            <td>Configured in <code>~/.copilot/mcp.json</code>; each tool exposed by the server follows the same approval flow</td>
+          </tr>
+          <tr>
+            <td><strong>Skills</strong></td>
+            <td>Built-in CLI skills, custom skills defined in <code>.github/skills/</code></td>
+            <td>Run as sub-agents; the parent agent delegates and awaits the result</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        When the LLM emits a tool-call JSON object, the tool subsystem:
+      </p>
+
+      <ol>
+        <li>Checks whether the tool is on the session allowlist.</li>
+        <li>If not, surfaces an approval prompt to the user (interactive mode) or blocks
+          (programmatic mode without <code>--allow-tool</code>).</li>
+        <li>Executes the tool in a subprocess scoped to trusted directories.</li>
+        <li>Appends the result — including <code>stdout</code>, <code>stderr</code>, and exit code
+          — back into the context window as a <em>tool result</em> message.</li>
+        <li>Returns control to the agent loop, which feeds the augmented context to the LLM.</li>
+      </ol>
+
+      <h3>Context manager</h3>
+
+      <p>
+        The context manager sits between the session engine and the LLM call. Its job is to
+        <strong>fill the context window optimally</strong> and ensure it never overflows.
+      </p>
+
+      <pre><code>Context Window (e.g. 200 k tokens)
+┌──────────────────────────────────────────┐
+│  System prompt + custom instructions     │  ~5 %
+│  Tool definitions (shell, MCP, skills)   │  ~5 %
+│  Conversation history (user + model)     │  variable
+│  Tool results                            │  variable
+│  ─────────────────────────────────────── │
+│  Free space + compaction buffer          │  ≥5 %
+└──────────────────────────────────────────┘</code></pre>
+
+      <p>
+        When the conversation approaches <strong>95% of the token limit</strong>, the context
+        manager triggers <strong>auto-compaction</strong>:
+      </p>
+
+      <ol>
+        <li>It snapshots the current context to a new checkpoint directory under
+          <code>checkpoints/</code>.</li>
+        <li>It sends the full history to a summarization call — a separate LLM invocation whose
+          sole job is to produce a dense summary.</li>
+        <li>The summary replaces the raw history in the context window; verbatim turns beyond the
+          summary are discarded.</li>
+        <li>Execution resumes seamlessly — the model sees only the summary + recent turns, with no
+          interruption to the user.</li>
+      </ol>
+
+      <p>
+        This is what enables <strong>infinite sessions</strong>: the context window never truly
+        fills because old content is continuously compressed and replaced.
+      </p>
+
+      <blockquote>
+        <strong>Developer tip:</strong> Use <code>/context</code> to inspect the live token budget
+        breakdown — system tokens, history tokens, tool definitions, and free space. Use
+        <code>/session checkpoints</code> to review what was compressed and when.
+      </blockquote>
+
+      <h3>Customization layer</h3>
+
+      <p>
+        All customization is resolved at session startup and injected into the system prompt before
+        the first LLM call. The CLI merges instructions from multiple locations in a fixed
+        discovery order:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Scope</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>~/.copilot/copilot-instructions.md</code></td>
+            <td>Global (all sessions)</td>
+            <td>Lowest</td>
+          </tr>
+          <tr>
+            <td><code>.github/copilot-instructions.md</code></td>
+            <td>Repository</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><code>.github/instructions/**/*.instructions.md</code></td>
+            <td>Repository (modular)</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><code>AGENTS.md</code> / <code>Copilot.md</code></td>
+            <td>Repository (root or cwd)</td>
+            <td>High</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        All matching files are merged (not overwritten) into a single combined instruction set.
+        Repository instructions take precedence over global ones when there are conflicts.
+      </p>
+
+      <p>
+        Beyond static instructions, the customization layer also registers:
+      </p>
+
+      <ul>
+        <li><strong>MCP servers</strong> — declared in <code>~/.copilot/mcp.json</code>; their
+          tools appear in the tool subsystem alongside built-in tools.</li>
+        <li><strong>Custom agents</strong> — specialized sub-agents the orchestrating model can
+          delegate to (e.g., a frontend-focused agent that enforces team style).</li>
+        <li><strong>Hooks</strong> — shell commands that fire at defined lifecycle events
+          (<code>pre-tool</code>, <code>post-tool</code>, <code>pre-response</code>) for logging,
+          security scanning, or CI integration.</li>
+        <li><strong>Copilot Memory</strong> — a persistent key-value store for repository
+          conventions that the runtime injects into the system prompt automatically, reducing
+          repetitive context-setting across sessions.</li>
+      </ul>
+
+      <h3>Delegation bridge</h3>
+
+      <p>
+        The <code>/delegate</code> command hands work off to the <strong>cloud coding agent</strong>,
+        allowing you to continue working locally while an asynchronous task runs on GitHub's
+        infrastructure. The flow looks like this:
+      </p>
+
+      <pre><code>Local CLI                      GitHub Cloud
+─────────────────────          ──────────────────────────
+User types /delegate ──────►  Coding agent spins up
+                               ├── reads repo context
+                               ├── runs ReAct loop
+                               ├── commits changes
+                               └── opens pull request
+                    ◄──────── Session ID + PR link returned
+User continues locally
+(can track with gh agent-task view)</code></pre>
+
+      <p>
+        The session ID created locally is echoed to the cloud agent, so both sides share a common
+        identity for tracking. Once the PR is open, you can resume or steer the session from any
+        of the 7 tracking surfaces (GitHub UI, GitHub CLI, VS Code, JetBrains, Eclipse, Raycast,
+        GitHub Mobile).
+      </p>
+
+      <h3>End-to-end data flow: a worked example</h3>
+
+      <p>
+        Tracing the message <em>"Add input validation to the login form"</em> through every
+        component:
+      </p>
+
+      <pre><code>1. Entry point receives the prompt (interactive interface).
+
+2. Session engine writes:
+   { "type": "user", "content": "Add input validation…" }
+   → events.jsonl
+
+3. Context manager assembles the window:
+   [system prompt + merged instructions]
+   [tool definitions: shell, write, MCP …]
+   [conversation history from events.jsonl]
+   [new user message]
+
+4. Agent loop sends assembled context to the LLM.
+
+5. LLM responds with a tool call:
+   { "tool": "shell", "input": { "cmd": "grep -r 'login' src/" } }
+
+6. Tool subsystem:
+   a. Checks allowlist → not present → surfaces approval prompt.
+   b. User approves "Yes, and approve shell(grep) for this session".
+   c. Runs grep in a subprocess; captures stdout.
+   d. Appends tool result to context window.
+
+7. Agent loop re-enters: LLM now sees grep output.
+
+8. LLM calls write tool to patch src/components/LoginForm.tsx.
+
+9. Tool subsystem executes write; appends result.
+
+10. LLM calls shell tool: "npm run test".
+
+11. Tests pass → LLM emits final response to user.
+
+12. Session engine appends model response to events.jsonl.
+    Context manager checks token usage → 42 % used → no compaction.</code></pre>
+
+      <h3>Where the architecture differs from IDE / GitHub.com</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Copilot CLI</th>
+            <th>Copilot SDK</th>
+            <th>IDE (VS Code, etc.)</th>
+            <th>GitHub.com UI</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ReAct loop (tool calls)</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>✅ (coding agent)</td>
+          </tr>
+          <tr>
+            <td>Session engine + <code>events.jsonl</code></td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>Auto-compaction + infinite sessions</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>MCP server integration</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>Custom instructions (file-based)</td>
+            <td>✅ (multi-file merge)</td>
+            <td>✅</td>
+            <td>✅ (single file)</td>
+            <td>✅ (single file)</td>
+          </tr>
+          <tr>
+            <td>Hooks</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>Delegation to cloud agent</td>
+            <td>✅ (<code>/delegate</code>)</td>
+            <td>❌</td>
+            <td>✅ (delegate from chat)</td>
+            <td>✅ (native)</td>
+          </tr>
+          <tr>
+            <td>Copilot Memory</td>
+            <td>✅</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli" target="_blank" rel="noopener">
+            About GitHub Copilot CLI ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices" target="_blank" rel="noopener">
+            GitHub Copilot CLI Best Practices ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/about-agent-skills" target="_blank" rel="noopener">
+            About Agent Skills ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-memory" target="_blank" rel="noopener">
+            About Agentic Memory for GitHub Copilot ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-hooks" target="_blank" rel="noopener">
+            About Hooks ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
