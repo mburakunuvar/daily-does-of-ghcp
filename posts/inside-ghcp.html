@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inside GHCP: How the Execution Engine Works — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="inside-ghcp.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">28 February 2026</span>
+        <span class="badge">🧠 Concepts</span>
+      </div>
+      <h1 class="post-title">Inside GHCP: How the Execution Engine Works</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        It is tempting to think of GitHub Copilot as a <strong>linear pipeline</strong> — user prompt flows
+        down through a session, context window, memory layer, tools, and finally reaches the LLM at the
+        bottom. That mental model is intuitive, but it is wrong in two important ways. The LLM is not
+        at the end of the chain; it sits at the <strong>centre</strong>, and both tool calls and context
+        compaction are <strong>feedback loops</strong> driven by the model itself.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>The common (incorrect) mental model</h3>
+
+      <p>
+        Many developers first picture the flow like this — a neat top-to-bottom waterfall:
+      </p>
+
+      <pre><code>USER prompt
+    │
+    ▼
+SESSION  (maintains conversation)
+    │
+    ▼
+CONTEXT WINDOW  (token-limited)
+    │
+    ▼
+MEMORY / SUMMARY  (compaction)
+    │
+    ▼
+TOOLS  (repo search, terminal, MCP…)
+    │
+    ▼
+LLM MODEL  (GPT / Claude / etc.)</code></pre>
+
+      <p>
+        This diagram gets the <strong>components right</strong> but misrepresents the <strong>direction of
+        control</strong>. In reality the LLM is not a passive consumer sitting at the bottom — it is the
+        agent that drives everything else.
+      </p>
+
+      <h3>The accurate model: LLM at the centre</h3>
+
+      <pre><code>USER
+  │
+  ▼
+SESSION ────────────────────────────────┐
+  │                                     │ (persists / resumes)
+  ▼                                     │
+CONTEXT WINDOW  ◄──── COMPACTION LOOP ◄─┘
+  │   ▲               (compress history when nearing
+  │   │                the token limit; CLI &amp; SDK only)
+  ▼   │
+LLM MODEL  ◄─────────────────────────────┐
+  │                                      │
+  ├──► TOOL CALL (repo search, terminal, │
+  │    MCP servers, tests…)              │
+  │         │                            │
+  │         └──► result ──► CONTEXT ────┘
+  │                         WINDOW
+  └──► RESPONSE to USER</code></pre>
+
+      <h3>Layer-by-layer breakdown</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>What it does</th>
+            <th>Who controls it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><a href="https://docs.github.com/en/copilot/concepts/prompting/response-customization?tool=webui" target="_blank" rel="noopener">User</a></strong></td>
+            <td>Provides the prompt, approves tool calls, steers the conversation</td>
+            <td>Human</td>
+          </tr>
+          <tr>
+            <td><strong><a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions#using-the-session-logs-to-understand-copilots-approach" target="_blank" rel="noopener">Session</a></strong></td>
+            <td>Persists conversation state, stores checkpoints and artifacts on disk</td>
+            <td>Copilot runtime</td>
+          </tr>
+          <tr>
+            <td><strong><a href="https://www.linkedin.com/pulse/understanding-shaping-github-copilots-context-window-alexander-kastil-yfkjf/" target="_blank" rel="noopener">Context Window</a></strong></td>
+            <td>The token buffer fed to the LLM — contains the system prompt, history, file content, and tool results</td>
+            <td>Copilot runtime</td>
+          </tr>
+          <tr>
+            <td><strong><a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli#automatic-context-management" target="_blank" rel="noopener">Compaction loop</a></strong></td>
+            <td>When the context nears the token limit (~95% on CLI), conversation history is automatically compressed in the background and re-injected, enabling virtually infinite sessions</td>
+            <td>Copilot runtime (triggered automatically)</td>
+          </tr>
+          <tr>
+            <td><strong><a href="https://docs.github.com/en/copilot/reference/ai-models/model-comparison" target="_blank" rel="noopener">LLM Model</a></strong></td>
+            <td>Generates responses and decides which tools to call</td>
+            <td>The model itself</td>
+          </tr>
+          <tr>
+            <td><strong><a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli#allowed-tools" target="_blank" rel="noopener">Tools</a></strong></td>
+            <td>Execute actions (shell, file writes, repo search, MCP servers) and return results back into the context window</td>
+            <td>LLM-driven, user-approved</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Key insights</h3>
+
+      <ul>
+        <li>
+          <strong>Tools are outputs, not inputs.</strong> The LLM decides mid-generation whether to call
+          a tool. The tool result is then appended to the context window, and the LLM resumes from
+          there. This is the <strong>ReAct loop</strong> (Reason → Act → Observe → Reason…).
+        </li>
+        <li>
+          <strong>Compaction is a feedback loop, not a layer.</strong> Memory / summary is not a
+          preprocessing step before the LLM. It is triggered by the runtime when the context window
+          nears its limit, and the summary is written <em>back into</em> the context window.
+        </li>
+        <li>
+          <strong>The session wraps everything.</strong> The session persists state between tool calls,
+          between compaction cycles, and — in Copilot CLI and SDK — across resumptions of the same
+          long-running task.
+        </li>
+        <li>
+          <strong>Infinite sessions emerge from the compaction loop.</strong> There is no magic
+          unlimited memory — old turns are compressed and replaced. Essential information is preserved;
+          verbatim history beyond the summary is discarded.
+        </li>
+      </ul>
+
+      <h3>Where this differs across surfaces</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>Compaction loop</th>
+            <th>Persistent session</th>
+            <th>Tool calls (ReAct)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Copilot CLI</td>
+            <td>✅ Automatic</td>
+            <td>✅ On disk (<code>~/.copilot/session-state/</code>)</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Copilot SDK</td>
+            <td>✅ Automatic</td>
+            <td>✅ On disk (via <code>workspacePath</code> when infinite sessions are enabled)</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>IDE — local sessions (VS Code, JetBrains…)</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>IDE — background sessions (VS Code)</td>
+            <td>✅ Automatic (delegates to CLI)</td>
+            <td>✅ On disk (delegates to CLI)</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>GitHub.com UI</td>
+            <td>❌</td>
+            <td>❌</td>
+            <td>✅ (coding agent supports tools)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <strong>Tip:</strong> When you hit context limits in a local IDE session, you are
+        experiencing the absence of the compaction loop — not a Copilot bug. Use
+        <code>#file</code> references, break tasks into focused conversations, switch to a
+        <strong>background session</strong> (VS Code), or use Copilot CLI / the Copilot SDK for
+        long-running work.
+      </blockquote>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli#automatic-context-management" target="_blank" rel="noopener">
+            About GitHub Copilot CLI — Automatic context management ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank" rel="noopener">
+            CLI Best Practices — Leverage infinite sessions ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/github/copilot-sdk/blob/main/nodejs/README.md" target="_blank" rel="noopener">
+            Copilot SDK — Node.js README (GitHub) ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

@@ -64,3 +64,43 @@ Infinite sessions with automatic context compaction is a feature specific to **C
 **Tips:**
 > For long, complex multi-step tasks, **Copilot CLI** is the better tool due to its infinite session capability.
 
+## 02.03.2026
+
+### Tracking GitHub Copilot's sessions
+
+**Category:** Copilot coding agent
+
+**Availability:** Copilot Pro, Pro+, Business, and Enterprise plans
+
+**Description:**
+Copilot **coding agent sessions** (autonomous agent tasks that run in the background — typically producing a pull request) can be tracked, steered, and stopped from **7 surfaces**: GitHub UI, GitHub CLI, VS Code, JetBrains IDEs, Eclipse, Raycast, and GitHub Mobile.
+
+**Where you can track agent sessions:**
+
+| Surface | How to access | Notes |
+|---|---|---|
+| **GitHub.com UI** | Agents panel (nav bar icon) → **View all** to open the Agents tab | Shows running + past sessions across all repos. You can also **steer** a running session or **stop** it from here. |
+| **GitHub CLI** | `gh agent-task list` / `gh agent-task view --repo OWNER/REPO PR#` | Requires **GitHub CLI v2.80.0+** (public preview). Add `--log` for session logs, `--follow` to stream live. |
+| **VS Code** | **GitHub Pull Requests** extension → GitHub icon in sidebar → click session → **View Session** | Can also click **Open in VS Code** from the GitHub agents tab (currently VS Code Insiders only). |
+| **JetBrains IDEs** | **GitHub Coding Agent Jobs** button in sidebar, or **Open Job List** after delegating | Public preview. Shows status; right-click → **Cancel Job** to stop. |
+| **Eclipse** | Agents icon at top-right of chat window, or **Open Job List** after delegating | Public preview. Same status/cancel workflow as JetBrains. |
+| **Raycast** | GitHub Copilot extension → **View Tasks** command | Works on Windows & macOS. Press ⌘L to view session logs. |
+| **GitHub Mobile** | Home → Agents section → **Agent Tasks** | Filter by Open / Merged / etc. |
+
+**You can also bring a session to your local environment:**
+- From the agents tab on GitHub.com, click **Continue in GitHub Copilot CLI** to resume the session locally
+- In Copilot CLI, use `/resume` to pick up a session (including coding-agent sessions started on GitHub)
+
+**Steering & stopping sessions:**
+- **Steer:** From the agents tab, select a running session and enter a prompt to redirect Copilot mid-task (costs 1 premium request per message)
+- **Stop:** Click **Stop session** in the session log viewer to halt a running task
+
+**Session logs:**
+- Available in GitHub UI and VS Code — shows Copilot's internal monologue, tool invocations, and validation steps
+- Copilot has its own dev environment (can run tests and linters) to validate changes before pushing
+
+**Important distinction (common confusion):**
+- **Agent sessions** (this entry) are *coding-agent tasks* — designed to be visible across all surfaces listed above
+- **Chat sessions** (Copilot Chat threads in VS Code / GitHub.com) are a separate concept with their own per-surface history — they do **not** appear in the coding-agent session list
+
+**Documentation:** [Tracking GitHub Copilot’s sessions](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions) · [About agent management](https://docs.github.com/en/copilot/concepts/agents/coding-agent/agent-management)

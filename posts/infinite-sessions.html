@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Infinite Sessions — Daily Dose of GHCP</title>
+  <title>Compaction and Infinite Sessions in CLI and SDK — Daily Dose of GHCP</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -39,9 +39,21 @@
       <div class="sidebar-section-title">Recent Posts</div>
       <ul class="sidebar-nav">
         <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
           <a href="infinite-sessions.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-            Infinite Sessions
+            Compaction and Infinite Sessions in CLI and SDK
           </a>
         </li>
       </ul>
@@ -66,7 +78,7 @@
         <span class="date-badge">01 March 2026</span>
         <span class="badge">⌨️ Copilot CLI</span>
       </div>
-      <h1 class="post-title">Infinite Sessions</h1>
+      <h1 class="post-title">Compaction and Infinite Sessions in CLI and SDK</h1>
     </div>
 
     <!-- Post body -->
@@ -78,6 +90,10 @@
         that summarizes conversation history while preserving essential information.
         You can work on long, complex tasks without worrying about context limits.
       </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+      </blockquote>
 
       <h3>Session Storage Location</h3>
 
@@ -113,19 +129,13 @@
         <li><code>/clear</code> or <code>/new</code> — start fresh between unrelated tasks</li>
       </ul>
 
-      <h3>Documentation</h3>
-      <p>
-        <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank" rel="noopener">
-          CLI Best Practices — Infinite Sessions ↗
-        </a>
-      </p>
-
-      <h3>Is this available in IDE or GitHub.com UI?</h3>
+      <h3>Is this available in the SDK, IDE, or GitHub.com UI?</h3>
 
       <p>
-        Infinite sessions with automatic context compaction is a feature specific to <strong>Copilot CLI</strong>
-        and is <strong>not available</strong> in IDE extensions (e.g., VS Code) or on <strong>GitHub.com</strong>
-        (repositories, issues, PRs, etc.).
+        Infinite sessions with automatic context compaction is available in <strong>Copilot CLI</strong> and
+        the <strong>Copilot SDK</strong> (Node.js, Python, Go, .NET), which share the same underlying compaction
+        mechanism. It is <strong>not available</strong> in IDE extensions (e.g., VS Code) or on
+        <strong>GitHub.com</strong> (repositories, issues, PRs, etc.).
       </p>
 
       <table>
@@ -133,6 +143,7 @@
           <tr>
             <th>Feature</th>
             <th>Copilot CLI</th>
+            <th>Copilot SDK</th>
             <th>IDE (VS Code, etc.)</th>
             <th>GitHub.com UI</th>
           </tr>
@@ -141,11 +152,13 @@
           <tr>
             <td>Infinite sessions</td>
             <td>✅</td>
+            <td>✅</td>
             <td>❌</td>
             <td>❌</td>
           </tr>
           <tr>
             <td>Automatic context compaction</td>
+            <td>✅</td>
             <td>✅</td>
             <td>❌</td>
             <td>❌</td>
@@ -153,17 +166,38 @@
           <tr>
             <td>Persistent session storage</td>
             <td>✅</td>
+            <td>✅</td>
             <td>❌</td>
             <td>❌</td>
           </tr>
           <tr>
             <td>Context window limits</td>
             <td>None</td>
+            <td>None</td>
             <td>Model-dependent</td>
             <td>Model-dependent</td>
           </tr>
         </tbody>
       </table>
+
+      <h3>Enabling infinite sessions in the SDK</h3>
+
+      <p>
+        The Copilot SDK supports infinite sessions via programmatic session creation and resumption.
+        Infinite sessions are <strong>enabled by default</strong> for custom integrations, or you can
+        opt in explicitly:
+      </p>
+
+      <pre><code>const session = await client.createSession({
+  model: "gpt-5",
+  infiniteSessions: { enabled: true }
+});</code></pre>
+
+      <p>
+        The SDK uses the <strong>same compaction mechanism as the CLI</strong> — conversation history is
+        automatically summarised in the background when approaching the token limit, preserving essential
+        context without interrupting execution.
+      </p>
 
       <h3>In the IDE and GitHub.com UI</h3>
       <ul>
@@ -187,6 +221,20 @@
         <strong>Tip:</strong> For long, complex multi-step tasks, <strong>Copilot CLI</strong> is the better tool
         due to its infinite session capability.
       </blockquote>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank" rel="noopener">
+            CLI Best Practices — Infinite Sessions ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/github/copilot-sdk/blob/main/nodejs/README.md" target="_blank" rel="noopener">
+            Copilot SDK — Node.js README (GitHub) ↗
+          </a>
+        </li>
+      </ul>
 
     </div>
 
