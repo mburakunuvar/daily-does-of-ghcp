@@ -28,7 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Show / hide cards
         cards.forEach(card => {
-          if (filter === 'all' || card.dataset.category === filter) {
+          const categories = (card.dataset.category || '')
+            .split(',')
+            .map(value => value.trim())
+            .filter(Boolean);
+
+          if (filter === 'all' || categories.includes(filter)) {
             card.style.display = '';
             card.style.animation = 'fadeIn 0.25s ease';
           } else {
