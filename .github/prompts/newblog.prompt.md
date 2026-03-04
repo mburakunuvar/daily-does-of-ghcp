@@ -1,0 +1,907 @@
+---
+name: newblog
+description: Create a new blog post for Daily Dose of GHCP, wire it into index.html, and update all existing post sidebars.
+agent: agent
+tools:
+  - codebase
+  - fetch
+  - changes
+argument-hint: "Required: post title, date (DD Month YYYY), category, and docs URL"
+---
+
+# New Blog Post — Daily Dose of GHCP
+
+> Follow all conventions in [project guidelines](../copilot-instructions.md) and [style guide](../instructions/html-css-style-color-guide.instructions.md).
+
+**Post details:**
+- **Title:** ${input:title:e.g. Tracking Coding Agent Sessions}
+- **Date:** ${input:date:DD Month YYYY}
+- **Category:** ${input:category:e.g. Copilot coding agent}
+- **Docs URL:** ${input:docsUrl:https://docs.github.com/...}
+
+## Steps
+
+1. **Fetch the docs page** at the provided URL and extract the key facts, steps, and availability information.
+
+2. **Create the post file** at `posts/<kebab-case-title>.html` using the standard post structure:
+   - Copy the sidebar from an existing post, updating `class="active"` to the new post's link.
+   - Add the new post to the **Recent Posts** sidebar list on every existing post file.
+   - Include the required availability `<blockquote>` immediately after the opening intro paragraph.
+   - Cover all major sections from the docs source with clear headings (`<h3>`).
+   - Use `<table>` when comparing features, surfaces, or options.
+   - The last section must be `<h3>Documentation</h3>` linking to the source docs page.
+
+3. **Update `index.html`**:
+   - Add a new `<article class="post-card">` to the posts grid with the correct `data-category`.
+   - Add the post to the **Recent Posts** sidebar list.
+   - Add a new `<button class="filter-btn">` if the category is new.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GHCP Across Multiple Surfaces — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">27 February 2026</span>
+        <span class="badge">🌐 Essentials</span>
+      </div>
+      <h1 class="post-title">GHCP Across Multiple Surfaces</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        GitHub Copilot doesn't live in one place. Depending on where you are in your workflow —
+        in a browser, an editor, a terminal, or building your own application — there is a dedicated
+        surface designed for that context. Understanding which surface to reach for, and what it
+        can do, is the first step to getting the most from Copilot.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>The four surfaces at a glance</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>What it is</th>
+            <th>Best for</th>
+            <th>Plan requirement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GitHub.com</strong></td>
+            <td>Browser-native Copilot at <code>github.com/copilot</code> — chat, agents, and project tools without opening an IDE</td>
+            <td>Issue management, coding-agent work, model comparison, rapid prototyping with Spark</td>
+            <td>All plans incl. Free; coding agent requires Pro+</td>
+          </tr>
+          <tr>
+            <td><strong>IDE</strong></td>
+            <td>Copilot extensions for VS Code, JetBrains, Visual Studio, Eclipse, Vim/Neovim, Xcode</td>
+            <td>Code completion, inline chat, refactoring, debugging, local agent mode</td>
+            <td>All plans incl. Free</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot CLI</strong></td>
+            <td>Terminal agent — plan, execute, resume, and delegate tasks directly from your shell</td>
+            <td>Autonomous task execution, long-running sessions, CI-adjacent workflows</td>
+            <td>All plans incl. Free</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot SDK</strong></td>
+            <td>Programmatic API (Python, TypeScript, Go, .NET) exposing the same engine behind the CLI</td>
+            <td>Embedding Copilot agent workflows in your own apps and services</td>
+            <td>Paid plans; BYOK available</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>GitHub.com — your AI command centre</h3>
+
+      <p>
+        At <code>github.com/copilot</code> you get a browser-native Copilot experience with no IDE
+        required. It handles coordination and exploration work that is awkward to do inside a code editor.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>How to use it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>File issues from screenshots</strong></td>
+            <td>Drag a screenshot into the Copilot chat, then prompt: <em>"Create a new issue using the 'bug' label…"</em> — Copilot reads the image, generates a title and description, and applies your repo's issue template.</td>
+          </tr>
+          <tr>
+            <td><strong>Assign coding agents</strong></td>
+            <td>Tell Copilot: <em>"Assign yourself to this issue and draft a fix."</em> The agent analyses your codebase, identifies the root cause, and opens a draft pull request — entirely in a remote sandbox.</td>
+          </tr>
+          <tr>
+            <td><strong>Prototype with GitHub Spark</strong></td>
+            <td>Scaffold working code snippets and components, preview them live, and share via URL — without opening VS Code.</td>
+          </tr>
+          <tr>
+            <td><strong>Switch AI models</strong></td>
+            <td>Click the model name in any thread to switch between GPT-4.1, Claude Sonnet 4, Opus 4, and others — even mid-conversation. Each switch creates an independent response branch you can compare.</td>
+          </tr>
+          <tr>
+            <td><strong>Navigate conversation branches</strong></td>
+            <td>Each message is like a base commit — model switches create parallel "branches" so you can review different approaches without starting over.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <strong>Tip:</strong> Use GitHub.com for coordination (standup summaries, issue triage,
+        cross-repo overview) and hand off implementation work to your IDE or CLI once the scope is clear.
+      </blockquote>
+
+      <h3>IDE — where code gets written</h3>
+
+      <p>
+        The IDE surface is the most familiar entry point. Copilot extensions are available for
+        <strong>VS Code</strong>, <strong>Visual Studio</strong>, all major <strong>JetBrains IDEs</strong>
+        (IntelliJ, PyCharm, WebStorm…), <strong>Eclipse</strong>, <strong>Vim / Neovim</strong>, and <strong>Xcode</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>What it does</th>
+            <th>How to trigger</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Code completion</strong></td>
+            <td>Inline ghost-text suggestions as you type, based on open files and context</td>
+            <td>Type normally; accept with <kbd>Tab</kbd></td>
+          </tr>
+          <tr>
+            <td><strong>Inline chat</strong></td>
+            <td>Ask questions or request edits right between your lines of code; receive diffs inline</td>
+            <td><kbd>Cmd+I</kbd> / <kbd>Ctrl+I</kbd></td>
+          </tr>
+          <tr>
+            <td><strong>Chat panel</strong></td>
+            <td>Full conversation with slash commands: <code>/explain</code>, <code>/fix</code>, <code>/tests</code>, <code>/doc</code>, <code>/optimize</code>, <code>/new</code></td>
+            <td>Open Copilot Chat sidebar</td>
+          </tr>
+          <tr>
+            <td><strong>@workspace agent</strong></td>
+            <td>Answers questions with awareness of your entire project, not just open files</td>
+            <td>Type <code>@workspace</code> in chat (VS Code / Visual Studio)</td>
+          </tr>
+          <tr>
+            <td><strong>#file references</strong></td>
+            <td>Scope Copilot to a specific file for targeted suggestions</td>
+            <td>Type <code>#</code> in the chat input and choose the file</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Mode</strong></td>
+            <td>Multi-step autonomous file changes within your editor — Copilot plans, edits, and runs commands locally</td>
+            <td>Enable Agent Mode in VS Code / JetBrains / GitHub.com chat</td>
+          </tr>
+          <tr>
+            <td><strong>Sparkles ✨</strong></td>
+            <td>Quick AI actions surfaced inline — e.g. auto-generate commit messages in the commit input box</td>
+            <td>Click the ✨ icon where it appears</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <strong>Tip:</strong> Keep only the files relevant to your current task open. Copilot only
+        sees open files unless you use explicit <code>#file</code> references — more context is not
+        always better when it is irrelevant.
+      </blockquote>
+
+      <h3>Copilot CLI — the terminal agent</h3>
+
+      <p>
+        Copilot CLI is a full agentic runtime in your shell. Install it with
+        <code>npm install -g @github/copilot</code> (or via WinGet on Windows:
+        <code>winget install GitHub.Copilot</code>). Sessions persist on disk and automatic context
+        compaction enables very long-running tasks — see the
+        <a href="compaction-and-infinite-sessions.html">Compaction and Infinite Sessions</a> post for details.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Command / action</th>
+            <th>What it does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/plan</code></td>
+            <td>Switch to plan mode — outline the full approach before Copilot executes a single step</td>
+          </tr>
+          <tr>
+            <td><code>/model</code></td>
+            <td>Switch the active AI model for the current session</td>
+          </tr>
+          <tr>
+            <td><code>/fleet</code></td>
+            <td>Run multiple parallel subagents — compare approaches or divide a large task simultaneously</td>
+          </tr>
+          <tr>
+            <td><code>/resume</code></td>
+            <td>Return to a saved session, including coding-agent sessions started on GitHub.com</td>
+          </tr>
+          <tr>
+            <td><code>/delegate</code></td>
+            <td>Hand off work to a remote GitHub coding agent — creates a branch, implements the change, opens a pull request</td>
+          </tr>
+          <tr>
+            <td><code>/diff</code></td>
+            <td>Review uncommitted file changes before pushing</td>
+          </tr>
+          <tr>
+            <td><code>/mcp</code></td>
+            <td>Connect GitHub's native MCP server to work with issues, branches, and pull requests from the terminal</td>
+          </tr>
+          <tr>
+            <td><code>/agent</code> + <code>/skills</code></td>
+            <td>Define custom agents and scoped tool access via <code>AGENTS.md</code> — behaviour stays consistent across models and sessions</td>
+          </tr>
+          <tr>
+            <td><kbd>Shift+Tab</kbd></td>
+            <td>Toggle between step-by-step approval mode and autopilot mode</td>
+          </tr>
+          <tr>
+            <td><code>/experimental show</code></td>
+            <td>Access preview features; use <code>/changelog</code> to see recent updates</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Copilot SDK — agents in your own apps</h3>
+
+      <p>
+        The Copilot SDK exposes the same agent runtime as a programmatic API.
+        You define agent behaviour; Copilot handles planning, tool invocation, file edits, and more —
+        no orchestration layer to build yourself. Currently in <strong>Technical Preview</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Language</th>
+            <th>Package</th>
+            <th>Install</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Node.js / TypeScript</td>
+            <td><code>@github/copilot-sdk</code></td>
+            <td><code>npm install @github/copilot-sdk</code></td>
+          </tr>
+          <tr>
+            <td>Python</td>
+            <td><code>github-copilot-sdk</code></td>
+            <td><code>pip install github-copilot-sdk</code></td>
+          </tr>
+          <tr>
+            <td>Go</td>
+            <td><code>github.com/github/copilot-sdk/go</code></td>
+            <td><code>go get github.com/github/copilot-sdk/go</code></td>
+          </tr>
+          <tr>
+            <td>.NET</td>
+            <td><code>GitHub.Copilot.SDK</code></td>
+            <td><code>dotnet add package GitHub.Copilot.SDK</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The SDK communicates with the Copilot CLI in server mode via JSON-RPC — the
+        <strong>CLI must be installed separately</strong> as a prerequisite. A GitHub Copilot
+        subscription is required for standard use; <strong>BYOK</strong> (Bring Your Own Key) lets
+        you supply your own API keys from OpenAI, Azure AI Foundry, or Anthropic without a
+        Copilot subscription.
+      </p>
+
+      <h3>Choosing the right surface</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Reach for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Answer a code question while editing a file</td>
+            <td>IDE — inline chat or chat panel</td>
+          </tr>
+          <tr>
+            <td>Autonomous plan → test → pull request</td>
+            <td>CLI — <code>/plan</code>, then <kbd>Shift+Tab</kbd> for autopilot</td>
+          </tr>
+          <tr>
+            <td>File an issue from a screenshot</td>
+            <td>GitHub.com</td>
+          </tr>
+          <tr>
+            <td>Cross-repo project status overview</td>
+            <td>GitHub.com</td>
+          </tr>
+          <tr>
+            <td>Delegate a routine bug fix to a remote agent</td>
+            <td>GitHub.com (coding agent) or CLI (<code>/delegate</code>)</td>
+          </tr>
+          <tr>
+            <td>Prototype a component and share a live demo</td>
+            <td>GitHub.com — GitHub Spark</td>
+          </tr>
+          <tr>
+            <td>Long-running terminal work with persistent sessions</td>
+            <td>CLI — with <code>/resume</code> and automatic compaction</td>
+          </tr>
+          <tr>
+            <td>Build your own AI-powered application</td>
+            <td>Copilot SDK</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://github.blog/ai-and-ml/github-copilot/how-to-use-github-copilot-on-github-com-a-power-users-guide/" target="_blank" rel="noopener">
+            How to use GitHub Copilot on github.com: A power user's guide ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.blog/developer-skills/github/how-to-use-github-copilot-in-your-ide-tips-tricks-and-best-practices/" target="_blank" rel="noopener">
+            Using GitHub Copilot in your IDE: Tips, tricks, and best practices ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/features/copilot/cli/" target="_blank" rel="noopener">
+            GitHub Copilot CLI — features page ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/github/copilot-sdk" target="_blank" rel="noopener">
+            GitHub Copilot SDK — repository ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GHCP Across Multiple Surfaces — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">27 February 2026</span>
+        <span class="badge">🌐 Essentials</span>
+      </div>
+      <h1 class="post-title">GHCP Across Multiple Surfaces</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        GitHub Copilot doesn't live in one place. Depending on where you are in your workflow —
+        in a browser, an editor, a terminal, or building your own application — there is a dedicated
+        surface designed for that context. Understanding which surface to reach for, and what it
+        can do, is the first step to getting the most from Copilot.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>The four surfaces at a glance</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Surface</th>
+            <th>What it is</th>
+            <th>Best for</th>
+            <th>Plan requirement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GitHub.com</strong></td>
+            <td>Browser-native Copilot at <code>github.com/copilot</code> — chat, agents, and project tools without opening an IDE</td>
+            <td>Issue management, coding-agent work, model comparison, rapid prototyping with Spark</td>
+            <td>All plans incl. Free; coding agent requires Pro+</td>
+          </tr>
+          <tr>
+            <td><strong>IDE</strong></td>
+            <td>Copilot extensions for VS Code, JetBrains, Visual Studio, Eclipse, Vim/Neovim, Xcode</td>
+            <td>Code completion, inline chat, refactoring, debugging, local agent mode</td>
+            <td>All plans incl. Free</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot CLI</strong></td>
+            <td>Terminal agent — plan, execute, resume, and delegate tasks directly from your shell</td>
+            <td>Autonomous task execution, long-running sessions, CI-adjacent workflows</td>
+            <td>All plans incl. Free</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot SDK</strong></td>
+            <td>Programmatic API (Python, TypeScript, Go, .NET) exposing the same engine behind the CLI</td>
+            <td>Embedding Copilot agent workflows in your own apps and services</td>
+            <td>Paid plans; BYOK available</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>GitHub.com — your AI command centre</h3>
+
+      <p>
+        At <code>github.com/copilot</code> you get a browser-native Copilot experience with no IDE
+        required. It handles coordination and exploration work that is awkward to do inside a code editor.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>How to use it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>File issues from screenshots</strong></td>
+            <td>Drag a screenshot into the Copilot chat, then prompt: <em>"Create a new issue using the 'bug' label…"</em> — Copilot reads the image, generates a title and description, and applies your repo's issue template.</td>
+          </tr>
+          <tr>
+            <td><strong>Assign coding agents</strong></td>
+            <td>Tell Copilot: <em>"Assign yourself to this issue and draft a fix."</em> The agent analyses your codebase, identifies the root cause, and opens a draft pull request — entirely in a remote sandbox.</td>
+          </tr>
+          <tr>
+            <td><strong>Prototype with GitHub Spark</strong></td>
+            <td>Scaffold working code snippets and components, preview them live, and share via URL — without opening VS Code.</td>
+          </tr>
+          <tr>
+            <td><strong>Switch AI models</strong></td>
+            <td>Click the model name in any thread to switch between GPT-4.1, Claude Sonnet 4, Opus 4, and others — even mid-conversation. Each switch creates an independent response branch you can compare.</td>
+          </tr>
+          <tr>
+            <td><strong>Navigate conversation branches</strong></td>
+            <td>Each message is like a base commit — model switches create parallel "branches" so you can review different approaches without starting over.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <strong>Tip:</strong> Use GitHub.com for coordination (standup summaries, issue triage,
+        cross-repo overview) and hand off implementation work to your IDE or CLI once the scope is clear.
+      </blockquote>
+
+      <h3>IDE — where code gets written</h3>
+
+      <p>
+        The IDE surface is the most familiar entry point. Copilot extensions are available for
+        <strong>VS Code</strong>, <strong>Visual Studio</strong>, all major <strong>JetBrains IDEs</strong>
+        (IntelliJ, PyCharm, WebStorm…), <strong>Eclipse</strong>, <strong>Vim / Neovim</strong>, and <strong>Xcode</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>What it does</th>
+            <th>How to trigger</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Code completion</strong></td>
+            <td>Inline ghost-text suggestions as you type, based on open files and context</td>
+            <td>Type normally; accept with <kbd>Tab</kbd></td>
+          </tr>
+          <tr>
+            <td><strong>Inline chat</strong></td>
+            <td>Ask questions or request edits right between your lines of code; receive diffs inline</td>
+            <td><kbd>Cmd+I</kbd> / <kbd>Ctrl+I</kbd></td>
+          </tr>
+          <tr>
+            <td><strong>Chat panel</strong></td>
+            <td>Full conversation with slash commands: <code>/explain</code>, <code>/fix</code>, <code>/tests</code>, <code>/doc</code>, <code>/optimize</code>, <code>/new</code></td>
+            <td>Open Copilot Chat sidebar</td>
+          </tr>
+          <tr>
+            <td><strong>@workspace agent</strong></td>
+            <td>Answers questions with awareness of your entire project, not just open files</td>
+            <td>Type <code>@workspace</code> in chat (VS Code / Visual Studio)</td>
+          </tr>
+          <tr>
+            <td><strong>#file references</strong></td>
+            <td>Scope Copilot to a specific file for targeted suggestions</td>
+            <td>Type <code>#</code> in the chat input and choose the file</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Mode</strong></td>
+            <td>Multi-step autonomous file changes within your editor — Copilot plans, edits, and runs commands locally</td>
+            <td>Enable Agent Mode in VS Code / JetBrains / GitHub.com chat</td>
+          </tr>
+          <tr>
+            <td><strong>Sparkles ✨</strong></td>
+            <td>Quick AI actions surfaced inline — e.g. auto-generate commit messages in the commit input box</td>
+            <td>Click the ✨ icon where it appears</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <strong>Tip:</strong> Keep only the files relevant to your current task open. Copilot only
+        sees open files unless you use explicit <code>#file</code> references — more context is not
+        always better when it is irrelevant.
+      </blockquote>
+
+      <h3>Copilot CLI — the terminal agent</h3>
+
+      <p>
+        Copilot CLI is a full agentic runtime in your shell. Install it with
+        <code>npm install -g @github/copilot</code> (or via WinGet on Windows:
+        <code>winget install GitHub.Copilot</code>). Sessions persist on disk and automatic context
+        compaction enables very long-running tasks — see the
+        <a href="compaction-and-infinite-sessions.html">Compaction and Infinite Sessions</a> post for details.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Command / action</th>
+            <th>What it does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/plan</code></td>
+            <td>Switch to plan mode — outline the full approach before Copilot executes a single step</td>
+          </tr>
+          <tr>
+            <td><code>/model</code></td>
+            <td>Switch the active AI model for the current session</td>
+          </tr>
+          <tr>
+            <td><code>/fleet</code></td>
+            <td>Run multiple parallel subagents — compare approaches or divide a large task simultaneously</td>
+          </tr>
+          <tr>
+            <td><code>/resume</code></td>
+            <td>Return to a saved session, including coding-agent sessions started on GitHub.com</td>
+          </tr>
+          <tr>
+            <td><code>/delegate</code></td>
+            <td>Hand off work to a remote GitHub coding agent — creates a branch, implements the change, opens a pull request</td>
+          </tr>
+          <tr>
+            <td><code>/diff</code></td>
+            <td>Review uncommitted file changes before pushing</td>
+          </tr>
+          <tr>
+            <td><code>/mcp</code></td>
+            <td>Connect GitHub's native MCP server to work with issues, branches, and pull requests from the terminal</td>
+          </tr>
+          <tr>
+            <td><code>/agent</code> + <code>/skills</code></td>
+            <td>Define custom agents and scoped tool access via <code>AGENTS.md</code> — behaviour stays consistent across models and sessions</td>
+          </tr>
+          <tr>
+            <td><kbd>Shift+Tab</kbd></td>
+            <td>Toggle between step-by-step approval mode and autopilot mode</td>
+          </tr>
+          <tr>
+            <td><code>/experimental show</code></td>
+            <td>Access preview features; use <code>/changelog</code> to see recent updates</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Copilot SDK — agents in your own apps</h3>
+
+      <p>
+        The Copilot SDK exposes the same agent runtime as a programmatic API.
+        You define agent behaviour; Copilot handles planning, tool invocation, file edits, and more —
+        no orchestration layer to build yourself. Currently in <strong>Technical Preview</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Language</th>
+            <th>Package</th>
+            <th>Install</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Node.js / TypeScript</td>
+            <td><code>@github/copilot-sdk</code></td>
+            <td><code>npm install @github/copilot-sdk</code></td>
+          </tr>
+          <tr>
+            <td>Python</td>
+            <td><code>github-copilot-sdk</code></td>
+            <td><code>pip install github-copilot-sdk</code></td>
+          </tr>
+          <tr>
+            <td>Go</td>
+            <td><code>github.com/github/copilot-sdk/go</code></td>
+            <td><code>go get github.com/github/copilot-sdk/go</code></td>
+          </tr>
+          <tr>
+            <td>.NET</td>
+            <td><code>GitHub.Copilot.SDK</code></td>
+            <td><code>dotnet add package GitHub.Copilot.SDK</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The SDK communicates with the Copilot CLI in server mode via JSON-RPC — the
+        <strong>CLI must be installed separately</strong> as a prerequisite. A GitHub Copilot
+        subscription is required for standard use; <strong>BYOK</strong> (Bring Your Own Key) lets
+        you supply your own API keys from OpenAI, Azure AI Foundry, or Anthropic without a
+        Copilot subscription.
+      </p>
+
+      <h3>Choosing the right surface</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Reach for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Answer a code question while editing a file</td>
+            <td>IDE — inline chat or chat panel</td>
+          </tr>
+          <tr>
+            <td>Autonomous plan → test → pull request</td>
+            <td>CLI — <code>/plan</code>, then <kbd>Shift+Tab</kbd> for autopilot</td>
+          </tr>
+          <tr>
+            <td>File an issue from a screenshot</td>
+            <td>GitHub.com</td>
+          </tr>
+          <tr>
+            <td>Cross-repo project status overview</td>
+            <td>GitHub.com</td>
+          </tr>
+          <tr>
+            <td>Delegate a routine bug fix to a remote agent</td>
+            <td>GitHub.com (coding agent) or CLI (<code>/delegate</code>)</td>
+          </tr>
+          <tr>
+            <td>Prototype a component and share a live demo</td>
+            <td>GitHub.com — GitHub Spark</td>
+          </tr>
+          <tr>
+            <td>Long-running terminal work with persistent sessions</td>
+            <td>CLI — with <code>/resume</code> and automatic compaction</td>
+          </tr>
+          <tr>
+            <td>Build your own AI-powered application</td>
+            <td>Copilot SDK</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://github.blog/ai-and-ml/github-copilot/how-to-use-github-copilot-on-github-com-a-power-users-guide/" target="_blank" rel="noopener">
+            How to use GitHub Copilot on github.com: A power user's guide ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.blog/developer-skills/github/how-to-use-github-copilot-in-your-ide-tips-tricks-and-best-practices/" target="_blank" rel="noopener">
+            Using GitHub Copilot in your IDE: Tips, tricks, and best practices ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/features/copilot/cli/" target="_blank" rel="noopener">
+            GitHub Copilot CLI — features page ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/github/copilot-sdk" target="_blank" rel="noopener">
+            GitHub Copilot SDK — repository ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
+4. **Verify** the availability blockquote wording against the fetched docs page before writing it.
+
+## Output
+
+- New file: `posts/<kebab-case-title>.html`
+- Updated: `index.html`
+- Updated: every existing file under `posts/` (sidebar Recent Posts list)

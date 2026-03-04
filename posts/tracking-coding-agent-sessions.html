@@ -39,9 +39,9 @@
       <div class="sidebar-section-title">Recent Posts</div>
       <ul class="sidebar-nav">
         <li>
-          <a href="inside-ghcp.html">
+          <a href="ghcp-across-multiple-surfaces.html">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
-            Inside GHCP: How the Execution Engine Works
+            GHCP Across Multiple Surfaces
           </a>
         </li>
         <li>
@@ -54,6 +54,12 @@
           <a href="tracking-coding-agent-sessions.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
             Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
           </a>
         </li>
       </ul>
@@ -75,7 +81,7 @@
     <!-- Post header -->
     <div class="post-header">
       <div class="post-meta">
-        <span class="date-badge">27 February 2026</span>
+        <span class="date-badge">01 March 2026</span>
         <span class="badge">🤖 Copilot coding agent</span>
       </div>
       <h1 class="post-title">Tracking Coding Agent Sessions</h1>
@@ -85,145 +91,145 @@
     <div class="post-body">
 
       <p>
-        When you delegate a task to the GitHub Copilot coding agent, it runs autonomously in a
-        remote sandbox — often for minutes at a time. GitHub gives you <strong>7 surfaces</strong>
-        to track, steer, and stop those sessions without losing context: GitHub.com UI, GitHub CLI,
-        VS Code, JetBrains IDEs, Eclipse, Raycast, and GitHub Mobile.
+        When you assign a task to the GitHub Copilot <strong>coding agent</strong>, it runs autonomously in a
+        remote sandbox and works toward a pull request — entirely in the background. That means you need
+        a way to watch its progress, steer it mid-flight, or call it off. GitHub gives you
+        <strong>seven surfaces</strong> to do exactly that.
       </p>
 
       <blockquote>
         <strong>Availability:</strong> Copilot Pro, Pro+, Business, and Enterprise plans.
       </blockquote>
 
-      <h3>Session lifecycle states</h3>
-
-      <p>Every coding agent session moves through a formal lifecycle that you can observe from any of the 7 surfaces:</p>
+      <h3>Not all Copilot sessions are the same</h3>
+      <p>
+        The word "session" covers three meaningfully different concepts in Copilot. Understanding the
+        distinction matters — only <strong>coding agent sessions</strong> are tracked across surfaces
+        and have a formal lifecycle.
+      </p>
 
       <table>
         <thead>
           <tr>
-            <th>State</th>
-            <th>Meaning</th>
+            <th>Type</th>
+            <th>What it is</th>
+            <th>Edits files?</th>
+            <th>Runs where?</th>
+            <th>Tracked across surfaces?</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Running</strong></td>
-            <td>Copilot is actively working — making tool calls, editing files, running tests</td>
+            <td><strong>Chat session</strong></td>
+            <td>Conversational Q&amp;A — you ask, Copilot answers. No actions taken.</td>
+            <td>No</td>
+            <td>Inline in editor or browser</td>
+            <td>No</td>
           </tr>
           <tr>
-            <td><strong>Completed</strong></td>
-            <td>The session finished and a pull request (or result) has been produced</td>
+            <td><strong>Agentic chat session</strong></td>
+            <td>Agent Mode (VS Code, GitHub.com, JetBrains, Copilot CLI) — Copilot acts locally in your editor: analyzes the repo, edits files, runs commands.</td>
+            <td>Yes — locally</td>
+            <td>Inline in your editor or terminal</td>
+            <td>No</td>
           </tr>
           <tr>
-            <td><strong>Archived</strong></td>
-            <td>The session has been dismissed from the active list</td>
+            <td><strong>Coding agent session</strong></td>
+            <td>Autonomous background task → pull request. Copilot works entirely in a remote GitHub-hosted sandbox with its own dev environment.</td>
+            <td>Yes — in remote sandbox</td>
+            <td>Remote on GitHub</td>
+            <td>Yes — 7 surfaces</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>Where you can track agent sessions</h3>
+      <p>
+        The key question: <strong>did Copilot run autonomously in a remote environment?</strong>
+        If yes — it is a coding agent session with a trackable lifecycle (Running → Completed → Archived).
+        If it ran inline in your editor or CLI, it is agentic chat — no cross-surface tracking, no formal states.
+      </p>
+
+      <h3>Where you can track sessions</h3>
+      <p>Every surface below gives you a live view of running sessions and an archive of past ones. Pick whichever fits your workflow.</p>
 
       <table>
         <thead>
           <tr>
             <th>Surface</th>
-            <th>How to access</th>
-            <th>Notes</th>
+            <th>How to open it</th>
+            <th>Key capabilities</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>GitHub.com UI</strong></td>
-            <td>Agents panel (nav bar icon) → <strong>View all</strong> to open the Agents tab</td>
-            <td>Shows running and past sessions across all repos. You can also <strong>steer</strong> or <strong>stop</strong> a session from here.</td>
+            <td><strong>GitHub.com — Agents tab</strong></td>
+            <td>Click the Agents icon in the top nav → <strong>View all</strong></td>
+            <td>Cross-repo overview; steer or stop a session; start new tasks</td>
           </tr>
           <tr>
             <td><strong>GitHub CLI</strong></td>
             <td><code>gh agent-task list</code> / <code>gh agent-task view --repo OWNER/REPO PR#</code></td>
-            <td>Requires <strong>GitHub CLI v2.80.0+</strong> (public preview). Add <code>--log</code> for session logs, <code>--follow</code> to stream live.</td>
-          </tr>
-          <tr>
-            <td><strong>VS Code</strong></td>
-            <td><strong>GitHub Pull Requests</strong> extension → GitHub icon in sidebar → click session → <strong>View Session</strong></td>
-            <td>Can also click <strong>Open in VS Code</strong> from the GitHub agents tab (currently VS Code Insiders only).</td>
-          </tr>
-          <tr>
-            <td><strong>JetBrains IDEs</strong></td>
-            <td><strong>GitHub Coding Agent Jobs</strong> button in sidebar, or <strong>Open Job List</strong> after delegating</td>
-            <td>Public preview. Shows status; right-click → <strong>Cancel Job</strong> to stop.</td>
-          </tr>
-          <tr>
-            <td><strong>Eclipse</strong></td>
-            <td>Agents icon at top-right of chat window, or <strong>Open Job List</strong> after delegating</td>
-            <td>Public preview. Same status/cancel workflow as JetBrains.</td>
+            <td>Add <code>--log</code> for session logs; <code>--follow</code> to stream live output. Requires CLI v2.80.0+ (public preview)</td>
           </tr>
           <tr>
             <td><strong>Raycast</strong></td>
-            <td>GitHub Copilot extension → <strong>View Tasks</strong> command</td>
-            <td>macOS only. Press ⌘L to view session logs.</td>
+            <td>Open Raycast → search "Copilot" → <strong>View Tasks</strong></td>
+            <td>macOS &amp; Windows launcher. Press <kbd>⌘L</kbd> to open session logs. Sign in with GitHub on first use</td>
+          </tr>
+          <tr>
+            <td><strong>VS Code</strong></td>
+            <td>GitHub Pull Requests extension → GitHub icon in sidebar → click a session → <strong>View Session</strong></td>
+            <td>Per-repo view; <strong>Open in VS Code</strong> (Insiders only) from the agents tab launches directly</td>
+          </tr>
+          <tr>
+            <td><strong>JetBrains IDEs</strong></td>
+            <td><strong>GitHub Coding Agent Jobs</strong> button in sidebar, or <strong>Open Job List</strong> after delegating a task</td>
+            <td>Public preview. Right-click a running job → <strong>Cancel Job</strong> to stop it</td>
+          </tr>
+          <tr>
+            <td><strong>Eclipse</strong></td>
+            <td>Agents icon (top-right of chat window), or <strong>Open Job List</strong> after delegating a task</td>
+            <td>Public preview. Same status/cancel workflow as JetBrains</td>
           </tr>
           <tr>
             <td><strong>GitHub Mobile</strong></td>
-            <td>Home → Agents section → <strong>Agent Tasks</strong></td>
-            <td>Filter by Open / Merged / etc.</td>
+            <td>Home → <strong>Agents</strong> section → <strong>Agent Tasks</strong></td>
+            <td>Filter by Open / Merged / Closed to quickly find what you need</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>Viewing session logs</h3>
-
+      <h3>Reading the session logs</h3>
       <p>
-        Session logs expose Copilot's internal monologue: every tool invocation, file edit, test run,
-        and validation step. Three surfaces support log viewing:
+        From the agents tab (GitHub.com) or from VS Code, click a session to open its log viewer.
+        The logs expose Copilot's <strong>internal monologue</strong>: every tool call it made, the files it
+        read, the tests and linters it ran in its own dev environment, and the validation steps before
+        it pushed any code. It's the closest you'll get to watching Copilot think.
       </p>
-      <ul>
-        <li><strong>GitHub.com UI</strong> — open the session in the Agents tab and scroll the log viewer</li>
-        <li><strong>VS Code</strong> — click <strong>View Session</strong> in the GitHub Pull Requests panel</li>
-        <li><strong>GitHub CLI</strong> — append <code>--log</code> (snapshot) or <code>--follow</code> (live stream) to <code>gh agent-task view</code></li>
-      </ul>
 
       <h3>Steering a running session</h3>
-
       <p>
-        You can redirect Copilot mid-task without stopping it. From the <strong>Agents tab on GitHub.com</strong>,
-        select a running session and enter a new prompt. Each steering message costs
-        <strong>1 premium request</strong>.
+        Changed your mind mid-task, or spotted that Copilot is heading in the wrong direction?
+        Open the agents tab, select the running session, and type a new prompt into the prompt box.
+        Copilot will finish its current tool call and then apply your guidance.
+      </p>
+      <p>
+        <strong>Cost:</strong> each steering message costs one premium request.
       </p>
 
       <h3>Stopping a session</h3>
-
       <p>
-        To halt a session before it completes, use the <strong>Stop session</strong> button in the session
-        log viewer on GitHub.com, or right-click → <strong>Cancel Job</strong> in JetBrains / Eclipse.
-        Stopping a session does not delete any work already committed to the branch.
+        Click <strong>Stop session</strong> in the session log viewer to halt Copilot immediately.
+        Use this when you realise the task description was wrong, or when the change simply
+        doesn't need to be made any more.
       </p>
 
-      <h3>Bringing a session to your local machine</h3>
-
-      <ul>
-        <li>From the agents tab on GitHub.com, click <strong>Continue in GitHub Copilot CLI</strong> to resume the session locally</li>
-        <li>In Copilot CLI, use <code>/resume</code> to reconnect to any coding agent session (including ones started on GitHub.com)</li>
-      </ul>
-
-      <blockquote>
-        <strong>Tip:</strong> Use <code>/resume</code> to pick up a remote coding agent session in your terminal
-        and continue the task with full local tool access.
-      </blockquote>
-
       <h3>Documentation</h3>
-      <ul>
-        <li>
-          <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions" target="_blank" rel="noopener">
-            Tracking GitHub Copilot's sessions ↗
-          </a>
-        </li>
-        <li>
-          <a href="https://docs.github.com/en/copilot/concepts/agents/coding-agent/agent-management" target="_blank" rel="noopener">
-            About agent management ↗
-          </a>
-        </li>
-      </ul>
+      <p>
+        <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/track-copilot-sessions" target="_blank" rel="noopener">
+          Tracking GitHub Copilot's sessions ↗
+        </a>
+      </p>
 
     </div>
 

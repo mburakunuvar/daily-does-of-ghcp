@@ -81,6 +81,12 @@
       <div class="sidebar-section-title">Recent Posts</div>
       <ul class="sidebar-nav">
         <li>
+          <a href="posts/ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
           <a href="posts/inside-ghcp.html">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
             Inside GHCP: How the Execution Engine Works
@@ -98,6 +104,7 @@
             Tracking Coding Agent Sessions
           </a>
         </li>
+
       </ul>
     </div>
 
@@ -141,6 +148,7 @@
       <button class="filter-btn" data-filter="Copilot SDK">Copilot SDK</button>
       <button class="filter-btn" data-filter="Copilot in UI">Copilot in UI</button>
       <button class="filter-btn" data-filter="Concepts">Concepts</button>
+      <button class="filter-btn" data-filter="Essentials">Essentials</button>
     </div>
 
     <!-- Section heading -->
@@ -151,6 +159,20 @@
 
     <!-- Cards grid -->
     <div class="cards-grid" id="cardsGrid">
+
+      <!-- Card: GHCP Across Multiple Surfaces -->
+      <a class="card" href="posts/ghcp-across-multiple-surfaces.html" data-category="Essentials">
+        <div class="card-meta">
+          <span class="card-date">27 February 2026</span>
+          <span class="badge">🌐 Essentials</span>
+        </div>
+        <div class="card-title">GHCP Across Multiple Surfaces</div>
+        <div class="card-summary">
+          GitHub Copilot doesn't live in one place. Understand the four surfaces — GitHub.com, IDE, CLI,
+          and SDK — and when to reach for each one to get the most from Copilot across your entire workflow.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
 
       <!-- Card: Copilot Execution Architecture -->
       <a class="card" href="posts/inside-ghcp.html" data-category="Concepts">
@@ -163,6 +185,21 @@
           The LLM is not at the bottom of a linear pipeline — it sits at the centre.
           Tool calls and context compaction are feedback loops driven by the model itself.
           Learn the accurate mental model for how Copilot's execution engine operates.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Tracking Coding Agent Sessions -->
+      <a class="card" href="posts/tracking-coding-agent-sessions.html" data-category="Copilot coding agent">
+        <div class="card-meta">
+          <span class="card-date">01 March 2026</span>
+          <span class="badge">🤖 Copilot coding agent</span>
+        </div>
+        <div class="card-title">Tracking Coding Agent Sessions</div>
+        <div class="card-summary">
+          Copilot coding agent sessions run autonomously in the background — and GitHub gives you
+          seven surfaces to watch, steer, and stop them. Learn how to use the agents tab, GitHub CLI,
+          Raycast, VS Code, JetBrains, Eclipse, and GitHub Mobile to stay in control.
         </div>
         <span class="card-link">Read more <span class="arrow">→</span></span>
       </a>
@@ -182,20 +219,7 @@
         <span class="card-link">Read more <span class="arrow">→</span></span>
       </a>
 
-      <!-- Card: Tracking Coding Agent Sessions -->
-      <a class="card" href="posts/tracking-coding-agent-sessions.html" data-category="Copilot coding agent">
-        <div class="card-meta">
-          <span class="card-date">27 February 2026</span>
-          <span class="badge">🤖 Copilot coding agent</span>
-        </div>
-        <div class="card-title">Tracking Coding Agent Sessions</div>
-        <div class="card-summary">
-          Copilot coding agent sessions can be tracked, steered, and stopped from 7 surfaces:
-          GitHub UI, GitHub CLI, VS Code, JetBrains, Eclipse, Raycast, and GitHub Mobile.
-          Learn how to view session logs and bring a session back to your local machine.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
+
 
     </div>
 
