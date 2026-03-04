@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copilot CLI System Architecture Deep Dive — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#6e40c9"/>
+          <path d="M14 6C9.58 6 6 9.58 6 14C6 18.42 9.58 22 14 22C18.42 22 22 18.42 22 14C22 9.58 18.42 6 14 6ZM14 9C15.66 9 17 10.34 17 12C17 13.66 15.66 15 14 15C12.34 15 11 13.66 11 12C11 10.34 12.34 9 14 9ZM14 20C11.67 20 9.61 18.84 8.36 17.06C9.01 15.78 10.38 14.9 12 14.9H16C17.62 14.9 18.99 15.78 19.64 17.06C18.39 18.84 16.33 20 14 20Z" fill="white"/>
+        </svg>
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-cli-system-architecture.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="tracking-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="infinite-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">04 March 2026</span>
+        <span class="badge">⌨️ Copilot CLI</span>
+      </div>
+      <h1 class="post-title">Copilot CLI System Architecture Deep Dive</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        The GitHub Copilot CLI is more than a wrapper around an LLM — it is a layered, modular <strong>agentic system</strong> designed for terminal-based AI assistance. Understanding how its internal components collaborate reveals why the CLI can handle complex, multi-step tasks that simple prompt-response systems cannot.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+      </blockquote>
+
+      <h3>High-level architecture</h3>
+
+      <p>
+        The Copilot CLI consists of six primary layers, each with distinct responsibilities. Information flows through these layers in both directions — not as a linear pipeline, but as an interactive loop driven by the LLM at the centre.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Responsibility</th>
+            <th>Key components</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>User Interface</strong></td>
+            <td>Terminal I/O, multi-line input support, persistent event timeline rendering</td>
+            <td>Terminal renderer, input buffer</td>
+          </tr>
+          <tr>
+            <td><strong>Input Routing</strong></td>
+            <td>Classifies input by prefix (<code>/</code>, <code>!</code>, <code>@</code>, plain text)</td>
+            <td>Input router, prefix parser</td>
+          </tr>
+          <tr>
+            <td><strong>Core Processing</strong></td>
+            <td>Dispatches commands, manages context window, streams responses from LLM</td>
+            <td>Command router, LLM client, context manager, session manager</td>
+          </tr>
+          <tr>
+            <td><strong>Tool Execution</strong></td>
+            <td>Executes built-in tools, custom agents, MCP servers with permission gates</td>
+            <td>Tool router, shell executor, permission system, MCP pool</td>
+          </tr>
+          <tr>
+            <td><strong>State Management</strong></td>
+            <td>Persists session state, user config, authentication, and timeline events</td>
+            <td>Disk storage (<code>~/.copilot/session-state/</code>, <code>~/.copilot/config</code>)</td>
+          </tr>
+          <tr>
+            <td><strong>External Integrations</strong></td>
+            <td>Communicates with GitHub REST API, LLM backends, and external MCP servers</td>
+            <td>GitHub API client, model provider adapters, MCP protocol handlers</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Input routing and prefix classification</h3>
+
+      <p>
+        Every input to the CLI is analyzed by the <strong>Input Router</strong>, which determines how to process it based on its prefix:
+      </p>
+
+      <ul>
+        <li>
+          <strong><code>/</code> prefix</strong> — Slash commands that control CLI behavior. Examples: <code>/model</code> (switch LLM), <code>/usage</code> (view token stats), <code>/config</code> (adjust settings).
+        </li>
+        <li>
+          <strong><code>!</code> prefix</strong> — Shell commands executed with permission checks. Example: <code>!git status</code> runs <code>git status</code> in the current working directory.
+        </li>
+        <li>
+          <strong><code>@</code> prefix</strong> — File or image attachments. Example: <code>@main.js</code> injects the file content into the context window.
+        </li>
+        <li>
+          <strong>Plain text</strong> — Natural language prompts sent directly to the LLM.
+        </li>
+      </ul>
+
+      <p>
+        This prefix-based design keeps the system extensible. New command types can be added without changing the core processing logic.
+      </p>
+
+      <h3>Core processing layer: The orchestration hub</h3>
+
+      <p>
+        Once input is classified, the <strong>Command Router</strong> dispatches it to the appropriate subsystem. This layer coordinates four critical components:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Function</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LLM Client</strong></td>
+            <td>Manages communication with model providers (Claude, GPT). Handles streaming, retries, and model switching at runtime.</td>
+          </tr>
+          <tr>
+            <td><strong>Context Manager</strong></td>
+            <td>Maintains the conversation context window. Tracks token usage, triggers compaction when nearing limits, and injects tool results back into context.</td>
+          </tr>
+          <tr>
+            <td><strong>Tool Router</strong></td>
+            <td>Dispatches tool calls requested by the LLM. Supports parallel execution and gates unsafe operations behind permission checks.</td>
+          </tr>
+          <tr>
+            <td><strong>Session Manager</strong></td>
+            <td>Persists conversation state to disk, enables resumption, and manages session checkpoints.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The <strong>LLM sits at the centre of this layer</strong> — it does not passively receive input. It actively decides which tools to call, when to request more context, and how to respond. This is the ReAct (Reason → Act → Observe) loop in action.
+      </p>
+
+      <h3>Tool execution and permission system</h3>
+
+      <p>
+        When the LLM requests a tool call, the <strong>Tool Router</strong> validates it against a permission system before execution. This prevents unsafe operations like destructive shell commands or unauthorized file writes.
+      </p>
+
+      <p>
+        Built-in tools include:
+      </p>
+
+      <ul>
+        <li>File system operations (read, write, edit, search)</li>
+        <li>Shell command execution (with explicit approval gates)</li>
+        <li>GitHub API interactions (repos, issues, PRs, commits)</li>
+        <li>Custom agents loaded from <code>~/.copilot/agents</code></li>
+        <li>External MCP servers configured in <code>~/.copilot/config</code></li>
+      </ul>
+
+      <p>
+        Tool results are appended to the context window, and the LLM continues from there. This feedback loop allows the model to refine its approach based on real execution outcomes.
+      </p>
+
+      <h3>State management and session persistence</h3>
+
+      <p>
+        Unlike stateless chat interfaces, the CLI maintains <strong>persistent session state</strong> on disk:
+      </p>
+
+      <ul>
+        <li><code>~/.copilot/session-state/</code> — Stores conversation history, checkpoints, and compaction summaries.</li>
+        <li><code>~/.copilot/config</code> — User preferences, model selection, MCP server configurations.</li>
+        <li><code>~/.copilot/auth</code> — GitHub authentication tokens.</li>
+      </ul>
+
+      <p>
+        This persistence enables <strong>resumable sessions</strong>. You can exit the CLI, restart it days later, and continue exactly where you left off — a feature critical for long-running tasks that span multiple work sessions.
+      </p>
+
+      <h3>Data flow: From input to response</h3>
+
+      <p>
+        A typical interaction follows this flow:
+      </p>
+
+      <pre><code>USER INPUT
+  │
+  ▼
+INPUT ROUTER ────► [Slash | Shell | File | Prompt]
+  │
+  ▼
+COMMAND ROUTER ──► dispatch to subsystem
+  │
+  ▼
+CONTEXT MANAGER ─► inject into context window
+  │
+  ▼
+LLM CLIENT ──────► stream response from model
+  │
+  ├──► tool call request ──► TOOL ROUTER ──► execute ──► result ──► CONTEXT
+  │
+  └──► final response ────► TERMINAL UI
+  │
+  ▼
+SESSION MANAGER ─► persist state to disk</code></pre>
+
+      <p>
+        The LLM may request multiple tool calls in sequence or parallel. Each result is fed back into the context window, and the loop continues until the LLM produces a final response.
+      </p>
+
+      <h3>Extensibility: Custom agents and MCP servers</h3>
+
+      <p>
+        The CLI is designed to be extended without modifying its core. Two primary extension points exist:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Custom agents</strong> — Place agent scripts in <code>~/.copilot/agents/</code>. The CLI auto-discovers and exposes them as tools the LLM can invoke.
+        </li>
+        <li>
+          <strong>MCP servers</strong> — Configure external Model Context Protocol servers in <code>~/.copilot/config</code>. These servers provide domain-specific tools (e.g., database queries, API integrations) that the LLM can call.
+        </li>
+      </ul>
+
+      <p>
+        This architecture allows teams to build specialized workflows without forking the CLI codebase.
+      </p>
+
+      <h3>Compaction and infinite sessions</h3>
+
+      <p>
+        When the context window nears its token limit (around 95%), the <strong>Context Manager</strong> triggers automatic compaction. Older conversation turns are summarized by the LLM, and the summary replaces the original verbatim history.
+      </p>
+
+      <p>
+        This happens transparently in the background. From the user's perspective, the session simply continues without interruption. Essential information is preserved; redundant details are discarded.
+      </p>
+
+      <p>
+        Compaction is why the CLI supports <strong>infinite sessions</strong> — there is no hard context limit. You can work on complex tasks over hours or days without hitting token ceilings.
+      </p>
+
+      <h3>Key architectural decisions</h3>
+
+      <ul>
+        <li>
+          <strong>LLM-driven control flow.</strong> The model is not a passive responder — it actively decides which tools to call and when. This is the foundation of agentic behavior.
+        </li>
+        <li>
+          <strong>Layered modularity.</strong> Each layer has a single responsibility. Input routing, command dispatch, tool execution, and state persistence are cleanly separated, making the system easier to test and extend.
+        </li>
+        <li>
+          <strong>Persistent state.</strong> Session state lives on disk, not in memory. This enables resumption across process restarts and supports long-running workflows.
+        </li>
+        <li>
+          <strong>Permission gates.</strong> Tool execution is mediated by a security layer. Unsafe operations require explicit user approval.
+        </li>
+        <li>
+          <strong>Feedback loops.</strong> Tool results, compaction summaries, and context updates all flow back into the LLM's next turn. This closed-loop design enables iterative refinement.
+        </li>
+      </ul>
+
+      <h3>Why this architecture matters</h3>
+
+      <p>
+        The Copilot CLI is not just a chat interface with a command-line skin. Its architecture reflects a fundamentally different design philosophy:
+      </p>
+
+      <ul>
+        <li>It treats the LLM as an <strong>agent</strong>, not a function.</li>
+        <li>It persists state across time, enabling <strong>resumable workflows</strong>.</li>
+        <li>It integrates tools and external systems through a <strong>secure, extensible framework</strong>.</li>
+        <li>It manages context intelligently, supporting <strong>infinite sessions</strong> through automatic compaction.</li>
+      </ul>
+
+      <p>
+        Understanding this architecture helps you work <em>with</em> the CLI instead of against it. You can design prompts that leverage tool calls, structure tasks that benefit from session persistence, and extend the system with custom agents when built-in capabilities are not enough.
+      </p>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli" target="_blank" rel="noopener">
+            About GitHub Copilot CLI ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli#allowed-tools" target="_blank" rel="noopener">
+            Copilot CLI — Allowed tools ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices" target="_blank" rel="noopener">
+            CLI Best Practices ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://deepwiki.com/github/copilot-cli/6.1-system-architecture-overview" target="_blank" rel="noopener">
+            DeepWiki — System Architecture Overview ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
