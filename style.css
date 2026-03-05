@@ -76,6 +76,14 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
+.sidebar-logo-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .sidebar-title {
   font-size: 15px;
   font-weight: 700;

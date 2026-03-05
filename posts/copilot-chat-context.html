@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Managing Context for AI in Copilot Chat — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="../63947536 (1).jpg" alt="Profile icon" class="sidebar-logo-icon" />
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-chat-context.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Managing Context for AI in Copilot Chat
+          </a>
+        </li>
+        <li>
+          <a href="copilot-cli-system-architecture.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction &amp; Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">05 March 2026</span>
+        <span class="badge">💬 Copilot in IDE</span>
+      </div>
+      <h1 class="post-title">Managing Context for AI in Copilot Chat</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        The quality of Copilot's responses in VS Code scales directly with the quality of the context
+        it receives. VS Code gives you multiple mechanisms — implicit signals, <strong>#-mentions</strong>,
+        <strong>@-mentions</strong>, vision input, browser elements, and workspace indexing — to ensure
+        the model always has exactly the right information before generating an answer.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>Workspace indexing</h3>
+      <p>
+        Before your first <code>#codebase</code> query, VS Code builds an index of your repository so it
+        can surface the most relevant snippets quickly. Three indexing modes are available depending on
+        your setup:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>Where the index lives</th>
+            <th>Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Remote index</strong></td>
+            <td>GitHub (requires repo to be hosted there)</td>
+            <td>Large codebases — fast semantic search even on very big repos</td>
+          </tr>
+          <tr>
+            <td><strong>Local index</strong></td>
+            <td>Your machine</td>
+            <td>Accurate results offline; uses advanced semantic algorithms</td>
+          </tr>
+          <tr>
+            <td><strong>Basic index</strong></td>
+            <td>Your machine (fallback)</td>
+            <td>Larger repos when local indexing is unavailable; simpler algorithms</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Implicit context</h3>
+      <p>
+        VS Code automatically passes context to the model based on what you are currently doing.
+        You do not need to mention anything explicitly for these signals to take effect:
+      </p>
+      <ul>
+        <li>The <strong>currently selected text</strong> in the active editor.</li>
+        <li>The <strong>file name or notebook name</strong> of the active editor.</li>
+        <li>When using the <strong>Ask agent</strong>, the active file is always included as context.</li>
+        <li>When using <strong>Agent mode</strong>, the model autonomously decides whether to include the active file based on your prompt.</li>
+      </ul>
+
+      <h3>#-mentions — explicit context items</h3>
+      <p>
+        Type <code>#</code> in the chat input to see a picker of all available context items, or
+        use <em>Add Context</em> in the Chat view. Supported types:
+      </p>
+
+      <h4>Files, folders, and symbols</h4>
+      <p>
+        Type <code>#</code> followed by the name of a file, folder, or symbol to attach it.
+        For symbols, the containing file must already be open in the editor.
+        You can also drag files and folders from the Explorer or Search view directly onto the Chat view.
+      </p>
+      <p>
+        VS Code includes the full file contents when possible. If the file is too large for the context
+        window, it falls back to a function-level outline. If even that exceeds the limit, the file is
+        omitted.
+      </p>
+
+      <h4>Codebase search — <code>#codebase</code></h4>
+      <p>
+        Add <code>#codebase</code> to let VS Code find the right files automatically instead of
+        picking them manually. Useful when you are not sure which files are relevant:
+      </p>
+      <ul>
+        <li><code>"Explain how authentication works in #codebase"</code></li>
+        <li><code>"Where is the database connection string configured? #codebase"</code></li>
+        <li><code>"Add a new API route for updating the address #codebase"</code></li>
+      </ul>
+      <p>
+        Agents automatically trigger codebase search when they need more context. You can still
+        add <code>#codebase</code> explicitly for ambiguous prompts.
+      </p>
+
+      <h4>Web content — <code>#fetch</code> and <code>#githubRepo</code></h4>
+      <p>
+        Reference live content outside your local workspace:
+      </p>
+      <ul>
+        <li>
+          <code>#fetch &lt;URL&gt;</code> — retrieves the content of a specific web page. VS Code caches
+          the page temporarily; restart VS Code to force a refresh. You will be prompted to approve
+          external URLs the first time to protect privacy.
+        </li>
+        <li>
+          <code>#githubRepo &lt;owner/repo&gt;</code> — performs a semantic code search within any public
+          GitHub repository, e.g. <code>"How does routing work? #githubRepo vercel/next.js"</code>.
+        </li>
+      </ul>
+
+      <h4>Tools</h4>
+      <p>
+        When using agents, tools are invoked automatically. You can also reference a tool explicitly
+        with its <code>#</code> name, for example <code>"what are my open issues #github-mcp"</code>
+        to invoke a specific MCP server tool. Referencing a tool set by name makes all tools in that
+        set available for the current prompt.
+      </p>
+
+      <h3>@-mentions — chat participants</h3>
+      <p>
+        <strong>Chat participants</strong> are domain-specific assistants you invoke with <code>@</code>.
+        Unlike tools (which perform tasks), participants own the entire response for their domain.
+        VS Code includes three built-in participants:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Domain</th>
+            <th>Example prompt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>@vscode</code></td>
+            <td>VS Code settings &amp; UI</td>
+            <td><code>"@vscode how to enable word wrapping"</code></td>
+          </tr>
+          <tr>
+            <td><code>@terminal</code></td>
+            <td>Shell commands &amp; terminal output</td>
+            <td><code>"@terminal what are the top 5 largest files in the current directory"</code></td>
+          </tr>
+          <tr>
+            <td><code>@workspace</code></td>
+            <td>Project-level questions</td>
+            <td><code>"@workspace where is the main entry point?"</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Extensions can also contribute their own chat participants via the VS Code extension API.</p>
+
+      <h3>Vision (Preview)</h3>
+      <p>
+        Attach an image as context — a screenshot of code, an error dialog, or a UI sketch — and ask
+        Copilot to explain, debug, or implement it. Drag an image from your browser directly onto the
+        Chat view to attach it.
+      </p>
+
+      <h3>Add browser elements (Experimental)</h3>
+      <p>
+        VS Code's integrated browser lets you select specific page elements and attach them as context.
+        This is useful for targeting a particular HTML element, CSS rule, or JavaScript component
+        without pasting the entire source:
+      </p>
+      <ol>
+        <li>Start your web application and open the <strong>Integrated Browser</strong> from the Command Palette (<code>Browser: Open Integrated Browser</code>).</li>
+        <li>Enter the URL of the page.</li>
+        <li>Select <strong>Add Element to Chat</strong>, then hover and click any element to attach it.</li>
+      </ol>
+      <p>
+        Two settings control what is included: <code>chat.sendElementsToChat.attachCSS</code> and
+        <code>chat.sendElementsToChat.attachImages</code>.
+      </p>
+
+      <h3>Interact with browser pages (Experimental)</h3>
+      <p>
+        With <code>workbench.browser.enableChatTools</code> set to <code>true</code>, agents can directly
+        drive the integrated browser: navigate to URLs, read page content and console errors, take
+        screenshots, click elements, and type text — no external MCP server required. You can also
+        select <strong>Share with Agent</strong> in the browser toolbar to hand off an already-open
+        page, including your existing session and login state.
+      </p>
+
+      <h3>Monitor context window usage</h3>
+      <p>
+        The chat input box shows a <strong>context window control</strong> — a shaded bar indicating
+        how much of the model's token budget is currently in use. Hover over it to see the exact count
+        (e.g. <em>15K / 128K</em>) and a breakdown by category. The denominator changes when you switch
+        models, since different models have different context window sizes.
+      </p>
+
+      <h3>Context compaction</h3>
+      <p>
+        As a conversation grows, accumulated messages eventually fill the context window.
+        <strong>Compaction</strong> summarizes earlier messages to free up space while preserving
+        important decisions and details.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mode</th>
+            <th>How it works</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Automatic</strong></td>
+            <td>VS Code compacts silently in the background when the window is nearly full — no action needed.</td>
+          </tr>
+          <tr>
+            <td><strong>Manual</strong></td>
+            <td>
+              Type <code>/compact</code> in the chat input (optionally add instructions, e.g.
+              <code>/compact focus on the database schema decisions</code>), or select
+              <em>Compact Conversation</em> from the context window control.
+              Available for local, background, and Claude agent sessions.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>To reset context entirely, start a new chat session instead of compacting.</p>
+
+      <h3>Documentation</h3>
+      <p>
+        <a href="https://code.visualstudio.com/docs/copilot/chat/copilot-chat-context" target="_blank" rel="noopener">
+          Manage context for AI — VS Code Docs ↗
+        </a>
+      </p>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>

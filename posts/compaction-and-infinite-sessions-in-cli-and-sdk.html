@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compaction and Infinite Sessions in CLI and SDK — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="../63947536 (1).jpg" alt="Profile icon" class="sidebar-logo-icon" />
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-chat-context.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Managing Context for AI in Copilot Chat
+          </a>
+        </li>
+        <li>
+          <a href="copilot-cli-system-architecture.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">02 March 2026</span>
+        <span class="badge">💻 Copilot CLI</span>
+      </div>
+      <h1 class="post-title">Compaction and Infinite Sessions in CLI and SDK</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        GitHub Copilot CLI supports <strong>infinite sessions</strong>. You can stay in one long-running conversation,
+        and Copilot automatically compacts older context into summaries so the session remains usable without you
+        manually managing token limits.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).
+      </blockquote>
+
+      <h3>Automatic context window management</h3>
+      <p>
+        Copilot CLI handles context growth automatically. As a session gets longer, it creates checkpoints and
+        compacts older conversation history into high-signal summaries, keeping important intent and decisions.
+        In most cases, manual compaction is not needed.
+      </p>
+
+      <p>Session artifacts are stored under:</p>
+
+      <pre><code>~/.copilot/session-state/{session-id}/
+├── events.jsonl      # Full session history
+├── workspace.yaml    # Session/workspace metadata
+├── plan.md           # Plan mode output (if created)
+├── checkpoints/      # Compaction snapshots
+└── files/            # Temporary session artifacts
+</code></pre>
+
+      <h3>Session management commands</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>What it does</th>
+            <th>When to use it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/session</code></td>
+            <td>Shows information about the current session</td>
+            <td>Quick sanity check of where you are and what state is active</td>
+          </tr>
+          <tr>
+            <td><code>/session checkpoints</code></td>
+            <td>Lists available compaction checkpoints</td>
+            <td>Inspect summary boundaries after long runs</td>
+          </tr>
+          <tr>
+            <td><code>/session checkpoints NUMBER</code></td>
+            <td>Displays one specific checkpoint summary</td>
+            <td>Validate that compaction preserved key requirements</td>
+          </tr>
+          <tr>
+            <td><code>/session files</code></td>
+            <td>Lists temporary files created during the session</td>
+            <td>Review artifacts before deciding what belongs in your repo</td>
+          </tr>
+          <tr>
+            <td><code>/session plan</code></td>
+            <td>Shows the active plan when using plan mode</td>
+            <td>Re-anchor implementation work to the agreed plan</td>
+          </tr>
+          <tr>
+            <td><code>/context</code></td>
+            <td>Displays context usage breakdown</td>
+            <td>Understand token distribution and remaining space</td>
+          </tr>
+          <tr>
+            <td><code>/compact</code></td>
+            <td>Manually triggers compaction</td>
+            <td>Rarely needed; useful only when you want an immediate summary boundary</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Best practice: keep sessions focused</h3>
+      <p>
+        Infinite sessions are powerful, but quality is highest when one session stays on one problem domain.
+        For unrelated work, start fresh with <code>/new</code> or clear context with <code>/clear</code>. This reduces
+        cross-task noise and makes Copilot's next decisions more reliable.
+      </p>
+
+      <h3>A practical flow for long tasks</h3>
+      <ol>
+        <li>Start with a clear objective and constraints in your first prompt.</li>
+        <li>Use <code>/plan</code> for multi-step changes and confirm the generated plan.</li>
+        <li>During implementation, check <code>/session</code> and <code>/context</code> when you need visibility.</li>
+        <li>Review <code>/session checkpoints</code> if the task spans many turns.</li>
+        <li>When switching to unrelated work, run <code>/new</code> or <code>/clear</code> before continuing.</li>
+      </ol>
+
+      <h3>SDK perspective: session persistence and resume</h3>
+      <p>
+        In <strong>Copilot SDK</strong>, persistence is explicit and app-controlled. The SDK writes session state under
+        <code>~/.copilot/session-state/{sessionId}/</code> so apps can resume after restarts.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Stored on disk</th>
+            <th>Purpose</th>
+            <th>Persisted?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>checkpoints/*.json</code></td>
+            <td>Conversation snapshots used for compaction/resume</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td><code>plan.md</code></td>
+            <td>Planning state and implementation strategy</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td><code>files/</code></td>
+            <td>Session artifacts generated by the agent</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Provider API keys</td>
+            <td>BYOK credentials</td>
+            <td>No (security)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        To make sessions reliably resumable, use your own deterministic <code>sessionId</code> instead of random IDs.
+      </p>
+
+      <pre><code>// TypeScript
+const session = await client.createSession({
+  sessionId: "user-alice-pr-42"
+});
+
+const resumed = await client.resumeSession("user-alice-pr-42", {
+  model: "gpt-5.2-codex"
+});
+</code></pre>
+
+      <pre><code># Python
+session = client.create_session({"session_id": "user-alice-pr-42"})
+resumed = client.resume_session("user-alice-pr-42", {"model": "gpt-5.2-codex"})
+</code></pre>
+
+      <pre><code>// .NET
+var session = await client.CreateSessionAsync(new SessionConfig { SessionId = "user-alice-pr-42" });
+var resumed = await client.ResumeSessionAsync("user-alice-pr-42", new ResumeSessionConfig());
+</code></pre>
+
+      <h3>SDK infinite session thresholds</h3>
+      <p>
+        SDK infinite sessions use ratio-based thresholds (not absolute tokens):
+      </p>
+      <ul>
+        <li><code>backgroundCompactionThreshold</code> default <code>0.80</code>: async compaction starts</li>
+        <li><code>bufferExhaustionThreshold</code> default <code>0.95</code>: processing pauses for blocking compaction</li>
+      </ul>
+
+      <p>
+        Because thresholds are percentages of the current model context window, behavior stays consistent across
+        different model sizes.
+      </p>
+
+      <h3>Important SDK caveats</h3>
+      <ul>
+        <li><strong>BYOK re-authentication:</strong> provider keys are not persisted, so pass <code>provider</code> again when resuming.</li>
+        <li><strong>Writable storage required:</strong> <code>~/.copilot/session-state/</code> must be writable.</li>
+        <li><strong>No built-in session locking:</strong> avoid concurrent writes to the same <code>sessionId</code> from multiple processes.</li>
+        <li><strong>Tool runtime state:</strong> in-memory tool state is not auto-persisted; persist externally if needed.</li>
+      </ul>
+
+      <h3>Documentation</h3>
+      <p>
+        <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/cli-best-practices#3-leverage-infinite-sessions" target="_blank" rel="noopener">
+          Best practices for GitHub Copilot CLI: 3. Leverage infinite sessions ↗
+        </a>
+        &nbsp;·&nbsp;
+        <a href="https://deepwiki.com/github/copilot-sdk/4.7-session-persistence-and-infinite-sessions" target="_blank" rel="noopener">
+          Copilot SDK: Session persistence and infinite sessions ↗
+        </a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/github/copilot-sdk/blob/main/docs/guides/session-persistence.md" target="_blank" rel="noopener">
+          copilot-sdk session persistence guide (source) ↗
+        </a>
+      </p>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
