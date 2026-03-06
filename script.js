@@ -61,6 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // ── Mobile burger-menu toggle ─────────────────────────────────────────────
+  const burgerBtn = document.getElementById('burgerBtn');
+  if (burgerBtn) {
+    burgerBtn.addEventListener('click', () => {
+      const sidebar = burgerBtn.closest('.sidebar');
+      const isOpen = sidebar.classList.toggle('nav-open');
+      burgerBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
   // ── Smooth scroll to top when navigating to a post page ──────────────────
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
