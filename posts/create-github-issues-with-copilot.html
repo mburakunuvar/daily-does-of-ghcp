@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating GitHub Issues with Copilot — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="../63947536 (1).jpg" alt="Profile icon" class="sidebar-logo-icon" />
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Recent Posts</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="create-github-issues-with-copilot.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Creating GitHub Issues with Copilot
+          </a>
+        </li>
+        <li>
+          <a href="copilot-chat-context.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Managing Context for AI in Copilot Chat
+          </a>
+        </li>
+        <li>
+          <a href="copilot-cli-system-architecture.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">06 March 2026</span>
+        <span class="badge">🖥️ Copilot in UI</span>
+      </div>
+      <h1 class="post-title">Creating GitHub Issues with Copilot</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        Filing GitHub Issues is usually a context-switching chore — open a tab, pick a template,
+        fill in a title, body, labels, and assignees, then repeat for every item on your list.
+        GitHub Copilot at <code>github.com/copilot</code> eliminates that friction: describe a task
+        in plain language (or paste a screenshot), and Copilot drafts a structured, ready-to-submit
+        issue in seconds. You review, refine, and click <strong>Create</strong>.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>Creating a single issue</h3>
+
+      <p>
+        Go to <a href="https://github.com/copilot">github.com/copilot</a> and describe the issue
+        you want to create. Use the <code>OWNER/REPO</code> format to target a specific repository;
+        if you omit it, Copilot infers from the last repository you filed an issue in.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Example prompt</th>
+            <th>What Copilot does</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>In acme-org/api, create a feature request to add fuzzy matching to search.</code></td>
+            <td>Drafts a feature-request issue with title, body, and suggested labels for the <code>acme-org/api</code> repo</td>
+          </tr>
+          <tr>
+            <td><code>Log a bug for a 500 error that happens consistently when I try to log in.</code></td>
+            <td>Selects a bug-report template (if one exists), fills in steps to reproduce and expected vs. actual behaviour</td>
+          </tr>
+          <tr>
+            <td><code>Create a task to update the logo background to red and add the label "needs design review".</code></td>
+            <td>Drafts a task issue and pre-selects the <strong>needs design review</strong> label</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        If your repository has <strong>issue forms or templates</strong>, Copilot picks the best
+        match automatically and maps your prompt text into the right fields — without losing
+        any details. You can switch to a different template at any time without losing your input.
+        If a required field has insufficient context, Copilot asks a follow-up question.
+      </p>
+
+      <p>
+        You can also attach an image (paste, drag-and-drop, or the <strong>Image</strong> button)
+        to generate a visual bug report. Copilot reads the screenshot and builds the issue body
+        around what it sees.
+      </p>
+
+      <h3>Creating multiple issues from a to-do list</h3>
+
+      <p>
+        Paste your entire task list into a single prompt and Copilot drafts each item as a
+        separate issue in one pass.
+      </p>
+
+      <blockquote>
+        <strong>Example:</strong>
+        <code>In acme-org/web, create 3 issues: 1) Update Node.js to v22, 2) Fix the broken navbar on mobile, 3) Write end-to-end tests for the checkout flow.</code>
+      </blockquote>
+
+      <p>
+        Each draft appears individually in the workbench. Review and edit them one by one,
+        then click <strong>Create</strong> on each issue you want to publish. You are always
+        in control — nothing is submitted until you confirm.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Input style</th>
+            <th>Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Numbered list in a single prompt</td>
+            <td>Converting a sprint backlog or meeting notes into tickets in one shot</td>
+          </tr>
+          <tr>
+            <td>One prompt per issue</td>
+            <td>Issues that need custom metadata (assignee, milestone, label) per item</td>
+          </tr>
+          <tr>
+            <td>Screenshot attachment</td>
+            <td>Bug reports where visual evidence speaks louder than words</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Creating sub-issues and epics</h3>
+
+      <p>
+        For larger initiatives, Copilot can generate a full issue hierarchy in a single prompt.
+      </p>
+
+      <blockquote>
+        <strong>Example:</strong>
+        <code>In acme-org/web, plan a new user dashboard. Break it down into an epic and create sub-issues for each main feature and task.</code>
+      </blockquote>
+
+      <p>
+        Copilot generates a <strong>draft issue tree</strong> — a parent epic at the top with
+        sub-issues beneath it. You can expand or collapse sub-issues, click any node to edit its
+        details, and use <strong>Review and create</strong> to see the full tree before publishing.
+      </p>
+
+      <p>
+        You can also modify the tree mid-session:
+      </p>
+
+      <ul>
+        <li>Remove a sub-issue: <code>Remove sub-issue &lt;NAME&gt; from the issue tree</code></li>
+        <li>Add a sub-issue: <code>Add an additional sub-issue with &lt;DETAILS&gt; to the issue tree</code></li>
+        <li>Link an existing issue as a parent: <code>Create a parent issue for acme-org/web issue #456.</code></li>
+      </ul>
+
+      <p>
+        Once satisfied, click <strong>Review and create</strong> → <strong>Create issues</strong>
+        to publish the entire tree at once.
+      </p>
+
+      <h3>Updating an existing issue</h3>
+
+      <p>
+        Copilot can also update issues that already exist. Reference the issue by number and
+        describe what should change:
+      </p>
+
+      <blockquote>
+        <code>In acme-org/web, update issue #123 to add more detail about the bug and steps to reproduce it. Also change the label to "bug" and assign it to @alice.</code>
+      </blockquote>
+
+      <p>
+        Copilot drafts the updated body in the workbench. Review the diff, edit if needed,
+        and click <strong>Update</strong> to publish the change.
+      </p>
+
+      <h3>Assigning issues to Copilot</h3>
+
+      <p>
+        If your organisation has <strong>Copilot coding agent</strong> enabled, you can assign a
+        newly created issue directly to Copilot in the same prompt:
+      </p>
+
+      <blockquote>
+        <code>In acme-org/web, create an issue to fix the broken navbar on mobile and assign it to Copilot.</code>
+      </blockquote>
+
+      <p>
+        Once the issue is created and assigned, Copilot starts working on it automatically.
+        A 👀 reaction appears on the issue to indicate it is actively being worked on.
+        You can track progress through the <strong>Agents</strong> tab on GitHub.com or from
+        any of the seven surfaces described in the
+        <a href="tracking-coding-agent-sessions.html">Tracking Coding Agent Sessions</a> post.
+      </p>
+
+      <h3>Permissions and limits</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Constraint</th>
+            <th>Detail</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Repository access</strong></td>
+            <td>You must already have permission to create issues in the target repository. Copilot does not bypass repo access controls.</td>
+          </tr>
+          <tr>
+            <td><strong>Preview status</strong></td>
+            <td>This feature is in public preview and subject to change.</td>
+          </tr>
+          <tr>
+            <td><strong>Coding agent assignment</strong></td>
+            <td>Assigning to Copilot requires Copilot coding agent to be enabled (Pro+, Business, or Enterprise plans).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Documentation</h3>
+
+      <ul>
+        <li><a href="https://docs.github.com/en/copilot/how-tos/use-copilot-for-common-tasks/use-copilot-to-create-or-update-issues">Using GitHub Copilot to create or update issues</a></li>
+        <li><a href="https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository">Configuring issue templates for your repository</a></li>
+        <li><a href="https://docs.github.com/en/copilot/tutorials/plan-a-project">Planning a project with GitHub Copilot</a></li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
