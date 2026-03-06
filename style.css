@@ -536,6 +536,32 @@ a:hover { text-decoration: underline; }
   background: #f6f8fa;
 }
 
+/* ── Burger menu button (mobile only) ── */
+.burger-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background: #161b22;
+  color: var(--sidebar-text);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  width: 100%;
+  justify-content: center;
+}
+
+.burger-btn:hover,
+.burger-btn[aria-expanded="true"] {
+  background: #21262d;
+  border-color: var(--accent);
+  color: var(--sidebar-active);
+}
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .layout {
@@ -548,8 +574,16 @@ a:hover { text-decoration: underline; }
     position: static;
   }
 
+  .burger-btn {
+    display: flex;
+  }
+
   .sidebar-section:not(:first-of-type) {
     display: none;
+  }
+
+  .sidebar.nav-open .sidebar-section:not(:first-of-type) {
+    display: block;
   }
 
   .sidebar-title { font-size: 14px; }
