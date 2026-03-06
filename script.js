@@ -13,6 +13,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ── Collapsible sidebar sections ─────────────────────────────────────────
+  document.querySelectorAll('.section-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+      const section = toggle.closest('.sidebar-section');
+      const isCollapsed = section.classList.toggle('is-collapsed');
+      toggle.classList.toggle('is-collapsed', isCollapsed);
+      toggle.setAttribute('aria-expanded', String(!isCollapsed));
+    });
+
+    toggle.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle.click();
+      }
+    });
+  });
+
   // ── Category filter on main page ─────────────────────────────────────────
   const filterBtns = document.querySelectorAll('[data-filter]');
   const cards = document.querySelectorAll('[data-category]');
@@ -22,9 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
 
-        // Toggle active state on buttons
+        // Sync active state across all matching filter elements (pills + sidebar links)
         filterBtns.forEach(b => b.classList.remove('filter-active'));
-        btn.classList.add('filter-active');
+        document.querySelectorAll(`[data-filter="${filter}"]`).forEach(el => el.classList.add('filter-active'));
 
         // Show / hide cards
         cards.forEach(card => {
