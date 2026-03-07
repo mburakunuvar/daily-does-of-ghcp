@@ -134,14 +134,15 @@
         <svg class="chevron" width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"/></svg>
       </div>
       <ul class="sidebar-nav">
+        <li><a href="posts/copilot-internal-architecture.html">Understanding Copilot's Internal Architecture</a></li>
         <li><a href="posts/multi-agent-best-practices.html">Running Multiple GHCP Agents in One Repo</a></li>
         <li><a href="posts/create-github-issues-with-copilot.html">Creating GitHub Issues with Copilot</a></li>
-        <li><a href="posts/copilot-cli-system-architecture.html">Copilot CLI System Architecture Deep Dive</a></li>
-        <li><a href="posts/ghcp-across-multiple-surfaces.html">GHCP Across Multiple Surfaces</a></li>
-        <li><a href="posts/inside-ghcp.html">Inside GHCP: How the Execution Engine Works</a></li>
-        <li><a href="posts/compaction-and-infinite-sessions-in-cli-and-sdk.html">Compaction and Infinite Sessions in CLI and SDK</a></li>
         <li><a href="posts/copilot-chat-context.html">Managing Context for AI in Copilot Chat</a></li>
+        <li><a href="posts/copilot-cli-system-architecture.html">Copilot CLI System Architecture Deep Dive</a></li>
+        <li><a href="posts/compaction-and-infinite-sessions-in-cli-and-sdk.html">Compaction and Infinite Sessions in CLI and SDK</a></li>
         <li><a href="posts/tracking-coding-agent-sessions.html">Tracking Coding Agent Sessions</a></li>
+        <li><a href="posts/inside-ghcp.html">Inside GHCP: How the Execution Engine Works</a></li>
+        <li><a href="posts/ghcp-across-multiple-surfaces.html">GHCP Across Multiple Surfaces</a></li>
       </ul>
     </div>
 
@@ -198,6 +199,21 @@
 
     <!-- Cards grid -->
     <div class="cards-grid" id="cardsGrid">
+
+      <!-- Card: Understanding Copilot's Internal Architecture -->
+      <a class="card" href="posts/copilot-internal-architecture.html" data-category="Deep Dive">
+        <div class="card-meta">
+          <span class="card-date">07 March 2026</span>
+          <span class="badge">🧠 Deep Dive</span>
+        </div>
+        <div class="card-title">Understanding Copilot's Internal Architecture</div>
+        <div class="card-summary">
+          What actually happens between you hitting Enter and the first token appearing?
+          Explore the three-tier architecture, the Copilot Proxy's role, how prompts are assembled,
+          model selection with Auto mode, tool-call ReAct loops, and the two content-safety checkpoints.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
 
       <!-- Card: Running Multiple GHCP Agents in One Repository -->
       <a class="card" href="posts/multi-agent-best-practices.html" data-category="Copilot coding agent, Deep Dive">

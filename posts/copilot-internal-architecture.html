@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Understanding Copilot's Internal Architecture — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="../63947536 (1).jpg" alt="Profile icon" class="sidebar-logo-icon" />
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title section-toggle" role="button" aria-expanded="true" tabindex="0">
+        Recent Posts
+        <svg class="chevron" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"/></svg>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="copilot-internal-architecture.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Understanding Copilot's Internal Architecture
+          </a>
+        </li>
+        <li>
+          <a href="multi-agent-best-practices.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Running Multiple GHCP Agents in One Repo
+          </a>
+        </li>
+        <li>
+          <a href="create-github-issues-with-copilot.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Creating GitHub Issues with Copilot
+          </a>
+        </li>
+        <li>
+          <a href="copilot-chat-context.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Managing Context for AI in Copilot Chat
+          </a>
+        </li>
+        <li>
+          <a href="copilot-cli-system-architecture.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">07 March 2026</span>
+        <span class="badge">🧠 Deep Dive</span>
+      </div>
+      <h1 class="post-title">Understanding Copilot's Internal Architecture</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        When you type a prompt into Copilot and watch a response stream back, a surprisingly
+        sophisticated system springs into action beneath the surface. Understanding <strong>how
+        Copilot is wired together</strong> — from the moment you hit Enter to the last token
+        streamed to your editor — makes you a sharper user and helps you build better integrations
+        on top of it.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
+      </blockquote>
+
+      <h3>The three-tier architecture</h3>
+
+      <p>
+        Copilot's architecture spans three tiers, each with a distinct job:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>What lives here</th>
+            <th>Examples</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Client</strong></td>
+            <td>Surface-specific extensions and CLI tooling that capture your intent and render responses</td>
+            <td>VS Code extension, JetBrains plugin, <code>gh copilot</code> CLI, GitHub.com UI</td>
+          </tr>
+          <tr>
+            <td><strong>Copilot Proxy</strong></td>
+            <td>GitHub's backend layer that authenticates requests, selects the model, assembles context, and routes to the AI provider</td>
+            <td>api.githubcopilot.com</td>
+          </tr>
+          <tr>
+            <td><strong>AI Provider</strong></td>
+            <td>The underlying large language model that generates completions and tool-call decisions</td>
+            <td>OpenAI (GPT series), Anthropic (Claude), Google (Gemini), xAI (Grok), Alibaba (Qwen)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The <strong>Copilot Proxy</strong> is the hidden workhorse. It shields you from provider
+        complexity, handles authentication via your GitHub token, and ensures all model calls
+        conform to GitHub's content policies regardless of which model is selected.
+      </p>
+
+      <h3>The request flow, step by step</h3>
+
+      <p>
+        Here is what actually happens when you submit a prompt:
+      </p>
+
+      <pre><code>YOU (prompt)
+  │
+  ▼
+CLIENT EXTENSION
+  │  • Captures editor context (open file, cursor, selection)
+  │  • Attaches #file / @workspace / #fetch references
+  │  • Sends authenticated request to Copilot Proxy
+  ▼
+COPILOT PROXY
+  │  • Validates GitHub OAuth token
+  │  • Applies content safety filters (pre-flight)
+  │  • Selects model (explicit choice, or Auto)
+  │  • Assembles the final prompt (system prompt + history + context)
+  │  • Forwards to AI Provider via provider-specific API
+  ▼
+AI PROVIDER (LLM)
+  │  • Generates tokens one by one
+  │  • May emit tool-call requests (function calling)
+  │  • Streams response back through the Proxy
+  ▼
+COPILOT PROXY
+  │  • Applies content safety filters (post-flight)
+  │  • Streams tokens to the client
+  ▼
+CLIENT EXTENSION
+     • Renders streamed tokens in the editor / terminal / chat panel</code></pre>
+
+      <h3>Model selection: Auto vs. explicit</h3>
+
+      <p>
+        Copilot supports a growing roster of models from multiple providers. You can pick one
+        explicitly, or let Copilot choose for you with <strong>Auto</strong> mode.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Selection mode</th>
+            <th>How it works</th>
+            <th>Best for</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Auto</strong></td>
+            <td>Copilot picks the best available model based on availability and task type</td>
+            <td>Most everyday workflows — set it and forget it</td>
+          </tr>
+          <tr>
+            <td><strong>General-purpose</strong> (e.g., GPT-4.1, Claude Sonnet)</td>
+            <td>Balanced speed and quality</td>
+            <td>Code completions, explanations, reviews</td>
+          </tr>
+          <tr>
+            <td><strong>Deep reasoning</strong> (e.g., GPT-5.1, Claude Opus, Gemini Pro)</td>
+            <td>Extended reasoning chains before answering</td>
+            <td>Architecture decisions, complex debugging, multi-step refactors</td>
+          </tr>
+          <tr>
+            <td><strong>Agentic</strong> (e.g., GPT-5.1 Codex Max, GPT-5.2-Codex)</td>
+            <td>Optimised for multi-step tool use and autonomous task execution</td>
+            <td>Coding agent tasks, long-running edits</td>
+          </tr>
+          <tr>
+            <td><strong>Fast / lightweight</strong> (e.g., Claude Haiku, Gemini Flash)</td>
+            <td>Minimal latency, lower premium cost</td>
+            <td>Repetitive edits, quick lookups, high-volume usage</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Note that different models carry different <strong>premium request multipliers</strong>.
+        If you're on a plan with a monthly usage allowance, choosing a deep-reasoning model
+        consumes more of your budget per request than a general-purpose one.
+      </p>
+
+      <h3>How the prompt is assembled</h3>
+
+      <p>
+        Before any tokens reach the LLM, the Copilot Proxy constructs a
+        <strong>composite prompt</strong> from several sources — most of which are invisible to you:
+      </p>
+
+      <ul>
+        <li>
+          <strong>System prompt</strong> — GitHub's instructions to the model (persona, content
+          policy, output format expectations). You can extend this with
+          <strong>custom instructions</strong> in a <code>.github/copilot-instructions.md</code>
+          file in your repository.
+        </li>
+        <li>
+          <strong>Conversation history</strong> — previous turns in the chat session, subject to
+          the context window limit.
+        </li>
+        <li>
+          <strong>Explicit context</strong> — files, symbols, URLs, or terminal output you attach
+          via <code>#file</code>, <code>#fetch</code>, <code>@workspace</code>, or similar
+          references.
+        </li>
+        <li>
+          <strong>Implicit context</strong> — the active editor file, cursor position, and
+          surrounding code that the extension automatically includes.
+        </li>
+        <li>
+          <strong>Tool definitions</strong> — the function signatures for any tools the model is
+          allowed to call (repo search, terminal, MCP servers, etc.).
+        </li>
+      </ul>
+
+      <p>
+        All of this is packed into a single token-counted payload and sent to the AI provider.
+        The <strong>context window</strong> — the total token capacity of the model — determines
+        how much of this payload can fit.
+      </p>
+
+      <h3>Tool calls and the ReAct loop</h3>
+
+      <p>
+        Modern LLMs support <strong>function calling</strong>: instead of answering immediately,
+        the model can emit a structured tool-call request. The Copilot runtime intercepts this,
+        executes the tool, and feeds the result back into the context window. The model then
+        continues from where it left off. This cycle repeats until the model emits a final
+        response — the <strong>ReAct loop</strong> (Reason → Act → Observe → Reason…).
+      </p>
+
+      <pre><code>LLM decides to call a tool
+  │
+  ▼
+Tool executed by runtime
+  (e.g. read_file, run_terminal, search_codebase, MCP server call)
+  │
+  ▼
+Result appended to context window
+  │
+  ▼
+LLM resumes generation
+  │
+  ├── another tool call? → repeat
+  └── final answer? → stream to client</code></pre>
+
+      <p>
+        This is why Copilot can perform multi-step tasks like "find all usages of
+        <code>getUserById</code>, check for null checks, and write a test" — it issues
+        multiple tool calls within a single response cycle without any additional prompting
+        from you.
+      </p>
+
+      <h3>Streaming and latency</h3>
+
+      <p>
+        Copilot uses <strong>server-sent events</strong> to stream tokens from the AI provider
+        through the Proxy to your client the moment they are generated. This is why you see
+        responses appear word-by-word rather than all at once. The trade-off is that deep-reasoning
+        models introduce a longer <em>thinking delay</em> before the first token appears —
+        the model silently reasons before writing. General-purpose models start streaming faster.
+      </p>
+
+      <h3>Content safety: two checkpoints</h3>
+
+      <p>
+        GitHub runs <strong>content safety filters</strong> at two points:
+      </p>
+
+      <ol>
+        <li><strong>Pre-flight</strong> — the incoming prompt is checked before it reaches the LLM. Requests that violate GitHub's usage policies are rejected before any tokens are consumed.</li>
+        <li><strong>Post-flight</strong> — the model's response is checked before it is streamed to the client. Outputs that fail the safety check are blocked even if the model produced them.</li>
+      </ol>
+
+      <p>
+        Both checkpoints are transparent to the end user — you simply see a refusal message
+        if either check fires.
+      </p>
+
+      <h3>Custom instructions: your hook into the system prompt</h3>
+
+      <p>
+        The one place where you can directly influence the assembled prompt is the
+        <strong>custom instructions</strong> file. Drop a
+        <code>.github/copilot-instructions.md</code> in your repository and Copilot will
+        automatically append its contents to the system prompt for every request made in
+        that repo. This is the recommended way to enforce project conventions, coding styles,
+        or tool preferences without manually including them in every chat message.
+      </p>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/reference/ai-models/model-comparison" target="_blank" rel="noopener">
+            Comparison of AI models for GitHub Copilot ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/auto-model-selection" target="_blank" rel="noopener">
+            About Copilot auto model selection ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot" target="_blank" rel="noopener">
+            Adding repository custom instructions for GitHub Copilot ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests" target="_blank" rel="noopener">
+            About premium requests in GitHub Copilot ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
