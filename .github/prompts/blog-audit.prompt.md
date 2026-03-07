@@ -5,7 +5,6 @@ agent: agent
 tools:
   - codebase
   - fetch
-  - problems
 argument-hint: "Post filename (e.g., copilot-cli-system-architecture.html) or 'all' for batch audit"
 ---
 
@@ -68,6 +67,13 @@ For the specified post(s), extract and document:
    - What specific Copilot feature/surface/workflow is covered?
    - What's the intended audience level (beginner, intermediate, advanced)?
 
+5. **Project-required elements (verify all are present and correctly placed):**
+   - [ ] Availability `<blockquote>` — immediately after the opening intro paragraph, before the first `<h3>`
+   - [ ] `<h3>Documentation</h3>` — the **last** section inside `<div class="post-body">`; nothing follows it
+   - [ ] Sidebar "Recent Posts" list — contains all posts currently in `posts/`
+   - [ ] `<a class="btn-back">` — present before the post header
+   - [ ] Post `data-category` on the index card — matches the badge label in the post
+
 ---
 
 ## Step 2: Source Verification
@@ -86,14 +92,16 @@ Fetch and review the latest information from these authoritative sources:
 
 ### Feature Pages
 - **GitHub Copilot Features:** https://github.com/features/copilot
-- Verify availability claims match the current feature page
+- **Copilot Plans & Pricing:** https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot
+- Verify availability claims and plan tiers match current documentation
 
 ### Community Resources
 - **GitHub Community Discussions:** https://github.com/orgs/community/discussions (copilot tag)
 - Check for common questions or clarifications related to the topic
 
-### Release Notes (if applicable)
-- **Copilot Release Notes:** Check for version-specific information if the post mentions features tied to a release
+### Release Notes *(if applicable)*
+- **Copilot Release Notes:** https://docs.github.com/en/copilot/release-notes
+- Check for version-specific information if the post mentions features tied to a specific release
 
 **Output for this step:**
 - List of sources checked
@@ -116,7 +124,7 @@ Evaluate technical correctness across these dimensions:
 - Are file paths, syntax, or APIs up-to-date?
 - Are there better/newer ways to accomplish the same task?
 
-### Screenshots & Visuals
+### Screenshots & Visuals *(if the post contains images)*
 - Are UI screenshots current (not from outdated versions)?
 - Do they match the current GitHub/Copilot interface?
 
@@ -135,10 +143,10 @@ Evaluate technical correctness across these dimensions:
 Evaluate content quality and adherence to the "Daily Bites" style:
 
 ### Writing Style: "Daily Bites" Checklist
-- **Paraphrased, not copied:** Is the content told in the author's own words, not copy-pasted from docs?
+- **Paraphrased, not copied:** Is the content told in the author's own words, not copy-pasted from docs? (Compare phrasing against the official docs page fetched in Step 2 — identical or near-identical sentences are a red flag.)
 - **Simplified but deep:** Does it keep technical accuracy while being accessible?
 - **Fun to follow:** Is the tone conversational and engaging ("Here's what I discovered...") or dry and formal?
-- **Quick read:** Is it 500-800 words, scannable, with clear sections?
+- **Quick read:** Is it roughly 500-800 words, scannable, with clear sections? (Estimate word count — flag if significantly over or under.)
 - **Opening hook:** Does it start with why this matters or what problem it solves?
 - **Key insights first:** Are the most important takeaways upfront, not buried?
 - **No filler:** Are phrases like "It's worth noting", "In order to", "One of the key things" avoided?
@@ -162,11 +170,16 @@ Evaluate content quality and adherence to the "Daily Bites" style:
 - **Coverage:** Are all major aspects of the topic addressed?
 - **Examples:** Are there sufficient examples to illustrate concepts?
 - **Actionable takeaway:** Does it end with what the reader can do next?
-- **Documentation link:** Does the post end with a link to official docs?
+- **Documentation link:** Is `<h3>Documentation</h3>` the **last** section inside `<div class="post-body">`? Nothing should follow it.
 
 ### Availability Callout
 - Is there a `<blockquote>` with availability information?
+- Is it positioned **immediately after the opening intro paragraph**, before the first `<h3>` heading?
 - Is it accurate (plans, platforms, availability status)?
+- Does it use the correct wording per plan type?
+  - CLI/SDK features → `All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).`
+  - Coding agent features → `Copilot Pro, Pro+, Business, and Enterprise plans.`
+  - Free-tier features → `All GitHub Copilot plans including Free.`
 
 **Output for this step:**
 - Writing quality issues (if any)
@@ -268,11 +281,12 @@ Return:
 
 ## Batch Audit Mode
 
-If `post = 'all'`, run the audit on all posts in the `posts/` directory and provide:
+When `post = 'all'`, audit every `.html` file in `posts/` and provide:
 
-1. **Summary table:** Post | Date | Quality Rating | Top Issue | Priority
+1. **Summary table:** Post | Date | Quality Rating | Required Elements | Top Issue | Priority
 2. **Posts needing immediate attention** (High severity issues)
 3. **Posts with outdated information** (Currency issues)
-4. **Overall content health** (% posts in each quality tier)
+4. **Required elements violations** (missing availability blockquote, wrong Documentation placement, stale sidebar Recent Posts list)
+5. **Overall content health** (% posts in each quality tier)
 
 Focus on identifying patterns across posts (common issues, systematic problems).
