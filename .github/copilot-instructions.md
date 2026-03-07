@@ -117,7 +117,53 @@ Also update the **Recent Posts** list in the sidebar of every existing post to i
 
 ## Content Guidelines
 
-- Write in clear, direct English. Avoid filler phrases ("It's worth noting that…").
+### Writing Style: "Daily Bites"
+
+The Daily Dose of GHCP is a **fun-to-follow, bite-sized** journal of GitHub Copilot discoveries. Think of each post as a friendly tech tip over coffee — informative but never overwhelming.
+
+**Core Principles:**
+- **Paraphrased, not copied** — Use official docs as the source, but tell the story in your own words
+- **Simplified, not dumbed down** — Keep the technical depth, but make it accessible
+- **Fun to follow** — Conversational tone, clear structure, engaging examples
+- **Quick read** — Aim for 3-5 minute read time (500-800 words)
+
+**Tone & Voice:**
+- Write like you're explaining to a friend: "Here's what I discovered today..."
+- Be enthusiastic but not hyperbolic
+- Use "you" and "we" — keep it conversational
+- Avoid jargon without explanation
+- No corporate speak or marketing fluff
+
+**Structure:**
+- **Opening hook** — Start with why this matters or what problem it solves
+- **Key insight** — Lead with the most important takeaway
+- **Clear sections** — Break complex topics into digestible chunks (use h3 headings)
+- **Examples first** — Show before you explain when possible
+- **Actionable takeaway** — End with what the reader can do next
+
+**What to Avoid:**
+- Copying entire paragraphs from docs (paraphrase and synthesize)
+- Long-winded explanations (get to the point)
+- Filler phrases ("It's worth noting that...", "In order to...", "One of the key things...")
+- Dense walls of text (break it up!)
+- Academic or overly formal language
+
+**Content Depth:**
+- Explain the "why" not just the "what"
+- Include enough technical detail to be useful
+- But prioritize clarity over exhaustiveness
+- Link to official docs for deep dives
+
+**Examples & Illustrations:**
+- Use real-world scenarios
+- Show concrete examples
+- Tables for comparisons, code blocks for commands
+- Keep examples short and focused
+
+---
+
+### Required Elements
+
 - Every post must link to the relevant official GitHub Docs page under a `<h3>Documentation</h3>` heading. This **must be the last section** in every post — nothing should follow it inside `<div class="post-body">`.
 - Verify plan availability from `https://docs.github.com` before writing the availability blockquote.
 - Use `<strong>` for key terms on first use; use `<code>` for all CLI commands, file paths, and code snippets.

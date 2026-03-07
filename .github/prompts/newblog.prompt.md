@@ -1,6 +1,6 @@
 ---
 name: newblog
-description: Create a new blog post for Daily Dose of GHCP, wire it into index.html, and update all existing post sidebars.
+description: Create a new "Daily Bites" blog post for Daily Dose of GHCP — paraphrased, simplified, fun to follow, technically accurate. Wire it into index.html and update all post sidebars.
 agent: agent
 tools:
   - codebase
@@ -19,11 +19,32 @@ argument-hint: "Required: post title, date (DD Month YYYY), category, and docs U
 - **Category:** ${input:category:e.g. Copilot coding agent}
 - **Docs URL:** ${input:docsUrl:https://docs.github.com/...}
 
+## Writing Style: "Daily Bites" 🍔
+
+This is NOT a docs copy-paste exercise. You're creating a **fun-to-follow, bite-sized discovery** that:
+- **Paraphrases** the official docs (use your own words, tell the story your way)
+- **Simplifies** without losing technical depth (accessible, not dumbed down)
+- **Engages** the reader (conversational tone, clear structure, real examples)
+- **Quick read** (3-5 minutes, ~500-800 words)
+
+**Think:** "Here's what I discovered about X today, and here's why it's cool..."
+
+**NOT:** "According to the official documentation, the feature enables users to..."
+
 ## Steps
 
 1. **Fetch the docs page** at the provided URL and extract the key facts, steps, and availability information.
 
-2. **Create the post file** at `posts/<kebab-case-title>.html` using the standard post structure:
+2. **Write the post content** in "Daily Bites" style:
+   - **Opening hook** — Start with why this matters or what problem it solves (1-2 sentences)
+   - **Key insight** — Lead with the most important takeaway
+   - **Paraphrase and simplify** — Explain concepts in your own words, conversationally
+   - **Use examples** — Show real-world scenarios, not just abstract descriptions
+   - **Break it up** — Use h3 headings for clear sections, keep paragraphs short
+   - **Maintain technical accuracy** — Verify all claims against the docs
+   - **Be fun to follow** — Enthusiastic but not hyperbolic, engaging but not fluffy
+
+3. **Create the post file** at `posts/<kebab-case-title>.html` using the standard post structure:
    - Copy the sidebar from an existing post, updating `class="active"` to the new post's link.
    - Add the new post to the **Recent Posts** sidebar list on every existing post file.
    - Include the required availability `<blockquote>` immediately after the opening intro paragraph.
