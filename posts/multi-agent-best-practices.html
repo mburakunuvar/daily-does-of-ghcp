@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Best Practices for Running Multiple GHCP Agents in One Repository — Daily Dose of GHCP</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <img src="../63947536 (1).jpg" alt="Profile icon" class="sidebar-logo-icon" />
+        <span class="sidebar-title">Daily Dose<br/>of GHCP</span>
+      </div>
+      <div class="sidebar-tagline">A daily discovery journal for GitHub Copilot features</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Navigation</div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="../index.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.195v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z"/></svg>
+            All Posts
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title section-toggle" role="button" aria-expanded="true" tabindex="0">
+        Recent Posts
+        <svg class="chevron" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"/></svg>
+      </div>
+      <ul class="sidebar-nav">
+        <li>
+          <a href="multi-agent-best-practices.html" class="active">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Running Multiple GHCP Agents in One Repo
+          </a>
+        </li>
+        <li>
+          <a href="create-github-issues-with-copilot.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Creating GitHub Issues with Copilot
+          </a>
+        </li>
+        <li>
+          <a href="copilot-chat-context.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Managing Context for AI in Copilot Chat
+          </a>
+        </li>
+        <li>
+          <a href="copilot-cli-system-architecture.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Copilot CLI System Architecture Deep Dive
+          </a>
+        </li>
+        <li>
+          <a href="ghcp-across-multiple-surfaces.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            GHCP Across Multiple Surfaces
+          </a>
+        </li>
+        <li>
+          <a href="inside-ghcp.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Inside GHCP: How the Execution Engine Works
+          </a>
+        </li>
+        <li>
+          <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Compaction and Infinite Sessions in CLI and SDK
+          </a>
+        </li>
+        <li>
+          <a href="tracking-coding-agent-sessions.html">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+            Tracking Coding Agent Sessions
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      Built with ❤️ using GitHub Copilot
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <a href="../index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.78 12.53a.75.75 0 0 1-1.06 0L2.47 8.28a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L4.81 7h7.44a.75.75 0 0 1 0 1.5H4.81l2.97 2.97a.75.75 0 0 1 0 1.06Z"/></svg>
+      Back to all posts
+    </a>
+
+    <!-- Post header -->
+    <div class="post-header">
+      <div class="post-meta">
+        <span class="date-badge">07 March 2026</span>
+        <span class="badge">🤖 Copilot coding agent</span>
+        <span class="badge">🧠 Deep Dive</span>
+      </div>
+      <h1 class="post-title">Best Practices for Running Multiple GHCP Agents in One Repository</h1>
+    </div>
+
+    <!-- Post body -->
+    <div class="post-body">
+
+      <p>
+        Running multiple GitHub Copilot agents at the same time — VS Code agents, Cloud agents, and GitHub.com agents — is becoming common in agentic development workflows. But letting 10+ agents loose in one repository without a plan is a recipe for merge conflicts, stale branches, and PR chaos. Here's a layered architecture pattern that keeps things sane.
+      </p>
+
+      <blockquote>
+        <strong>Availability:</strong> Copilot Pro, Pro+, Business, and Enterprise plans.
+      </blockquote>
+
+      <h3>The core problem: uncontrolled parallelism</h3>
+
+      <p>
+        By default, each Copilot coding agent follows the same lifecycle:
+      </p>
+
+      <pre><code>Task → Branch → Commits → Draft PR → Human Review → Merge</code></pre>
+
+      <p>
+        That works fine for a single agent. But when multiple agents run concurrently, they collide:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Branch</th>
+            <th>Touches</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Agent A</td>
+            <td><code>feature/add-api</code></td>
+            <td><code>api.py</code></td>
+          </tr>
+          <tr>
+            <td>Agent B</td>
+            <td><code>feature/add-logging</code></td>
+            <td><code>api.py</code></td>
+          </tr>
+          <tr>
+            <td>Agent C</td>
+            <td><code>feature/refactor-auth</code></td>
+            <td><code>auth.py</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        When Agent A merges first, Agent B's branch becomes stale. CI starts failing on both, and the reviewer queue fills up fast. Git was built for humans working sequentially — not parallel autonomous agents operating at machine speed.
+      </p>
+
+      <h3>Layer 1 — Planner Agent: coordinate before you act</h3>
+
+      <p>
+        The first fix is a <strong>Planner Agent</strong> that decomposes the overall task before any worker agent touches the repo. Think of it as a project manager that assigns non-overlapping work packages:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Assigned Agent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>API logging</td>
+            <td>Agent-Backend</td>
+          </tr>
+          <tr>
+            <td>UI component</td>
+            <td>Agent-Frontend</td>
+          </tr>
+          <tr>
+            <td>Tests</td>
+            <td>Agent-Test</td>
+          </tr>
+          <tr>
+            <td>Documentation</td>
+            <td>Agent-Docs</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The Planner produces a task graph that prevents two agents from being assigned the same files. This single step eliminates most conflicts before any code is written.
+      </p>
+
+      <h3>Layer 2 — Domain ownership: partition the repo</h3>
+
+      <p>
+        Give each agent an exclusive path in the repository. A <strong><code>CODEOWNERS</code></strong> file enforces this at the PR level:
+      </p>
+
+      <pre><code>/frontend/*       @agent-frontend
+/backend/*        @agent-backend
+/infrastructure/* @agent-infra
+/tests/*          @agent-tests
+/docs/*           @agent-docs</code></pre>
+
+      <p>
+        With domain ownership in place, agents can work in parallel without stepping on each other. File-level conflicts drop dramatically because no two agents are allowed in the same directory.
+      </p>
+
+      <h3>Layer 3 — PR queue: serialize the merge</h3>
+
+      <p>
+        Even with domain ownership, merging all agent PRs simultaneously can break the integration branch. A <strong>PR queue</strong> serializes the process:
+      </p>
+
+      <pre><code>Agent PRs → PR Queue → Auto-Rebase → CI Validation → Merge</code></pre>
+
+      <p>
+        Each PR waits its turn. Before merging, it's automatically rebased onto the latest <code>main</code> and validated by CI. A minimal pipeline step looks like this:
+      </p>
+
+      <pre><code>git fetch origin main
+git rebase origin/main
+./run-tests.sh</code></pre>
+
+      <p>
+        The queue prevents the "last PR standing" problem where two agents both think they're merging onto a clean base.
+      </p>
+
+      <h3>Layer 4 — Worktrees: isolate the filesystem</h3>
+
+      <p>
+        For agents that run locally (VS Code agents, CLI agents), use <strong>Git worktrees</strong> to give each agent its own working directory:
+      </p>
+
+      <pre><code>repo/
+ ├── worktree-agent1/
+ ├── worktree-agent2/
+ └── worktree-agent3/</code></pre>
+
+      <p>
+        Worktrees share the same <code>.git</code> database but operate on separate branches and filesystems. No agent can accidentally overwrite another's in-progress changes, and branch management stays clean.
+      </p>
+
+      <h3>Layer 5 — Keep PRs small</h3>
+
+      <p>
+        Large PRs are statistically more likely to fail CI and get rejected. Enforce strict size limits for agent-generated PRs:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Recommended limit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Files modified</td>
+            <td>&lt; 5</td>
+          </tr>
+          <tr>
+            <td>Lines changed</td>
+            <td>&lt; 300</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Small PRs are faster to review, easier to rebase, and less likely to conflict with parallel work.
+      </p>
+
+      <h3>Recommended branch strategy</h3>
+
+      <p>
+        Avoid letting agents open PRs directly to <code>main</code>. Use an integration branch as a buffer:
+      </p>
+
+      <pre><code>copilot/feature-x → integration → main</code></pre>
+
+      <p>
+        Agent PRs target <code>integration</code>. Once validated in batch, <code>integration</code> merges to <code>main</code>. This protects production from any individual agent mistake and allows bulk CI validation before anything reaches the default branch.
+      </p>
+
+      <h3>Putting it all together: 10-agent architecture</h3>
+
+      <pre><code>                  Planner Agent
+                       │
+           ┌───────────┴───────────┐
+           │                       │
+    Backend Agents (3)      Frontend Agents (3)
+           │                       │
+       Test Agents (2)         Docs Agent (1)
+           │
+       Infra Agent (1)
+</code></pre>
+
+      <p>
+        Each group of agents operates in its own domain. The Planner coordinates task assignment. Agent PRs flow through the queue. CI validates. Humans review and merge.
+      </p>
+
+      <h3>Known limitations</h3>
+
+      <p>
+        Even with this architecture in place, multi-agent development has real constraints:
+      </p>
+
+      <ul>
+        <li><strong>Agents don't coordinate with each other</strong> — there's no shared state between running agents.</li>
+        <li><strong>Git assumes sequential commits</strong> — the rebase step is essential but adds latency.</li>
+        <li><strong>PR review becomes the bottleneck</strong> — more agents means more PRs landing simultaneously.</li>
+        <li><strong>CI instability</strong> — concurrent PRs can surface flaky tests that appear only under parallel load.</li>
+      </ul>
+
+      <p>
+        Multi-agent coding is an emerging paradigm. These patterns reduce friction significantly, but they don't eliminate the need for human oversight on the merge queue.
+      </p>
+
+      <h3>Key takeaways</h3>
+
+      <ul>
+        <li>Introduce a <strong>Planner Agent</strong> to decompose tasks before agents start.</li>
+        <li>Enforce <strong>domain ownership</strong> with <code>CODEOWNERS</code> to prevent file-level collisions.</li>
+        <li>Use a <strong>PR queue with auto-rebase</strong> to serialize merges safely.</li>
+        <li>Use <strong>Git worktrees</strong> for filesystem isolation when running agents locally.</li>
+        <li>Keep agent PRs <strong>small</strong> (&lt;5 files, &lt;300 lines) to improve merge success rates.</li>
+        <li>Route agent PRs through an <strong>integration branch</strong> before touching <code>main</code>.</li>
+      </ul>
+
+      <p>
+        Together, these layers typically reduce merge conflicts by 60–80% compared to uncontrolled parallel agent execution.
+      </p>
+
+      <h3>Documentation</h3>
+      <ul>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent" target="_blank" rel="noopener">
+            About the Copilot coding agent ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/using-github-copilot/coding-agent/asking-copilot-to-create-a-pull-request" target="_blank" rel="noopener">
+            Creating pull requests with the Copilot coding agent ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" target="_blank" rel="noopener">
+            About CODEOWNERS ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes/about-pull-request-merges" target="_blank" rel="noopener">
+            About pull request merges ↗
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+  </main>
+</div>
+
+<script src="../script.js"></script>
+</body>
+</html>
