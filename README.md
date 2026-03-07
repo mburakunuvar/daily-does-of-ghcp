@@ -46,6 +46,8 @@ Each post focuses on one specific feature, capability, or architectural detail. 
 - **Copilot SDK** — Programmatic access and extension development
 - **Copilot in UI** — GitHub.com browser features
 - **Copilot coding agent** — Autonomous agent sessions and their management
+- **Tutorials** — Step-by-step walkthroughs for specific Copilot workflows
+- **Lessons Learnt** — Real-world experiences, mistakes, and insights from using Copilot day-to-day
 
 ---
 

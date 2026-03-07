@@ -109,6 +109,14 @@
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25ZM14.5 6h-13v7.25c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25Zm-6-3.5v2h6V2.75a.25.25 0 0 0-.25-.25ZM5 2.5v2h2v-2Zm-3.25 0a.25.25 0 0 0-.25.25V4.5h2v-2Z"/></svg>
           Copilot in UI
         </a></li>
+        <li><a href="javascript:void(0)" data-filter="Tutorials">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"/></svg>
+          Tutorials
+        </a></li>
+        <li><a href="javascript:void(0)" data-filter="Lessons Learnt">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7-3.25v2.636l1.22 1.22a.75.75 0 1 1-1.06 1.06l-1.5-1.5a.749.749 0 0 1-.22-.53V4.75a.75.75 0 0 1 1.5 0Z"/></svg>
+          Lessons Learnt
+        </a></li>
       </ul>
     </div>
 
@@ -169,6 +177,8 @@
       <button class="filter-btn" data-filter="Copilot in UI">Copilot in UI</button>
       <button class="filter-btn" data-filter="Deep Dive">Deep Dive</button>
       <button class="filter-btn" data-filter="Fundamentals">Fundamentals</button>
+      <button class="filter-btn" data-filter="Tutorials">Tutorials</button>
+      <button class="filter-btn" data-filter="Lessons Learnt">Lessons Learnt</button>
     </div>
 
     <!-- Section heading -->
@@ -179,80 +189,6 @@
 
     <!-- Cards grid -->
     <div class="cards-grid" id="cardsGrid">
-
-      <!-- Card: GHCP Across Multiple Surfaces -->
-      <a class="card" href="posts/ghcp-across-multiple-surfaces.html" data-category="Fundamentals">
-        <div class="card-meta">
-          <span class="card-date">27 February 2026</span>
-          <span class="badge">🌐 Fundamentals</span>
-        </div>
-        <div class="card-title">GHCP Across Multiple Surfaces</div>
-        <div class="card-summary">
-          GitHub Copilot doesn't live in one place. Understand the four surfaces — GitHub.com, IDE, CLI,
-          and SDK — and when to reach for each one to get the most from Copilot across your entire workflow.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
-
-      <!-- Card: Copilot Execution Architecture -->
-      <a class="card" href="posts/inside-ghcp.html" data-category="Deep Dive">
-        <div class="card-meta">
-          <span class="card-date">28 February 2026</span>
-          <span class="badge">🧠 Deep Dive</span>
-        </div>
-        <div class="card-title">Inside GHCP: How the Execution Engine Works</div>
-        <div class="card-summary">
-          The LLM is not at the bottom of a linear pipeline — it sits at the centre.
-          Tool calls and context compaction are feedback loops driven by the model itself.
-          Learn the accurate mental model for how Copilot's execution engine operates.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
-
-      <!-- Card: Tracking Coding Agent Sessions -->
-      <a class="card" href="posts/tracking-coding-agent-sessions.html" data-category="Copilot coding agent">
-        <div class="card-meta">
-          <span class="card-date">01 March 2026</span>
-          <span class="badge">🤖 Copilot coding agent</span>
-        </div>
-        <div class="card-title">Tracking Coding Agent Sessions</div>
-        <div class="card-summary">
-          Copilot coding agent sessions run autonomously in the background — and GitHub gives you
-          seven surfaces to watch, steer, and stop them. Learn how to use the agents tab, GitHub CLI,
-          Raycast, VS Code, JetBrains, Eclipse, and GitHub Mobile to stay in control.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
-
-      <!-- Card: Compaction and Infinite Sessions in CLI and SDK -->
-      <a class="card" href="posts/compaction-and-infinite-sessions-in-cli-and-sdk.html" data-category="Copilot CLI, Copilot SDK">
-        <div class="card-meta">
-          <span class="card-date">02 March 2026</span>
-          <span class="badge">💻 Copilot CLI</span>
-        </div>
-        <div class="card-title">Compaction and Infinite Sessions in CLI and SDK</div>
-        <div class="card-summary">
-          Copilot CLI can run long conversations without context-limit anxiety.
-          Learn how compaction/checkpoints work in CLI and how Copilot SDK persists,
-          resumes, and tunes infinite sessions with configurable thresholds.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
-
-      <!-- Card: Copilot CLI System Architecture -->
-      <a class="card" href="posts/copilot-cli-system-architecture.html" data-category="Deep Dive, Copilot CLI">
-        <div class="card-meta">
-          <span class="card-date">04 March 2026</span>
-          <span class="badge">🧠 Deep Dive</span>
-        </div>
-        <div class="card-title">Copilot CLI System Architecture Deep Dive</div>
-        <div class="card-summary">
-          The CLI is a layered, modular agentic system with six primary layers.
-          Understand how input routing, core processing, tool execution, and state management
-          collaborate to enable complex, multi-step terminal-based AI assistance.
-        </div>
-        <span class="card-link">Read more <span class="arrow">→</span></span>
-      </a>
 
       <!-- Card: Creating GitHub Issues with Copilot -->
       <a class="card" href="posts/create-github-issues-with-copilot.html" data-category="Copilot in UI">
@@ -280,6 +216,82 @@
           The quality of Copilot's answers depends entirely on what context it receives.
           Learn how to use #-mentions, @-mentions, codebase search, #fetch, vision input,
           browser elements, and context compaction to keep Copilot on target.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Copilot CLI System Architecture -->
+      <a class="card" href="posts/copilot-cli-system-architecture.html" data-category="Deep Dive, Copilot CLI">
+        <div class="card-meta">
+          <span class="card-date">04 March 2026</span>
+          <span class="badge">🧠 Deep Dive</span>
+          <span class="badge">💻 Copilot CLI</span>
+        </div>
+        <div class="card-title">Copilot CLI System Architecture Deep Dive</div>
+        <div class="card-summary">
+          The CLI is a layered, modular agentic system with six primary layers.
+          Understand how input routing, core processing, tool execution, and state management
+          collaborate to enable complex, multi-step terminal-based AI assistance.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Compaction and Infinite Sessions in CLI and SDK -->
+      <a class="card" href="posts/compaction-and-infinite-sessions-in-cli-and-sdk.html" data-category="Copilot CLI, Copilot SDK">
+        <div class="card-meta">
+          <span class="card-date">02 March 2026</span>
+          <span class="badge">💻 Copilot CLI</span>
+          <span class="badge">📦 Copilot SDK</span>
+        </div>
+        <div class="card-title">Compaction and Infinite Sessions in CLI and SDK</div>
+        <div class="card-summary">
+          Copilot CLI can run long conversations without context-limit anxiety.
+          Learn how compaction/checkpoints work in CLI and how Copilot SDK persists,
+          resumes, and tunes infinite sessions with configurable thresholds.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Tracking Coding Agent Sessions -->
+      <a class="card" href="posts/tracking-coding-agent-sessions.html" data-category="Copilot coding agent">
+        <div class="card-meta">
+          <span class="card-date">01 March 2026</span>
+          <span class="badge">🤖 Copilot coding agent</span>
+        </div>
+        <div class="card-title">Tracking Coding Agent Sessions</div>
+        <div class="card-summary">
+          Copilot coding agent sessions run autonomously in the background — and GitHub gives you
+          seven surfaces to watch, steer, and stop them. Learn how to use the agents tab, GitHub CLI,
+          Raycast, VS Code, JetBrains, Eclipse, and GitHub Mobile to stay in control.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Copilot Execution Architecture -->
+      <a class="card" href="posts/inside-ghcp.html" data-category="Deep Dive">
+        <div class="card-meta">
+          <span class="card-date">28 February 2026</span>
+          <span class="badge">🧠 Deep Dive</span>
+        </div>
+        <div class="card-title">Inside GHCP: How the Execution Engine Works</div>
+        <div class="card-summary">
+          The LLM is not at the bottom of a linear pipeline — it sits at the centre.
+          Tool calls and context compaction are feedback loops driven by the model itself.
+          Learn the accurate mental model for how Copilot's execution engine operates.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: GHCP Across Multiple Surfaces -->
+      <a class="card" href="posts/ghcp-across-multiple-surfaces.html" data-category="Fundamentals">
+        <div class="card-meta">
+          <span class="card-date">27 February 2026</span>
+          <span class="badge">🌐 Fundamentals</span>
+        </div>
+        <div class="card-title">GHCP Across Multiple Surfaces</div>
+        <div class="card-summary">
+          GitHub Copilot doesn't live in one place. Understand the four surfaces — GitHub.com, IDE, CLI,
+          and SDK — and when to reach for each one to get the most from Copilot across your entire workflow.
         </div>
         <span class="card-link">Read more <span class="arrow">→</span></span>
       </a>
