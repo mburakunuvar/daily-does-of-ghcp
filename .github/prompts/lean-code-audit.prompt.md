@@ -1,20 +1,21 @@
 ---
 name: lean-code-audit
-description: Quick audit of HTML/CSS/JS structure — identify improvements for maintainability, consistency, and code quality.
+description: Audit HTML/CSS/JS structure, identify improvements, and implement fixes for maintainability and code quality.
 agent: agent
 tools:
   - codebase
+  - changes
   - problems
 argument-hint: "Optional: specific focus areas (e.g., 'HTML structure', 'CSS organization', 'JS patterns')"
 ---
 
-# Code Quality Audit — Daily Dose of GHCP
+# Code Quality Audit & Fix — Daily Dose of GHCP
 
 > Follow all conventions in [project guidelines](../copilot-instructions.md).
 
 **Focus area:** ${input:focus:Leave blank for general audit, or specify: HTML structure, CSS organization, JS patterns, etc.}
 
-You are performing a code quality audit on a **simple static HTML/CSS/JS blog** (no frameworks, no build tools, no dependencies).
+You are performing a code quality audit on a **simple static HTML/CSS/JS blog** (no frameworks, no build tools, no dependencies), and you will **implement the fixes** you identify.
 
 ## Context
 
@@ -27,18 +28,23 @@ This is a vanilla web project:
 
 ## Goal
 
-Identify quick wins and improvements for:
+1. **Audit** the codebase for quality and consistency issues
+2. **Prioritize** improvements by effort and impact
+3. **Implement** quick wins and high-value fixes
+
+Focus areas:
 - **Consistency** — Repeating patterns across post files (sidebar, structure, metadata)
 - **Maintainability** — Reducing duplication, simplifying structure
 - **Code quality** — Following conventions, improving readability
 - **Accessibility** — Semantic HTML, ARIA where needed, proper heading hierarchy
 
-## Guardrails
+## Workflow
 
-- **Do not modify code yet.** Provide recommendations only.
-- Focus on **practical improvements** that matter for this small static site.
-- Avoid over-engineering (no need for build tools, frameworks, or complex patterns).
-- Recommendations must include **specific file/line references**.
+### Phase 1: Audit (analyze before acting)
+
+**Do not make changes yet.** First, complete the audit and present findings.
+
+Focus on **practical improvements** that matter for this small static site. Avoid over-engineering (no build tools, frameworks, or complex patterns).
 
 ---
 
@@ -96,7 +102,7 @@ Identify low-effort, high-value improvements:
 
 ---
 
-## Output Format
+## Output Format (Phase 1: Audit Report)
 
 Return:
 
@@ -124,8 +130,31 @@ Overall assessment of code quality and consistency.
 ### 3. Quick Wins (Top 5)
 Prioritized list of easiest, highest-value fixes to implement first.
 
-### 4. Recommended Next Action
-Specific first step to improve code quality (e.g., "Add missing availability blockquotes to X posts").
+### 4. Implementation Plan
+Propose what to fix in what order. Group related changes together.
+
+---
+
+## Phase 2: Implementation
+
+**After presenting the audit report**, ask for approval and then:
+
+1. **Start with Quick Wins** — Implement small, safe changes first
+2. **Work in batches** — Group related fixes together (e.g., fix all availability blockquotes, then all broken links)
+3. **Validate as you go** — Check that changes don't break anything
+4. **Report progress** — Summarize what was fixed after each batch
+
+**Implementation approach:**
+- Fix issues in order of effort (small → medium → large)
+- Make surgical edits (don't rewrite entire files unless necessary)
+- Preserve existing structure and patterns
+- Test changes incrementally
+
+**What to avoid:**
+- Making all changes at once without validation
+- Changing things that aren't broken
+- Adding complexity or dependencies
+- Deviating from project conventions
 
 ---
 
