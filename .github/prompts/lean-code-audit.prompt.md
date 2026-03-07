@@ -42,9 +42,33 @@ Focus areas:
 
 ### Phase 1: Audit (analyze before acting)
 
-**Do not make changes yet.** First, complete the audit and present findings.
+**Step 1: Read the codebase**
 
-Focus on **practical improvements** that matter for this small static site. Avoid over-engineering (no build tools, frameworks, or complex patterns).
+Use the available tools to examine files:
+- Use `view` or file reading tools to inspect HTML, CSS, and JS files
+- Start with: `index.html`, `style.css`, `script.js`
+- Sample 2-3 files from `posts/` directory to check consistency
+- Look for patterns, issues, and opportunities for improvement
+
+**Do NOT rely on workspace readers or placeholders.** Actively read files with the tools you have.
+
+**Step 2: Analyze and document findings**
+
+After reading the files, identify and categorize issues. Focus on **practical improvements** that matter for this small static site. Avoid over-engineering (no build tools, frameworks, or complex patterns).
+
+---
+
+## Getting Started
+
+**To begin the audit:**
+
+1. Read `index.html` to understand the main structure
+2. Read `style.css` to see the CSS organization
+3. Read `script.js` to check JS patterns
+4. Read 2-3 sample files from `posts/` to check consistency (e.g., `posts/copilot-cli-system-architecture.html`)
+5. Document findings as you discover them
+
+Use the file reading tools available to you. Do not wait for a workspace summary - actively read each file you need to audit.
 
 ---
 
