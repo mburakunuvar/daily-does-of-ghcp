@@ -1,20 +1,22 @@
 ---
 name: blog-audit
-description: Comprehensive content quality audit for Daily Dose of GHCP blog posts — verify accuracy, currency, structure, and alignment with latest GitHub Copilot documentation and announcements.
+description: Audit blog content for accuracy, currency, and quality, then offer to implement fixes
 agent: agent
 tools:
-  - codebase
+  - search
+  - read
+  - edit
   - fetch
 argument-hint: "Post filename (e.g., copilot-cli-system-architecture.html) or 'all' for batch audit"
 ---
 
-# Blog Content Quality Audit
+# Blog Content Quality Audit & Fix
 
-> Follow all conventions in [project guidelines](../copilot-instructions.md).
+> Follow all conventions in [copilot-instructions.md](../copilot-instructions.md).
 
 **Post to audit:** ${input:post:Enter post filename or 'all' for batch audit}
 
-You are a technical content reviewer and GitHub Copilot expert performing a comprehensive quality audit of blog posts.
+You are a technical content reviewer and GitHub Copilot expert auditing blog post quality.
 
 **Important:** Daily Dose of GHCP follows a "Daily Bites" style:
 - **Paraphrased and simplified** (not copied from docs, but still technically accurate)
@@ -24,23 +26,22 @@ You are a technical content reviewer and GitHub Copilot expert performing a comp
 
 Evaluate posts against this style as well as technical accuracy and currency.
 
-## Goal
+## Workflow
 
-Audit blog posts to ensure they are:
-- **Accurate** — Facts match official GitHub Copilot documentation
-- **Current** — Information reflects the latest releases, features, and announcements
+### Phase 1: Audit
+
+**Read the post(s):**
+1. Use `#read` to examine the specified post(s) in `posts/`
+2. Use `#search` to find patterns or issues across multiple posts
+3. Use `#fetch` to verify against latest GitHub Copilot docs/announcements
+
+**Check for:**
+- **Accuracy** — Facts match official GitHub Copilot documentation
+- **Current** — Information reflects latest releases, features, announcements
 - **Complete** — Covers all major aspects of the topic thoroughly
-- **Clear** — Writing is accessible, well-structured, and easy to understand
+- **Clear** — Writing is accessible, well-structured, easy to understand
 - **Consistent** — Aligns with other posts and follows the style guide
 - **Trustworthy** — Links work, sources are cited, examples are correct
-
-## Guardrails
-
-- **Do not modify content yet.** This is an audit only — provide recommendations.
-- All findings must include **evidence** (specific line numbers, quotes, or examples).
-- Verify information against **multiple authoritative sources** (not assumptions).
-- Prioritize issues by **impact** and **effort** to fix.
-- Flag deprecated features, outdated screenshots, or superseded information.
 
 ---
 
@@ -263,6 +264,17 @@ List top 5-10 recommended changes, ordered by impact:
 - **Quick wins:** What can be fixed immediately (broken links, typos, small updates)?
 - **Medium-term updates:** What needs research or more significant changes?
 - **Consider for rewrite:** Should the post be significantly updated or rewritten?
+
+**Then ask:** "Shall I implement these fixes using the `#edit` tool?"
+
+### Phase 2: Implement (after approval)
+
+1. Start with quick wins (broken links, typos, small text updates)
+2. Use `#edit` tool for content fixes
+3. Use `#fetch` to get latest info for outdated content
+4. Work in small batches
+5. Validate changes against sources
+6. Report what was fixed
 
 ---
 
