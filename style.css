@@ -191,6 +191,56 @@ a:hover { text-decoration: underline; }
   color: var(--sidebar-muted);
 }
 
+/* ── Training Sidebar (Right) ── */
+.training-sidebar {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+  border-left: 1px solid var(--sidebar-active-bg);
+}
+
+.training-sidebar .sidebar-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--sidebar-active-bg);
+}
+
+.training-sidebar .sidebar-section {
+  padding: 16px 20px 8px;
+}
+
+.training-sidebar .sidebar-nav li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--sidebar-text);
+  font-size: 13px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.training-sidebar .sidebar-nav li a:hover {
+  background: var(--sidebar-hover);
+  color: var(--sidebar-active);
+  text-decoration: none;
+}
+
+.training-sidebar .sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--sidebar-active-bg);
+  font-size: 11px;
+  color: var(--sidebar-muted);
+}
+
 .sidebar-nav a.filter-active {
   background: var(--sidebar-active-bg);
   color: var(--sidebar-active);
@@ -203,7 +253,6 @@ a:hover { text-decoration: underline; }
   flex: 1;
   min-width: 0;
   padding: 40px 48px;
-  max-width: 900px;
 }
 
 /* ── Page header ── */
