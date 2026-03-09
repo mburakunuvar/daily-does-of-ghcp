@@ -147,8 +147,8 @@
           <tr>
             <td><strong>GitHub.com</strong></td>
             <td>Browser-native Copilot at <code>github.com/copilot</code> — chat, agents, and project tools without opening an IDE</td>
-            <td>Issue management, coding-agent work, model comparison, rapid prototyping with Spark</td>
-            <td>Core chat: all plans incl. Free; coding agent: Pro/Pro+/Business/Enterprise; Spark: Pro+ and Enterprise (preview)</td>
+              <td>Issue and pull request workflows, coding-agent work, model comparison, lightweight web-based prototyping</td>
+              <td>Core chat: all plans incl. Free; coding agent and code review: Pro/Pro+/Business/Enterprise; Spark: Pro+ and Enterprise (preview)</td>
           </tr>
           <tr>
             <td><strong>IDE</strong></td>
@@ -195,8 +195,12 @@
             <td>Tell Copilot: <em>"Assign yourself to this issue and draft a fix."</em> The agent analyses your codebase, identifies the root cause, and opens a draft pull request — entirely in a remote sandbox.</td>
           </tr>
           <tr>
-            <td><strong>Prototype with GitHub Spark</strong></td>
-            <td>Scaffold working code snippets and components, preview them live, and share via URL — without opening VS Code.</td>
+            <td><strong>Review pull requests with Copilot</strong></td>
+            <td>Request Copilot as a reviewer on GitHub.com to get fast comments, suggested fixes, and a handoff path into Copilot coding agent when you want the feedback implemented.</td>
+          </tr>
+          <tr>
+            <td><strong>Prototype and preview ideas</strong></td>
+            <td>Use GitHub.com's browser-first surfaces to scaffold small experiments, preview results, and share progress without switching into a desktop editor.</td>
           </tr>
           <tr>
             <td><strong>Switch AI models</strong></td>
@@ -283,6 +287,13 @@
         <code>winget install GitHub.Copilot</code>). Sessions persist on disk and automatic context
         compaction enables very long-running tasks — see the
         <a href="compaction-and-infinite-sessions-in-cli-and-sdk.html">Compaction and Infinite Sessions in CLI and SDK</a> post for details.
+      </p>
+
+      <p>
+        One important naming cleanup: this is <strong>not</strong> the old <code>gh-copilot</code>
+        GitHub CLI extension. That extension was deprecated in October 2025 and replaced by the newer
+        Copilot CLI, which is much more capable: instead of only suggesting commands, it can plan work,
+        edit files, interact with GitHub.com, and keep long-running sessions alive locally in your terminal.
       </p>
 
       <table>
@@ -449,6 +460,21 @@
         <li>
           <a href="https://docs.github.com/en/copilot/get-started/plans" target="_blank" rel="noopener">
             Plans for GitHub Copilot (feature availability) ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/request-a-code-review/use-code-review?tool=webui" target="_blank" rel="noopener">
+            Using GitHub Copilot code review on GitHub.com ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli" target="_blank" rel="noopener">
+            About GitHub Copilot CLI ↗
+          </a>
+        </li>
+        <li>
+          <a href="https://github.blog/changelog/2025-09-25-upcoming-deprecation-of-gh-copilot-cli-extension/" target="_blank" rel="noopener">
+            Upcoming deprecation of gh-copilot CLI extension ↗
           </a>
         </li>
         <li>
