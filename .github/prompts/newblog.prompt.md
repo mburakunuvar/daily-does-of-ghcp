@@ -6,7 +6,7 @@ tools:
   - search
   - read
   - edit
-  - fetch
+  - web/fetch
   - vscode/askQuestions
 ---
 
@@ -34,7 +34,7 @@ After receiving the inputs, determine the following automatically:
 
 ## Step 2: Research
 
-1. Use `#tool:fetch` to retrieve each URL the user provided. Extract key facts, steps, availability info, and important details.
+1. Use `#tool:web/fetch` to retrieve each URL the user provided. Extract key facts, steps, availability info, and important details.
 2. Use `#tool:read` to examine an existing post (e.g. `posts/copilot-internal-architecture.html`) to get the exact sidebar structure and HTML template.
 3. Use `#tool:read` to examine `index.html` to get the current cards grid structure and filter buttons.
 

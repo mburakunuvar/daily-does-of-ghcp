@@ -6,7 +6,7 @@ tools:
   - search
   - read
   - edit
-  - fetch
+  - web/fetch
   - vscode/askQuestions
 ---
 
@@ -50,7 +50,7 @@ For each post, extract and document:
 
 ## Step 3: Source Verification
 
-Use `#tool:fetch` to verify against the latest information from these authoritative sources:
+Use `#tool:web/fetch` to verify against the latest information from these authoritative sources:
 
 - **GitHub Copilot Docs:** https://docs.github.com/en/copilot
 - **GitHub Changelog (Copilot):** https://github.blog/changelog/label/copilot/
@@ -116,7 +116,7 @@ Top 5-10 recommended changes, ordered by impact. List quick wins first.
 
 1. Start with quick wins (broken links, typos, small text updates)
 2. Use `#tool:edit` for content fixes
-3. Use `#tool:fetch` to get latest info for outdated content
+3. Use `#tool:web/fetch` to get latest info for outdated content
 4. Work in small batches
 5. Validate changes against sources
 6. Report what was fixed
