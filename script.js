@@ -35,30 +35,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const cards = document.querySelectorAll('[data-category]');
 
   if (filterBtns.length && cards.length) {
+    const applyFilter = filter => {
+      filterBtns.forEach(b => b.classList.remove('filter-active'));
+      document.querySelectorAll(`[data-filter="${filter}"]`).forEach(el => el.classList.add('filter-active'));
+
+      cards.forEach(card => {
+        const categories = (card.dataset.category || '')
+          .split(',')
+          .map(value => value.trim())
+          .filter(Boolean);
+
+        if (filter === 'all' || categories.includes(filter)) {
+          card.style.display = '';
+          card.style.animation = 'fadeIn 0.25s ease';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    };
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
-
-        // Sync active state across all matching filter elements (pills + sidebar links)
-        filterBtns.forEach(b => b.classList.remove('filter-active'));
-        document.querySelectorAll(`[data-filter="${filter}"]`).forEach(el => el.classList.add('filter-active'));
-
-        // Show / hide cards
-        cards.forEach(card => {
-          const categories = (card.dataset.category || '')
-            .split(',')
-            .map(value => value.trim())
-            .filter(Boolean);
-
-          if (filter === 'all' || categories.includes(filter)) {
-            card.style.display = '';
-            card.style.animation = 'fadeIn 0.25s ease';
-          } else {
-            card.style.display = 'none';
-          }
-        });
+        applyFilter(btn.dataset.filter);
       });
     });
+
+    const initialFilter = new URLSearchParams(window.location.search).get('category');
+    const hasMatchingFilter = initialFilter && Array.from(filterBtns).some(btn => btn.dataset.filter === initialFilter);
+    applyFilter(hasMatchingFilter ? initialFilter : 'all');
   }
 
   // ── Mobile burger-menu toggle ─────────────────────────────────────────────

@@ -7,16 +7,20 @@ tools:
   - read
   - edit
   - fetch
-argument-hint: "Post filename (e.g., copilot-cli-system-architecture.html) or 'all' for batch audit"
+  - vscode/askQuestions
 ---
 
 # Blog Content Quality Audit & Fix
 
 > Follow all conventions in [copilot-instructions.md](../copilot-instructions.md).
 
-**Post to audit:** ${input:post:Enter post filename or 'all' for batch audit}
-
 You are a technical content reviewer and GitHub Copilot expert auditing blog post quality.
+
+## Step 1: Gather Input
+
+Use the `#tool:vscode/askQuestions` tool to ask the user:
+
+1. **Which post to audit** — a specific filename (e.g. `copilot-cli-system-architecture.html`) or `all` for a batch audit of every post
 
 **Important:** Daily Dose of GHCP follows a "Daily Bites" style:
 - **Paraphrased and simplified** (not copied from docs, but still technically accurate)
@@ -26,47 +30,16 @@ You are a technical content reviewer and GitHub Copilot expert auditing blog pos
 
 Evaluate posts against this style as well as technical accuracy and currency.
 
-## Workflow
+## Step 2: Content Inventory
 
-### Phase 1: Audit
+Use `#tool:read` to examine the specified post(s) in `posts/`.
 
-**Read the post(s):**
-1. Use `#read` to examine the specified post(s) in `posts/`
-2. Use `#search` to find patterns or issues across multiple posts
-3. Use `#fetch` to verify against latest GitHub Copilot docs/announcements
+For each post, extract and document:
 
-**Check for:**
-- **Accuracy** — Facts match official GitHub Copilot documentation
-- **Current** — Information reflects latest releases, features, announcements
-- **Complete** — Covers all major aspects of the topic thoroughly
-- **Clear** — Writing is accessible, well-structured, easy to understand
-- **Consistent** — Aligns with other posts and follows the style guide
-- **Trustworthy** — Links work, sources are cited, examples are correct
-
----
-
-## Step 1: Content Inventory
-
-For the specified post(s), extract and document:
-
-1. **Post metadata:**
-   - Title
-   - Date published
-   - Category/badge
-   - Primary topic
-
-2. **Sources cited:**
-   - List all external links (docs, blog posts, GitHub URLs)
-   - Note which official GitHub resources are referenced
-
-3. **Content structure:**
-   - Main sections (h3 headings)
-   - Tables, code blocks, blockquotes
-   - Availability callout (if present)
-
-4. **Scope assessment:**
-   - What specific Copilot feature/surface/workflow is covered?
-   - What's the intended audience level (beginner, intermediate, advanced)?
+1. **Post metadata:** Title, date, category/badge, primary topic
+2. **Sources cited:** All external links (docs, blog posts, GitHub URLs)
+3. **Content structure:** Main sections (h3 headings), tables, code blocks, blockquotes
+4. **Scope assessment:** What Copilot feature is covered? Audience level?
 
 5. **Project-required elements (verify all are present and correctly placed):**
    - [ ] Availability `<blockquote>` — immediately after the opening intro paragraph, before the first `<h3>`
@@ -75,230 +48,86 @@ For the specified post(s), extract and document:
    - [ ] `<a class="btn-back">` — present before the post header
    - [ ] Post `data-category` on the index card — matches the badge label in the post
 
----
+## Step 3: Source Verification
 
-## Step 2: Source Verification
+Use `#tool:fetch` to verify against the latest information from these authoritative sources:
 
-Fetch and review the latest information from these authoritative sources:
-
-### Primary Documentation
 - **GitHub Copilot Docs:** https://docs.github.com/en/copilot
-- Search for the topic/feature covered in the post
-- Note if the current docs differ from what's described in the post
-
-### Announcements & Updates
 - **GitHub Changelog (Copilot):** https://github.blog/changelog/label/copilot/
 - **GitHub Blog (Copilot tag):** https://github.blog/tag/github-copilot/
-- Check for recent announcements (last 3-6 months) that affect this topic
-
-### Feature Pages
-- **GitHub Copilot Features:** https://github.com/features/copilot
 - **Copilot Plans & Pricing:** https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot
-- Verify availability claims and plan tiers match current documentation
 
-### Community Resources
-- **GitHub Community Discussions:** https://github.com/orgs/community/discussions (copilot tag)
-- Check for common questions or clarifications related to the topic
+Note any discrepancies between the post content and current docs/announcements.
 
-### Release Notes *(if applicable)*
-- **Copilot Release Notes:** https://docs.github.com/en/copilot/release-notes
-- Check for version-specific information if the post mentions features tied to a specific release
+## Step 4: Technical Accuracy Review
 
-**Output for this step:**
-- List of sources checked
-- Summary of any discrepancies found
-- New information available since the post was published
+Evaluate technical correctness:
 
----
+- **Feature descriptions** — capabilities described accurately? Limitations mentioned?
+- **Availability details** — correct plans, surfaces, regions?
+- **Commands & code** — examples work as shown? Syntax up-to-date?
+- **Links & references** — all working? Pointing to current (not archived) pages?
 
-## Step 3: Technical Accuracy Review
+## Step 5: Quality Assessment
 
-Evaluate technical correctness across these dimensions:
+Evaluate content quality and "Daily Bites" style adherence:
 
-### Feature Descriptions
-- Are feature capabilities described accurately?
-- Are limitations or caveats mentioned where relevant?
-- Are availability details correct (plans, surfaces, regions)?
-
-### Commands & Code
-- Do code examples/commands work as shown?
-- Are file paths, syntax, or APIs up-to-date?
-- Are there better/newer ways to accomplish the same task?
-
-### Screenshots & Visuals *(if the post contains images)*
-- Are UI screenshots current (not from outdated versions)?
-- Do they match the current GitHub/Copilot interface?
-
-### Links & References
-- Do all external links work?
-- Do they point to the current docs (not archived/redirected pages)?
-- Are there newer/better resources to link to?
-
-**Output for this step:**
-- Table of accuracy issues found (Description | Evidence | Impact | Recommendation)
-
----
-
-## Step 4: Quality Assessment
-
-Evaluate content quality and adherence to the "Daily Bites" style:
-
-### Writing Style: "Daily Bites" Checklist
-- **Paraphrased, not copied:** Is the content told in the author's own words, not copy-pasted from docs? (Compare phrasing against the official docs page fetched in Step 2 — identical or near-identical sentences are a red flag.)
-- **Simplified but deep:** Does it keep technical accuracy while being accessible?
-- **Fun to follow:** Is the tone conversational and engaging ("Here's what I discovered...") or dry and formal?
-- **Quick read:** Is it roughly 500-800 words, scannable, with clear sections? (Estimate word count — flag if significantly over or under.)
-- **Opening hook:** Does it start with why this matters or what problem it solves?
-- **Key insights first:** Are the most important takeaways upfront, not buried?
-- **No filler:** Are phrases like "It's worth noting", "In order to", "One of the key things" avoided?
-
-### Writing Quality
-- **Clarity:** Is the writing clear and concise? Any jargon explained?
-- **Flow:** Does the post have a logical progression? Does each section build on the last?
-- **Tone:** Conversational and enthusiastic, not corporate or marketing-speak?
-- **Grammar & spelling:** Any errors or typos?
-- **Examples:** Real-world scenarios that illustrate concepts?
+### Writing Style
+- **Paraphrased, not copied:** Content in author's own words? (Compare against fetched docs — identical sentences are a red flag.)
+- **Simplified but deep:** Technical accuracy maintained while accessible?
+- **Fun to follow:** Conversational and engaging, not dry or formal?
+- **Quick read:** Roughly 500-800 words, scannable, clear sections?
+- **Opening hook:** Starts with why this matters or what problem it solves?
+- **No filler:** Avoids "It's worth noting", "In order to", "One of the key things"?
 
 ### Structure & Formatting
-- **Headings:** Are h3 headings used consistently?
-- **Paragraphs:** Are they short and digestible (not dense walls of text)?
-- **Lists:** Are they formatted correctly (ul/ol)?
-- **Tables:** Used appropriately for comparisons?
-- **Code blocks:** Properly formatted with `<code>` or `<pre>`?
-
-### Completeness
-- **Introduction:** Does it set context effectively with a hook?
-- **Coverage:** Are all major aspects of the topic addressed?
-- **Examples:** Are there sufficient examples to illustrate concepts?
-- **Actionable takeaway:** Does it end with what the reader can do next?
-- **Documentation link:** Is `<h3>Documentation</h3>` the **last** section inside `<div class="post-body">`? Nothing should follow it.
+- Headings: h3 used consistently?
+- Paragraphs: short and digestible?
+- Tables: used for comparisons?
+- Code blocks: properly formatted?
 
 ### Availability Callout
-- Is there a `<blockquote>` with availability information?
-- Is it positioned **immediately after the opening intro paragraph**, before the first `<h3>` heading?
-- Is it accurate (plans, platforms, availability status)?
-- Does it use the correct wording per plan type?
+- Present as `<blockquote>` immediately after intro, before first `<h3>`?
+- Uses correct wording per plan type:
   - CLI/SDK features → `All GitHub Copilot paid plans (Pro, Pro+, Business, and Enterprise).`
   - Coding agent features → `Copilot Pro, Pro+, Business, and Enterprise plans.`
   - Free-tier features → `All GitHub Copilot plans including Free.`
 
-**Output for this step:**
-- Writing quality issues (if any)
-- "Daily Bites" style violations (docs copy-paste, too formal, too long, etc.)
-- Structural improvements
-- Gaps in coverage
-
----
-
-## Step 5: Up-to-Date Check
-
-Identify outdated or deprecated information:
-
-### Feature Status
-- Has the feature been updated, renamed, or deprecated since publication?
-- Are there new capabilities not mentioned in the post?
-- Has availability changed (GA vs. beta, new plans, new surfaces)?
-
-### Best Practices
-- Do recommendations still align with current best practices?
-- Are there newer, better approaches?
-
-### Version-Specific Information
-- If the post mentions specific versions/dates, are they still relevant?
-- Should version-specific information be generalized or updated?
-
-### Screenshots & UI References
-- Do screenshots show current UI or outdated interfaces?
-- Have UI labels, menus, or workflows changed?
-
-**Output for this step:**
-- List of outdated information (What's outdated | Current state | Update needed)
-
----
-
-## Step 6: Recommendations & Action Items
-
-Synthesize findings into actionable recommendations:
+## Step 6: Present Findings
 
 ### Executive Summary
-Provide a 3-5 sentence overall assessment:
-- Overall quality rating (Excellent / Good / Needs Update / Requires Rewrite)
-- Top 2-3 strengths
-- Top 2-3 issues to address
+3-5 sentence overall assessment with quality rating (Excellent / Good / Needs Update / Requires Rewrite).
 
 ### Findings Table
 
-| Category | Issue | Evidence | Severity | Effort | Recommendation |
-|----------|-------|----------|----------|--------|----------------|
-| ... | ... | ... | High/Med/Low | S/M/L | ... |
+| Category | Issue | Severity | Effort | Recommendation |
+|----------|-------|----------|--------|----------------|
+| ... | ... | High/Med/Low | S/M/L | ... |
 
-**Categories:**
-- Technical Accuracy
-- Currency (up-to-date)
-- Completeness
-- Clarity & Writing
-- Structure & Formatting
-- Links & References
-- Consistency
-- Examples & Code
-
-**Severity:**
-- **High:** Incorrect/misleading information, broken critical functionality
-- **Medium:** Outdated but not incorrect, missing important context
-- **Low:** Minor improvements, polish, nice-to-haves
-
-**Effort:**
-- **S (Small):** < 30 min (fix link, update date, minor text change)
-- **M (Medium):** 30 min - 2 hours (rewrite section, add examples, update screenshot)
-- **L (Large):** > 2 hours (significant restructure, new research, multiple sections)
+**Severity:** High = incorrect/misleading, Medium = outdated but not wrong, Low = minor polish.
+**Effort:** S = quick fix, M = section rewrite, L = significant restructure.
 
 ### Prioritized Action Items
+Top 5-10 recommended changes, ordered by impact. List quick wins first.
 
-List top 5-10 recommended changes, ordered by impact:
+**Then use `#tool:vscode/askQuestions` to ask:** "Shall I implement these fixes?"
 
-1. **[High Impact, Small Effort]** Issue description → Specific action
-2. ...
-
-### Suggested Next Steps
-
-- **Quick wins:** What can be fixed immediately (broken links, typos, small updates)?
-- **Medium-term updates:** What needs research or more significant changes?
-- **Consider for rewrite:** Should the post be significantly updated or rewritten?
-
-**Then ask:** "Shall I implement these fixes using the `#edit` tool?"
-
-### Phase 2: Implement (after approval)
+## Step 7: Implement (after approval)
 
 1. Start with quick wins (broken links, typos, small text updates)
-2. Use `#edit` tool for content fixes
-3. Use `#fetch` to get latest info for outdated content
+2. Use `#tool:edit` for content fixes
+3. Use `#tool:fetch` to get latest info for outdated content
 4. Work in small batches
 5. Validate changes against sources
 6. Report what was fixed
 
----
-
-## Output Format
-
-Return:
-
-1. **Executive Summary** (overall assessment)
-2. **Source Verification Results** (what was checked, what's changed)
-3. **Findings Table** (all issues categorized)
-4. **Up-to-Date Status** (is the content current?)
-5. **Prioritized Action Items** (top 5-10 recommendations)
-6. **Next Steps** (quick wins, medium-term, long-term)
-
----
-
 ## Batch Audit Mode
 
-When `post = 'all'`, audit every `.html` file in `posts/` and provide:
+When auditing `all` posts, use `#tool:search` to find all HTML files in `posts/` and provide:
 
 1. **Summary table:** Post | Date | Quality Rating | Required Elements | Top Issue | Priority
 2. **Posts needing immediate attention** (High severity issues)
-3. **Posts with outdated information** (Currency issues)
-4. **Required elements violations** (missing availability blockquote, wrong Documentation placement, stale sidebar Recent Posts list)
-5. **Overall content health** (% posts in each quality tier)
+3. **Required elements violations** (missing availability blockquote, wrong Documentation placement, stale sidebar)
+4. **Overall content health** (% posts in each quality tier)
 
 Focus on identifying patterns across posts (common issues, systematic problems).
