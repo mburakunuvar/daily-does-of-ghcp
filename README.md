@@ -29,13 +29,13 @@ Each post focuses on one specific feature, capability, or architectural detail. 
 
 | Date | Title | Category |
 |------|-------|----------|
-| 27 Feb 2026 | [GHCP Across Multiple Surfaces](posts/ghcp-across-multiple-surfaces.html) | 🌐 Fundamentals |
-| 28 Feb 2026 | [Inside GHCP: How the Execution Engine Works](posts/inside-ghcp.html) | 🧠 Deep Dive |
-| 01 Mar 2026 | [Tracking Coding Agent Sessions](posts/tracking-coding-agent-sessions.html) | 🤖 Copilot coding agent |
-| 02 Mar 2026 | [Compaction and Infinite Sessions in CLI and SDK](posts/compaction-and-infinite-sessions-in-cli-and-sdk.html) | 💻 Copilot CLI / 📦 Copilot SDK |
-| 04 Mar 2026 | [Copilot CLI System Architecture Deep Dive](posts/copilot-cli-system-architecture.html) | 🧠 Deep Dive / 💻 Copilot CLI |
-| 05 Mar 2026 | [Managing Context for AI in Copilot Chat](posts/copilot-chat-context.html) | 💬 Copilot in IDE |
-| 06 Mar 2026 | [Creating GitHub Issues with Copilot](posts/create-github-issues-with-copilot.html) | 🖥️ Copilot in UI |
+| 01 Mar 2026 | [GHCP Across Multiple Surfaces](posts/ghcp-across-multiple-surfaces.html) | 🌐 Fundamentals |
+| 02 Mar 2026 | [Inside GHCP: How the Execution Engine Works](posts/inside-ghcp.html) | 🧠 Deep Dive |
+| 03 Mar 2026 | [Tracking Coding Agent Sessions](posts/tracking-coding-agent-sessions.html) | 🤖 Copilot coding agent |
+| 04 Mar 2026 | [Compaction and Infinite Sessions in CLI and SDK](posts/compaction-and-infinite-sessions-in-cli-and-sdk.html) | 💻 Copilot CLI / 📦 Copilot SDK |
+| 06 Mar 2026 | [Copilot CLI System Architecture Deep Dive](posts/copilot-cli-system-architecture.html) | 🧠 Deep Dive / 💻 Copilot CLI |
+| 07 Mar 2026 | [Managing Context for AI in Copilot Chat](posts/copilot-chat-context.html) | 💬 Copilot in IDE |
+| 08 Mar 2026 | [Creating GitHub Issues with Copilot](posts/create-github-issues-with-copilot.html) | 🖥️ Copilot in UI |
 
 ### Categories
 
