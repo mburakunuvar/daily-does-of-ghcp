@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GitHub Copilot for Azure — Daily Dose of GHCP</title>
+  <title>Autopilot in IDE and CLI - Daily Dose of GHCP</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -60,7 +60,7 @@
       <div class="sidebar-section-title">Recent Posts</div>
       <ul class="sidebar-nav">
         <li>
-          <a href="autopilot-in-ide-and-cli.html">
+          <a href="autopilot-in-ide-and-cli.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
             Autopilot in IDE and CLI
           </a>
@@ -134,154 +134,130 @@
     <!-- Post header -->
     <div class="post-header">
       <div class="post-meta">
-        <span class="date-badge">12 March 2026</span>
-        <span class="badge">💬 Copilot in IDE</span>
+        <span class="date-badge">22 March 2026</span>
+        <span class="badge">🌐 Fundamentals</span>
       </div>
-      <h1 class="post-title">GitHub Copilot for Azure</h1>
+      <h1 class="post-title">Autopilot in IDE and CLI</h1>
     </div>
 
     <!-- Post body -->
     <div class="post-body">
 
       <p>
-        If plain GitHub Copilot helps you write code faster, <strong>GitHub Copilot for Azure</strong>
-        helps you stay in flow once the conversation turns cloud-specific. Instead of breaking your rhythm
-        to hunt through the Azure portal, memorize <code>az</code> commands, or cross-check Microsoft Learn,
-        you can ask natural-language questions inside your IDE and let Copilot pull Azure-aware context into the answer.
+        If you have seen <strong>Autopilot</strong> in VS Code and then switched to terminal workflows,
+        it is easy to assume everything means the same thing. It does not. In the IDE, Autopilot is
+        mainly a permission-and-autonomy behavior inside chat sessions. In the CLI, Autopilot is a
+        distinct execution mode that keeps running until the task is done, blocked, or interrupted.
       </p>
 
       <blockquote>
-        <strong>Availability:</strong> Requires a GitHub Copilot subscription and access to an Azure subscription.
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
       </blockquote>
 
-      <h3>What changes when Azure enters the chat</h3>
+      <h3>The key insight before we compare</h3>
       <p>
-        The big idea is simple: this is not a separate chat window with generic cloud advice. GitHub Copilot for Azure
-        supplements the base model with <strong>tool calling</strong> through the <strong>Azure MCP Server</strong>, so it can do more than explain concepts.
-        It can inspect your Azure context, generate commands, recommend templates, and help reason about live resources.
+        The clean mental model is this: <strong>Agent</strong> describes who is doing the work,
+        while <strong>Autopilot</strong> describes how independently that work runs. In VS Code,
+        you choose an agent (Ask, Plan, Agent) and then choose a permission level.
+        Autopilot (Preview) is one of those permission levels. In CLI, Autopilot is a dedicated mode
+        you switch to, and you can combine it with permission flags such as <code>--yolo</code>.
       </p>
 
-      <p>
-        That matters because Azure work usually has two moving parts: the code you are writing and the infrastructure it depends on.
-        A regular coding assistant can help with the app. This Azure-aware layer starts helping with the cloud side too.
-      </p>
-
-      <h3>Where it runs today</h3>
-      <p>
-        The current docs call out three supported environments. <strong>Visual Studio Code</strong> is generally available,
-        <strong>Visual Studio 2022</strong> is in public preview, and <strong>Visual Studio 2026</strong> has built-in support with the right Azure workload installed.
-        In practice, that makes this feel like an <strong>IDE-native Copilot experience</strong>, not a standalone Azure assistant.
-      </p>
-
+      <h3>IDE chart: Autopilot vs Agent mode</h3>
       <table>
         <thead>
           <tr>
-            <th>Environment</th>
-            <th>Status</th>
-            <th>What you get</th>
+            <th>Dimension</th>
+            <th>Agent mode (IDE)</th>
+            <th>Autopilot (Preview, IDE)</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>VS Code</strong></td>
-            <td>General availability</td>
-            <td>GitHub Copilot chat plus Azure MCP tools and Azure-focused modes</td>
+            <td><strong>What it is</strong></td>
+            <td>Built-in agent that plans and implements edits across files.</td>
+            <td>A permission level that makes the agent continue with minimal interruption.</td>
           </tr>
           <tr>
-            <td><strong>Visual Studio 2022</strong></td>
-            <td>Public preview</td>
-            <td>Copilot chat with Azure tooling surfaced in the IDE</td>
+            <td><strong>Tool approvals</strong></td>
+            <td>Depends on your selected approval level.</td>
+            <td>Auto-approves all tool calls.</td>
           </tr>
           <tr>
-            <td><strong>Visual Studio 2026</strong></td>
-            <td>General availability</td>
-            <td>Built-in Azure support through the Azure and AI development workload</td>
+            <td><strong>Questions to user</strong></td>
+            <td>Can still ask clarifying questions.</td>
+            <td>Auto-responds to questions to keep momentum.</td>
+          </tr>
+          <tr>
+            <td><strong>Interaction pattern</strong></td>
+            <td>More collaborative, frequent human checkpoints.</td>
+            <td>More hands-off, keeps running until task completion conditions are met.</td>
+          </tr>
+          <tr>
+            <td><strong>Best use case</strong></td>
+            <td>Exploratory or evolving tasks where you want frequent control.</td>
+            <td>Well-defined tasks where you want speed and fewer interruptions.</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>The four scenarios that make it useful</h3>
+      <h3>CLI chart: Autopilot vs yolo/allow-all vs no-ask-user</h3>
       <p>
-        Microsoft groups the experience into four recurring jobs: <strong>learn</strong>, <strong>design and develop</strong>, <strong>deploy</strong>, and <strong>troubleshoot</strong>.
-        That framing is surprisingly practical because it mirrors how Azure work actually shows up during a day.
+        In the terminal, many people treat these as interchangeable. They are related, but they solve
+        different problems.
       </p>
-
       <table>
         <thead>
           <tr>
-            <th>Scenario</th>
-            <th>Example prompt</th>
-            <th>Why it helps</th>
+            <th>Option</th>
+            <th>Primary purpose</th>
+            <th>What changes</th>
+            <th>What does NOT change</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Learn</strong></td>
-            <td><em>"What Azure services should I use for a RAG app?"</em></td>
-            <td>Pulls in current Azure guidance without forcing you to leave the editor</td>
+            <td><strong>Autopilot mode</strong></td>
+            <td>Execution autonomy</td>
+            <td>Keeps taking successive steps without waiting for your next prompt.</td>
+            <td>Does not automatically grant all permissions unless you also allow them.</td>
           </tr>
           <tr>
-            <td><strong>Design and develop</strong></td>
-            <td><em>"Help me build a Python API for Azure Functions."</em></td>
-            <td>Connects application code decisions to Azure-specific services and templates</td>
+            <td><strong><code>--allow-all</code> / <code>--yolo</code></strong></td>
+            <td>Permission policy</td>
+            <td>Allows tools, paths, and URLs without approval prompts.</td>
+            <td>You are still in normal interactive flow unless Autopilot is also enabled.</td>
           </tr>
           <tr>
-            <td><strong>Deploy</strong></td>
-            <td><em>"Can you help me deploy this app to Azure?"</em></td>
-            <td>Generates deployable steps, commands, and infrastructure guidance</td>
-          </tr>
-          <tr>
-            <td><strong>Troubleshoot</strong></td>
-            <td><em>"Why is my website returning 500 errors on Azure?"</em></td>
-            <td>Uses logs, telemetry, and Azure-aware tools to narrow the problem faster</td>
+            <td><strong><code>--no-ask-user</code></strong></td>
+            <td>Question suppression</td>
+            <td>Suppresses clarifying questions; agent decides without asking.</td>
+            <td>Does not provide full autopilot-style autonomous continuation.</td>
           </tr>
         </tbody>
       </table>
 
-      <h3>Small prompt habit, big difference</h3>
+      <h3>A practical setup that works</h3>
       <p>
-        One detail from the docs is easy to miss and worth keeping: include the word <strong>Azure</strong> in your prompt.
-        That hint helps the model choose the Azure MCP tools instead of answering from general coding context alone.
-        If you are in agent mode, the docs also recommend starting with constraints like <em>"Don't take any action until I authorize it"</em>
-        and asking for a step-by-step plan before execution.
+        For predictable tasks, start with a plan first, then hand off execution. In IDE,
+        this means Plan then Agent with the permission level you are comfortable with.
+        In CLI, it usually means <code>--autopilot</code> with explicit limits like
+        <code>--max-autopilot-continues</code>, and permissions chosen intentionally
+        (<code>--yolo</code> only when you trust the directory and task).
       </p>
-
       <p>
-        That is a good default for anything cloud-facing. Resource changes, subscriptions, cost impact, and security boundaries are not the place for vague prompts and blind trust.
-        Use Copilot for speed, but keep a human review loop around anything that could create, change, or remove Azure resources.
+        If the task is ambiguous, stay interactive and steer frequently. The more open-ended
+        the requirement, the less benefit you get from full autonomy and the more value you get
+        from checkpoints.
       </p>
-
-      <h3>Getting started without overthinking it</h3>
-      <p>
-        The shortest path is: install the extension in VS Code, sign in to Azure, open Copilot Chat, and ask a concrete Azure question.
-        A good first test is something like <code>Do I have any Azure resources currently running?</code> or <code>What are your tools?</code>
-        If the answers mention Azure-specific tools, you are wired up correctly.
-      </p>
-
-      <p>
-        From there, move from read-only prompts into more operational ones: generate an <code>az</code> command, ask for a Bicep starting point,
-        or troubleshoot a slow app. That progression gives you a quick sense of where the feature saves real time and where you still want to verify details manually.
-      </p>
-
-      <h3>GHCP + Azure</h3>
-      <p><strong>AI Toolkit for VS Code:</strong> This extension helps you build, test, and deploy AI applications on Azure from inside VS Code with Copilot-assisted workflows.</p>
-      <p><strong>GitHub Copilot for Azure:</strong> This is the Azure-aware Copilot layer that brings chat, agent flows, and MCP-backed Azure tooling into your development environment.</p>
-      <p><strong>Upgrade Assistants Java/.NET:</strong> These assistants help modernize Java and .NET applications by guiding framework and platform upgrades with Copilot in the loop.</p>
-      <p><strong>App Modernization:</strong> This workflow focuses on migrating and modernizing existing applications from on-premises environments into Azure services.</p>
-      <p><strong>Azure Load Testing:</strong> This integration helps you generate test cases and run load tests so you can evaluate performance before or after deployment.</p>
 
       <h3>Documentation</h3>
       <ul>
-        <li>
-          <a href="https://learn.microsoft.com/en-us/azure/developer/github-copilot-azure/introduction?tabs=vscode" target="_blank" rel="noopener">
-            What is GitHub Copilot for Azure? ↗
-          </a>
-        </li>
-        <li>
-          <a href="https://learn.microsoft.com/en-us/azure/developer/github-copilot-azure/get-started" target="_blank" rel="noopener">
-            Get started with GitHub Copilot for Azure ↗
-          </a>
-        </li>
+        <li><a href="https://code.visualstudio.com/updates/v1_111#_autopilot-preview" target="_blank" rel="noopener">VS Code 1.111 - Autopilot (Preview) announcement ↗</a></li>
+        <li><a href="https://code.visualstudio.com/docs/copilot/chat/copilot-chat#_choose-a-permission-level" target="_blank" rel="noopener">VS Code Chat: permission levels and Autopilot ↗</a></li>
+        <li><a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot" target="_blank" rel="noopener">GitHub Docs: Copilot CLI Autopilot mode ↗</a></li>
+        <li><a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/about-copilot-cli" target="_blank" rel="noopener">GitHub Docs: About Copilot CLI (availability) ↗</a></li>
+        <li><a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference" target="_blank" rel="noopener">GitHub Docs: CLI command reference (<code>--yolo</code>, <code>--no-ask-user</code>) ↗</a></li>
       </ul>
 
     </div>
