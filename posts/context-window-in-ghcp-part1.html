@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Best Practices for Running Multiple GHCP Agents in One Repository — Daily Dose of GHCP</title>
+  <title>Context Window in GHCP Part 1 - Daily Dose of GHCP</title>
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
 
 <div class="layout">
 
-  <!-- ── Sidebar ── -->
+  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-logo">
@@ -66,7 +66,7 @@
           </a>
         </li>
         <li>
-          <a href="context-window-in-ghcp-part1.html">
+          <a href="context-window-in-ghcp-part1.html" class="active">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
             Context Window in GHCP Part 1
           </a>
@@ -135,7 +135,7 @@
     </div>
   </aside>
 
-  <!-- ── Main ── -->
+  <!-- Main -->
   <main class="main">
 
     <a href="../index.html" class="btn-back">
@@ -143,274 +143,265 @@
       Back to all posts
     </a>
 
-    <!-- Post header -->
     <div class="post-header">
       <div class="post-meta">
-        <span class="date-badge">09 March 2026</span>
-        <span class="badge">📘 BestPractices&LessonsLearnt</span>
+        <span class="date-badge">23 March 2026</span>
+        <span class="badge">🧠 Deep Dive</span>
       </div>
-      <h1 class="post-title">Best Practices for Running Multiple GHCP Agents in One Repository</h1>
+      <h1 class="post-title">Context Window in GHCP Part 1</h1>
     </div>
 
-    <!-- Post body -->
     <div class="post-body">
 
       <p>
-        Running multiple GitHub Copilot agents at the same time — VS Code agents, Cloud agents, and GitHub.com agents — is becoming common in agentic development workflows. But letting 10+ agents loose in one repository without a plan is a recipe for merge conflicts, stale branches, and PR chaos. Here's a layered architecture pattern that keeps things sane.
+        Think of a <strong>context window</strong> as the working memory of an LLM. Every time you send a message
+        to an AI model, it doesn't just see your latest prompt — it sees everything: the conversation history,
+        any files or code you've referenced, system instructions, and tool call results. All of that gets packed
+        into a single block of text and handed to the model at once. The context window is the maximum size of
+        that block, measured in <strong>tokens</strong> (roughly 3–4 characters per token in English).
+      </p>
+
+      <p>
+        Once you hit the limit, the model can't see older parts of the conversation. It's not that the AI
+        "forgets" — it's that the information is simply no longer included in what gets sent to the model.
+        This makes the context window one of the most important factors in how well an AI can handle long,
+        complex tasks.
       </p>
 
       <blockquote>
-        <strong>Availability:</strong> Copilot Pro, Pro+, Business, and Enterprise plans.
+        <strong>Availability:</strong> All GitHub Copilot plans including Free.
       </blockquote>
 
-      <h3>The core problem: uncontrolled parallelism</h3>
+      <h3>Why it matters even more for agents</h3>
 
       <p>
-        By default, each Copilot coding agent follows the same lifecycle:
+        In a standard chat, the context window mostly holds your back-and-forth messages. But in
+        <strong>agentic workflows</strong> — where the model autonomously plans, uses tools, reads files,
+        and executes code — the context fills up much faster. Every tool call, every file read, every search
+        result gets appended to the window. A task that seems simple ("refactor this codebase") can easily
+        balloon into tens of thousands of tokens before the model even writes a line of code.
       </p>
 
-      <pre><code>Task → Branch → Commits → Draft PR → Human Review → Merge</code></pre>
-
       <p>
-        That works fine for a single agent. But when multiple agents run concurrently, they collide:
+        This is why larger context windows are a game-changer for AI agents: they can hold more history,
+        reference more files, and maintain coherent reasoning across longer task chains without losing sight
+        of what they started out to do.
       </p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Agent</th>
-            <th>Branch</th>
-            <th>Touches</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Agent A</td>
-            <td><code>feature/add-api</code></td>
-            <td><code>api.py</code></td>
-          </tr>
-          <tr>
-            <td>Agent B</td>
-            <td><code>feature/add-logging</code></td>
-            <td><code>api.py</code></td>
-          </tr>
-          <tr>
-            <td>Agent C</td>
-            <td><code>feature/refactor-auth</code></td>
-            <td><code>auth.py</code></td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>Model context windows in GitHub Copilot</h3>
 
       <p>
-        When Agent A merges first, Agent B's branch becomes stale. CI starts failing on both, and the reviewer queue fills up fast. Git was built for humans working sequentially — not parallel autonomous agents operating at machine speed.
-      </p>
-
-      <h3>Layer 1 — Planner Agent: coordinate before you act</h3>
-
-      <p>
-        The first fix is a <strong>Planner Agent</strong> that decomposes the overall task before any worker agent touches the repo. Think of it as a project manager that assigns non-overlapping work packages:
+        GitHub Copilot's context window depends on the underlying model selected. As of early 2026, the
+        available models and their context windows are:
       </p>
 
       <table>
         <thead>
           <tr>
-            <th>Task</th>
-            <th>Assigned Agent</th>
+            <th>Model</th>
+            <th>Context Window</th>
+            <th>Notes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>API logging</td>
-            <td>Agent-Backend</td>
+            <td>Claude Sonnet 4.6</td>
+            <td>200K tokens</td>
+            <td>Most widely used default model</td>
           </tr>
           <tr>
-            <td>UI component</td>
-            <td>Agent-Frontend</td>
+            <td>Claude Opus 4.6</td>
+            <td>200K tokens</td>
+            <td></td>
           </tr>
           <tr>
-            <td>Tests</td>
-            <td>Agent-Test</td>
+            <td>Gemini 3.1 Pro (Preview)</td>
+            <td>200K tokens</td>
+            <td></td>
           </tr>
           <tr>
-            <td>Documentation</td>
-            <td>Agent-Docs</td>
+            <td>GPT-5.2</td>
+            <td>400K tokens</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>GPT-5.2-Codex</td>
+            <td>400K tokens</td>
+            <td></td>
           </tr>
         </tbody>
       </table>
 
-      <p>
-        The Planner produces a task graph that prevents two agents from being assigned the same files. This single step eliminates most conflicts before any code is written.
-      </p>
-
-      <h3>Layer 2 — Domain ownership: partition the repo</h3>
-
-      <p>
-        Give each agent an exclusive path in the repository. A <strong><code>CODEOWNERS</code></strong> file enforces this at the PR level:
-      </p>
-
-      <pre><code>/frontend/*       @agent-frontend
-/backend/*        @agent-backend
-/infrastructure/* @agent-infra
-/tests/*          @agent-tests
-/docs/*           @agent-docs</code></pre>
-
-      <p>
-        With domain ownership in place, agents can work in parallel without stepping on each other. File-level conflicts drop dramatically because no two agents are allowed in the same directory.
-      </p>
-
-      <h3>Layer 3 — PR queue: serialize the merge</h3>
-
-      <p>
-        Even with domain ownership, merging all agent PRs simultaneously can break the integration branch. A <strong>PR queue</strong> serializes the process:
-      </p>
-
-      <pre><code>Agent PRs → PR Queue → Auto-Rebase → CI Validation → Merge</code></pre>
-
-      <p>
-        Each PR waits its turn. Before merging, it's automatically rebased onto the latest <code>main</code> and validated by CI. A minimal pipeline step looks like this:
-      </p>
-
-      <pre><code>git fetch origin main
-git rebase origin/main
-./run-tests.sh</code></pre>
-
-      <p>
-        The queue prevents the "last PR standing" problem where two agents both think they're merging onto a clean base.
-      </p>
-
-      <h3>Layer 4 — Worktrees: isolate the filesystem</h3>
-
-      <p>
-        For agents that run locally (VS Code agents, CLI agents), use <strong>Git worktrees</strong> to give each agent its own working directory:
-      </p>
-
-      <pre><code>repo/
- ├── worktree-agent1/
- ├── worktree-agent2/
- └── worktree-agent3/</code></pre>
-
-      <p>
-        Worktrees share the same <code>.git</code> database but operate on separate branches and filesystems. No agent can accidentally overwrite another's in-progress changes, and branch management stays clean.
-      </p>
-
-      <h3>Layer 5 — Keep PRs small</h3>
-
-      <p>
-        Large PRs are statistically more likely to fail CI and get rejected. Enforce strict size limits for agent-generated PRs:
-      </p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Recommended limit</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Files modified</td>
-            <td>&lt; 5</td>
-          </tr>
-          <tr>
-            <td>Lines changed</td>
-            <td>&lt; 300</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p>
-        Small PRs are faster to review, easier to rebase, and less likely to conflict with parallel work.
-      </p>
-
-      <h3>Recommended branch strategy</h3>
-
-      <p>
-        Avoid letting agents open PRs directly to <code>main</code>. Use an integration branch as a buffer:
-      </p>
-
-      <pre><code>copilot/feature-x → integration → main</code></pre>
-
-      <p>
-        Agent PRs target <code>integration</code>. Once validated in batch, <code>integration</code> merges to <code>main</code>. This protects production from any individual agent mistake and allows bulk CI validation before anything reaches the default branch.
-      </p>
-
-      <h3>Putting it all together: 10-agent architecture</h3>
-
-      <pre><code>                  Planner Agent
-                       │
-           ┌───────────┴───────────┐
-           │                       │
-    Backend Agents (3)      Frontend Agents (3)
-           │                       │
-       Test Agents (2)         Docs Agent (1)
-           │
-       Infra Agent (1)
-</code></pre>
-
-      <p>
-        Each group of agents operates in its own domain. The Planner coordinates task assignment. Agent PRs flow through the queue. CI validates. Humans review and merge.
-      </p>
-
-      <h3>Known limitations</h3>
-
-      <p>
-        Even with this architecture in place, multi-agent development has real constraints:
-      </p>
+      <h3>How Copilot uses context across surfaces</h3>
 
       <ul>
-        <li><strong>Agents don't coordinate with each other</strong> — there's no shared state between running agents.</li>
-        <li><strong>Git assumes sequential commits</strong> — the rebase step is essential but adds latency.</li>
-        <li><strong>PR review becomes the bottleneck</strong> — more agents means more PRs landing simultaneously.</li>
-        <li><strong>CI instability</strong> — concurrent PRs can surface flaky tests that appear only under parallel load.</li>
+        <li><strong>In the IDE (Chat):</strong> Copilot assembles context from your open file, referenced files (<code>#file</code>), workspace symbols, and conversation history — all within the model's limit.</li>
+        <li><strong>In the CLI (agent mode):</strong> Context is managed automatically; long sessions use <strong>compaction</strong> to summarize older turns and stay within the window rather than truncating.</li>
+        <li><strong>Coding agent:</strong> Uses the model's full window, with the conversation + tool call history counted against it.</li>
       </ul>
 
       <p>
-        Multi-agent coding is an emerging paradigm. These patterns reduce friction significantly, but they don't eliminate the need for human oversight on the merge queue.
+        The model you pick directly determines how much code, files, and chat history can fit in a single
+        request. For large codebases, models with bigger windows (GPT-5.2, GPT-5.2-Codex) are generally
+        more effective.
       </p>
 
-      <h3>Key takeaways</h3>
-
-      <ul>
-        <li>Introduce a <strong>Planner Agent</strong> to decompose tasks before agents start.</li>
-        <li>Enforce <strong>domain ownership</strong> with <code>CODEOWNERS</code> to prevent file-level collisions.</li>
-        <li>Use a <strong>PR queue with auto-rebase</strong> to serialize merges safely.</li>
-        <li>Use <strong>Git worktrees</strong> for filesystem isolation when running agents locally.</li>
-        <li>Keep agent PRs <strong>small</strong> (&lt;5 files, &lt;300 lines) to improve merge success rates.</li>
-        <li>Route agent PRs through an <strong>integration branch</strong> before touching <code>main</code>.</li>
-      </ul>
+      <h3>What sources of context are included</h3>
 
       <p>
-        Together, these layers typically reduce merge conflicts by 60–80% compared to uncontrolled parallel agent execution.
+        Copilot draws from multiple sources depending on the surface (inline, chat, or agent mode):
       </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Source</th>
+            <th>Included in?</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Current open file</td>
+            <td>Always</td>
+            <td>Full file or truncated around cursor</td>
+          </tr>
+          <tr>
+            <td>Cursor position / surrounding code</td>
+            <td>Always</td>
+            <td>Lines immediately before/after the cursor</td>
+          </tr>
+          <tr>
+            <td>Recent conversation history</td>
+            <td>Chat &amp; Agent</td>
+            <td>All prior turns in the session</td>
+          </tr>
+          <tr>
+            <td><code>#file</code> references</td>
+            <td>When explicitly added</td>
+            <td>Full file content injected</td>
+          </tr>
+          <tr>
+            <td><code>#codebase</code> / workspace index</td>
+            <td>When invoked</td>
+            <td>Semantically retrieved snippets, not full codebase</td>
+          </tr>
+          <tr>
+            <td>System prompt / instructions</td>
+            <td>Always</td>
+            <td><code>copilot-instructions.md</code>, <code>.instructions.md</code> files</td>
+          </tr>
+          <tr>
+            <td>Tool call history</td>
+            <td>Agent mode only</td>
+            <td>Each tool result is appended to context</td>
+          </tr>
+          <tr>
+            <td>Repository structure / symbol index</td>
+            <td>Chat &amp; Agent</td>
+            <td>Used to resolve references, not always injected verbatim</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>How context is selected and filtered</h3>
+
+      <p>
+        Copilot does <strong>not</strong> dump your entire codebase into the prompt. Instead it uses a
+        layered selection strategy:
+      </p>
+
+      <ul>
+        <li><strong>Proximity:</strong> Code near the cursor is always prioritized. Lines far from the cursor may be omitted in inline completions.</li>
+        <li><strong>Semantic search (RAG):</strong> When <code>#codebase</code> is used, Copilot indexes your workspace using embeddings and retrieves the most semantically relevant snippets — it doesn't scan files linearly.</li>
+        <li><strong>Explicit references win:</strong> Anything you explicitly add via <code>#file</code>, <code>#selection</code>, or <code>#codebase</code> is guaranteed to be included, up to token budget.</li>
+        <li><strong>Recency bias in conversation:</strong> Older turns may be summarized or dropped when the context window fills up in a long session.</li>
+        <li><strong>Instructions files are high-priority:</strong> Content from <code>copilot-instructions.md</code> and scoped <code>.instructions.md</code> files are injected early in the prompt, before user messages.</li>
+      </ul>
+
+      <h3>Model context window vs. effective context</h3>
+
+      <p>This is the key distinction that trips people up:</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Model Context Window</th>
+            <th>Copilot's Effective Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What it is</td>
+            <td>Hard limit set by the model</td>
+            <td>What Copilot actually sends</td>
+          </tr>
+          <tr>
+            <td>Who controls it</td>
+            <td>Model provider (OpenAI, Anthropic, Google)</td>
+            <td>GitHub / Copilot extension</td>
+          </tr>
+          <tr>
+            <td>Size</td>
+            <td>200K–400K tokens</td>
+            <td>Approximately 10K–40K tokens for inline; more for agent</td>
+          </tr>
+          <tr>
+            <td>Contents</td>
+            <td>Everything in the prompt</td>
+            <td>A curated subset</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Even if the model supports 200K tokens, Copilot may only send approximately 20K–50K in a typical
+        inline or chat interaction. This is intentional: <strong>latency, cost, and relevance</strong> all
+        improve when the prompt is tighter.
+      </p>
+
+      <h3>Pros and cons of a smaller effective context</h3>
+
+      <p><strong>Pros:</strong></p>
+      <ul>
+        <li><strong>Faster responses</strong> — Smaller prompts mean less time for the model to process, which matters for inline completions where you expect sub-second latency.</li>
+        <li><strong>Lower cost</strong> — Fewer tokens = fewer compute cycles, which keeps Copilot's per-user cost sustainable.</li>
+        <li><strong>Better signal-to-noise</strong> — A curated, relevant prompt often produces better completions than a massive prompt full of unrelated code.</li>
+        <li><strong>Prevents distraction</strong> — LLMs can lose focus ("lost in the middle" problem) when given very long contexts; shorter, focused prompts tend to yield more precise suggestions.</li>
+      </ul>
+
+      <p><strong>Cons:</strong></p>
+      <ul>
+        <li><strong>May miss relevant code</strong> — If Copilot's selection logic doesn't surface the right files, the model gives suggestions without the relevant context.</li>
+        <li><strong>No guarantee of full file awareness</strong> — In inline mode, Copilot may not include your entire file if it's large enough.</li>
+        <li><strong>Black box selection</strong> — Developers can't always see what was included in the prompt, making it hard to debug why a suggestion was wrong.</li>
+        <li><strong>Agent mode burns context faster</strong> — Each tool call appends to the window; complex tasks can exhaust context before they complete.</li>
+      </ul>
+
+      <h3>Practical implications for large codebases</h3>
+
+      <ul>
+        <li><strong>Use <code>#file</code> explicitly</strong> — Don't assume Copilot knows about a file. Reference it directly to guarantee inclusion.</li>
+        <li><strong>Use <code>#codebase</code> for exploration, <code>#file</code> for precision</strong> — Semantic search is great for discovery; explicit references are reliable for generation.</li>
+        <li><strong>Keep <code>copilot-instructions.md</code> concise</strong> — It's injected into every request; bloated instructions eat into your useful token budget.</li>
+        <li><strong>Break large agent tasks into smaller steps</strong> — Shorter tasks = less accumulated context = more room for tool results and model reasoning.</li>
+        <li><strong>Choose models with larger windows for complex tasks</strong> — For multi-file refactors or long agent sessions, models with 200K–400K windows give you more runway before compaction kicks in.</li>
+        <li><strong>Compaction in CLI/SDK is automatic, not lossless</strong> — When a CLI session compacts, older turns are summarized. If precise earlier details matter, reference them explicitly before they get summarized.</li>
+      </ul>
 
       <h3>Documentation</h3>
-      <ul>
-        <li>
-          <a href="https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent" target="_blank" rel="noopener">
-            About the Copilot coding agent ↗
-          </a>
-        </li>
-        <li>
-          <a href="https://docs.github.com/en/copilot/using-github-copilot/coding-agent/asking-copilot-to-create-a-pull-request" target="_blank" rel="noopener">
-            Creating pull requests with the Copilot coding agent ↗
-          </a>
-        </li>
-        <li>
-          <a href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" target="_blank" rel="noopener">
-            About CODEOWNERS ↗
-          </a>
-        </li>
-        <li>
-          <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes/about-pull-request-merges" target="_blank" rel="noopener">
-            About pull request merges ↗
-          </a>
-        </li>
-      </ul>
+      <p>
+        <a href="https://docs.github.com/en/copilot/using-github-copilot/asking-github-copilot-questions-in-your-ide" target="_blank" rel="noopener noreferrer">Asking GitHub Copilot questions in your IDE — GitHub Docs</a>
+      </p>
+      <p>
+        <a href="https://docs.github.com/en/copilot/managing-copilot/managing-github-copilot-in-your-organization/managing-the-copilot-policy-for-your-organization" target="_blank" rel="noopener noreferrer">Managing Copilot policies — GitHub Docs</a>
+      </p>
 
     </div>
 
   </main>
+
 </div>
 
 <script src="../script.js"></script>
