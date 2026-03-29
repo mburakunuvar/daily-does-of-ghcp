@@ -709,3 +709,45 @@ a:hover { text-decoration: underline; }
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* ── Hierarchical sidebar categories ── */
+.sidebar-subnav {
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 4px 16px;
+}
+.sidebar-subnav li a {
+  font-size: 12px;
+  padding: 4px 10px;
+  color: var(--sidebar-muted);
+}
+.sidebar-subnav .sidebar-subnav {
+  margin-left: 14px;
+}
+.sidebar-subnav .sidebar-subnav li a {
+  font-size: 11px;
+  padding: 3px 10px;
+}
+
+/* ── Hierarchical filter bar groups ── */
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.filter-btn-sub {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  opacity: 0.88;
+}
+.filter-btn-subsub {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  opacity: 0.75;
+}

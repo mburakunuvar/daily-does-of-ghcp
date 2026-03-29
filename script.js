@@ -35,7 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const cards = document.querySelectorAll('[data-category]');
 
   if (filterBtns.length && cards.length) {
+    const categoryParents = {
+      'Fundamentals': ['Fundamentals', 'Copilot in IDE', 'Copilot in UI', 'Copilot CLI', 'Copilot SDK', 'Copilot coding agent'],
+      'Copilot in UI': ['Copilot in UI', 'Copilot coding agent'],
+    };
+
     const applyFilter = filter => {
+      const matchCategories = categoryParents[filter] || [filter];
       filterBtns.forEach(b => b.classList.remove('filter-active'));
       document.querySelectorAll(`[data-filter="${filter}"]`).forEach(el => el.classList.add('filter-active'));
 
@@ -45,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .map(value => value.trim())
           .filter(Boolean);
 
-        if (filter === 'all' || categories.includes(filter)) {
+        if (filter === 'all' || categories.some(cat => matchCategories.includes(cat))) {
           card.style.display = '';
           card.style.animation = 'fadeIn 0.25s ease';
         } else {
