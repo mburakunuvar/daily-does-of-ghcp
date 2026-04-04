@@ -29,7 +29,7 @@ Each post focuses on one specific feature, capability, or architectural detail. 
 
 | Date | Title | Category |
 |------|-------|----------|
-| 01 Mar 2026 | [GHCP Across Multiple Surfaces](posts/ghcp-across-multiple-surfaces.html) | 🌐 Fundamentals |
+| 01 Mar 2026 | [GHCP Across Multiple Surfaces](posts/ghcp-across-multiple-surfaces.html) | 🌐 Beginners |
 | 02 Mar 2026 | [Inside GHCP: How the Execution Engine Works](posts/inside-ghcp.html) | 🧠 Deep Dive |
 | 03 Mar 2026 | [Tracking Coding Agent Sessions](posts/tracking-coding-agent-sessions.html) | 🤖 Copilot coding agent |
 | 04 Mar 2026 | [Compaction and Infinite Sessions in CLI and SDK](posts/compaction-and-infinite-sessions-in-cli-and-sdk.html) | 💻 Copilot CLI / 📦 Copilot SDK |
@@ -39,7 +39,7 @@ Each post focuses on one specific feature, capability, or architectural detail. 
 
 ### Categories
 
-- **Fundamentals** — Core concepts every Copilot user should know
+- **Beginners** — Core concepts every Copilot user should know
 - **Deep Dive** — Architecture and internals
 - **Copilot in IDE** — VS Code, JetBrains, and editor-side features
 - **Copilot CLI** — `gh copilot` and terminal-based workflows
