@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spec-Driven Development with GitHub Copilot and Spec Kit — Daily Dose of GHCP</title>
+  <meta name="description" content="Without a shared source of truth, requirements drift and AI-generated code misses the mark. Learn how Spec-Driven Development with GitHub Spec Kit gives GitHub Copilot the structure it needs to generate production-ready code that stays aligned with intent from day one." />
+  <meta property="og:title" content="Spec-Driven Development with GitHub Copilot and Spec Kit" />
+  <meta property="og:description" content="GitHub Spec Kit transforms your specifications into technical plans and implementation tasks — giving you production-ready code that stays aligned with intent from day one." />
+  <meta property="og:image" content="../images/spec-driven-development-with-github-copilot.png" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    /* ─── Custom properties ─────────────────────────────────────────── */
+    :root {
+      --bg:            #ffffff;
+      --bg-subtle:     #f8fafc;
+      --bg-secondary:  #e8f1fb;
+      --accent:        #e07b1a;
+      --accent-light:  #fef3e7;
+      --text:          #1f2328;
+      --text-secondary:#57606a;
+      --link:          #0550ae;
+      --link-hover:    #033d8a;
+      --border:        #d0d7de;
+      --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color:      var(--text);
+      background: var(--bg-subtle);
+      line-height: 1.7;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ─── Nav bar ────────────────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-back:hover {
+      background: var(--bg-secondary);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* ─── Page layout ────────────────────────────────────────────────── */
+    .page-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 36px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 210px;
+      grid-template-areas: "article toc";
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* ─── Article shell ──────────────────────────────────────────────── */
+    article {
+      grid-area: article;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ─── Hero image ─────────────────────────────────────────────────── */
+    .hero-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── Hero body ───────────────────────────────────────────────────── */
+    .hero-body {
+      padding: 30px 40px 26px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to bottom, #f8fafc, #ffffff);
+    }
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+    .date-badge {
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-secondary);
+      color: var(--link);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .badge {
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .post-title {
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .post-summary {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    .author-row {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .author-row strong { color: var(--text); }
+
+    /* ─── Post body ──────────────────────────────────────────────────── */
+    .post-body {
+      padding: 36px 40px 48px;
+    }
+
+    .post-body h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 14px;
+      padding-left: 14px;
+      border-left: 4px solid var(--accent);
+      line-height: 1.3;
+    }
+    .post-body h2:first-child { margin-top: 0; }
+
+    .post-body h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 26px 0 10px;
+    }
+
+    .post-body p {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .post-body ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 18px;
+    }
+    .post-body ul li {
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 8px;
+      padding-left: 22px;
+      position: relative;
+    }
+    .post-body ul li::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .post-body strong { font-weight: 700; color: var(--text); }
+    .post-body em { font-style: italic; }
+
+    .post-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .post-body pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin-bottom: 18px;
+    }
+    .post-body pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+
+    /* ─── Table ──────────────────────────────────────────────────────── */
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 14.5px;
+    }
+    .post-body th {
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .post-body td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .post-body tr:nth-child(even) td { background: var(--bg-subtle); }
+
+    /* ─── Section image ──────────────────────────────────────────────── */
+    .section-image {
+      margin: 24px 0 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .section-image img { width: 100%; }
+    .section-image figcaption {
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    /* ─── Step cards ─────────────────────────────────────────────────── */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .step-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-text {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      padding-top: 4px;
+    }
+    .step-text strong { color: var(--text); }
+
+    /* ─── Callout box ────────────────────────────────────────────────── */
+    .callout {
+      background: #eef4fb;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 8px 0 24px;
+    }
+    .callout-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .callout p {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 0 !important;
+    }
+    .callout ul {
+      margin-bottom: 0 !important;
+    }
+    .callout ul li {
+      font-size: 15px !important;
+    }
+
+    /* ─── Summary cards ──────────────────────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .summary-card {
+      background: var(--bg-secondary);
+      border: 1px solid #c5d8f0;
+      border-radius: 10px;
+      padding: 18px 18px 16px;
+    }
+    .summary-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .summary-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 0 !important;
+    }
+
+    /* ─── References ─────────────────────────────────────────────────── */
+    .references-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .references-list li {
+      padding-left: 0 !important;
+      margin-bottom: 10px !important;
+    }
+    .references-list li::before { display: none !important; }
+    .references-list a {
+      font-size: 14.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .references-list a::before {
+      content: '↗';
+      font-size: 13px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ─── AI note ────────────────────────────────────────────────────── */
+    .ai-note {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ─── Table of contents ──────────────────────────────────────────── */
+    .toc-aside {
+      grid-area: toc;
+      position: sticky;
+      top: 68px;
+      align-self: start;
+    }
+    .toc-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .toc-list li a {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: block;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      line-height: 1.4;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .toc-list li a:hover,
+    .toc-list li a.active {
+      background: var(--bg-secondary);
+      color: var(--text);
+      border-left-color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-areas: "article";
+        padding: 20px 16px 60px;
+        gap: 0;
+      }
+      .toc-aside { display: none; }
+      .hero-body  { padding: 22px 22px 20px; }
+      .post-body  { padding: 26px 22px 40px; }
+      .post-title { font-size: 22px; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .hero-body { padding: 18px 16px; }
+      .post-body { padding: 20px 16px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav bar ─────────────────────────────────────────────────────── -->
+  <nav class="site-nav">
+    <a href="../index.html" class="btn-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      All Posts
+    </a>
+  </nav>
+
+  <!-- ── Page wrapper ────────────────────────────────────────────────── -->
+  <div class="page-wrapper">
+
+    <!-- ── Article ───────────────────────────────────────────────────── -->
+    <article>
+
+      <!-- Hero image -->
+      <img
+        src="../images/spec-driven-development-with-github-copilot.png"
+        alt="Spec-Driven Development with GitHub Copilot and Spec Kit"
+        class="hero-image"
+      />
+
+      <!-- Hero body -->
+      <div class="hero-body">
+        <div class="post-meta">
+          <span class="date-badge">Apr 5, 2026</span>
+          <span class="badge">🚀 Advanced</span>
+        </div>
+        <h1 class="post-title">Spec-Driven Development with GitHub Copilot and Spec Kit</h1>
+        <p class="post-summary">
+          Without a shared source of truth, requirements drift and AI-generated code misses the mark.
+          By adopting Spec-Driven Development with GitHub Spec Kit, GitHub Copilot transforms your
+          specifications into technical plans and implementation tasks — giving you production-ready
+          code that stays aligned with intent from day one.
+        </p>
+        <div class="tag-list">
+          <span class="tag">GitHub Copilot</span>
+          <span class="tag">Spec Kit</span>
+          <span class="tag">Spec-Driven Development</span>
+          <span class="tag">Agent mode</span>
+          <span class="tag">Enterprise</span>
+        </div>
+        <div class="author-row">by <strong>Burak Unuvar</strong> · 20 min read</div>
+      </div>
+
+      <!-- Post body -->
+      <div class="post-body">
+
+        <!-- ── Section 1 ─────────────────────────────────────────────── -->
+        <h2 id="what-is-sdd">What Is Spec-Driven Development?</h2>
+        <p>
+          Spec-Driven Development (SDD) is a structured approach to software development that treats
+          specifications as executable sources of truth rather than throwaway planning documents. In
+          traditional development, code is king — specifications serve code, often becoming outdated
+          as implementation evolves. SDD inverts this relationship: specifications become the primary
+          artifact, and code serves specifications.
+        </p>
+        <p>This paradigm shift is what makes AI-assisted development reliable at scale. Four core principles define SDD:</p>
+        <ul>
+          <li><strong>Specifications as the primary artifact.</strong> The spec is the central source of truth. Code becomes its expression in a particular language and framework. Maintaining software means evolving specifications, not just patching code.</li>
+          <li><strong>Executable specifications.</strong> Specs must be precise, complete, and unambiguous enough to generate working systems. This precision eliminates the gap between intent and implementation.</li>
+          <li><strong>Living documentation.</strong> Debugging means fixing specifications that generate incorrect code. Refactoring means restructuring specs for clarity. Specifications remain synchronized with implementation.</li>
+          <li><strong>AI-human collaboration.</strong> AI transforms specs to code, but raw generation without structure produces chaos. SDD provides that structure through well-defined specifications and implementation plans.</li>
+        </ul>
+        <p>Every SDD workflow flows through exactly four phases, each producing artifacts that feed into the next:</p>
+        <div class="step-list">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-text"><strong>Specify.</strong> Define what the software should do and why — user stories, acceptance criteria, requirements, and edge cases.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-text"><strong>Plan.</strong> Decide how to build it — architecture, technology stack, and implementation approach.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-text"><strong>Tasks.</strong> Break the plan into discrete, actionable development tasks organized by phase.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-text"><strong>Implement.</strong> Write code guided by the spec, plan, and task list; verify each task against the specification.</div>
+          </div>
+        </div>
+        <p>
+          Each phase produces artifacts that feed into the next, creating a traceable path from
+          requirements to working code.
+        </p>
+
+        <!-- ── Section 2 ─────────────────────────────────────────────── -->
+        <h2 id="enterprise-value">Why SDD Matters for Enterprise Teams</h2>
+        <p>Three converging trends make SDD essential for enterprise teams today:</p>
+        <ul>
+          <li><strong>AI capabilities.</strong> Natural language specifications can now reliably generate working code, automating the mechanical translation from specification to implementation. The bottleneck has shifted from writing code to defining intent clearly.</li>
+          <li><strong>Software complexity.</strong> Modern systems integrate dozens of services, frameworks, and dependencies. SDD provides systematic alignment through specification-driven generation, preventing architectural drift across long projects or multiple developers.</li>
+          <li><strong>Pace of change.</strong> Requirements change rapidly. SDD transforms requirement changes from obstacles into a normal workflow — update the spec, and affected artifacts regenerate systematically rather than being patched into code without updating documentation.</li>
+        </ul>
+        <p>For enterprise developers specifically, SDD delivers three concrete benefits:</p>
+        <ul>
+          <li><strong>Consistent alignment</strong> with organizational standards — security policies, cloud platform requirements, and compliance obligations are written once in the constitution and enforced in every generated artifact.</li>
+          <li><strong>Auditable documentation</strong> — every requirement, architectural decision, and implementation step exists as a versioned markdown file alongside the source code.</li>
+          <li><strong>Systematic compliance enforcement</strong> — rather than relying on developers to remember every organizational constraint while prompting, those constraints are embedded in the specification process.</li>
+        </ul>
+        <div class="callout">
+          <div class="callout-label">Enterprise context: brownfield</div>
+          <p>
+            While SDD excels at greenfield development, most enterprise work involves existing codebases.
+            The constitution documents existing architectural patterns and constraints. New feature specifications
+            reference those established patterns, so generated plans integrate with current architecture rather
+            than proposing isolated reimplementations.
+          </p>
+        </div>
+
+        <!-- ── Section 3 ─────────────────────────────────────────────── -->
+        <h2 id="spec-kit-overview">GitHub Spec Kit: Core Components and Commands</h2>
+        <p>
+          GitHub Spec Kit is an open-source toolkit that enables SDD by integrating structured
+          workflows, persistent artifacts, and reusable AI command patterns. It addresses a fundamental
+          challenge in AI-assisted development: maintaining context and consistency across multiple
+          interactions with coding assistants.
+        </p>
+        <p>The toolkit delivers three essential capabilities:</p>
+        <ul>
+          <li><strong>Persistent artifacts.</strong> Specifications, plans, and tasks are stored as plain markdown files in your repository. Git handles versioning, branching, and review.</li>
+          <li><strong>Standardized workflow.</strong> A defined process guides you through the four SDD phases, ensuring nothing is skipped and each phase receives proper review before the next begins.</li>
+          <li><strong>Reusable commands.</strong> Built-in slash commands encapsulate best-practice prompting patterns so the workflow is consistent across team members and projects.</li>
+        </ul>
+
+        <h3>Core components</h3>
+        <table>
+          <thead>
+            <tr><th>Component</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>specify-cli</code></td>
+              <td>Initializes and manages spec-driven projects; scaffolds prompt templates and artifact directories.</td>
+            </tr>
+            <tr>
+              <td>Markdown artifact files</td>
+              <td><code>constitution.md</code>, <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> drive each phase of development.</td>
+            </tr>
+            <tr>
+              <td>Core slash commands</td>
+              <td><code>/speckit.constitution</code>, <code>/speckit.specify</code>, <code>/speckit.plan</code>, <code>/speckit.tasks</code>, <code>/speckit.implement</code></td>
+            </tr>
+            <tr>
+              <td>Optional enhancement commands</td>
+              <td><code>/speckit.clarify</code>, <code>/speckit.analyze</code>, <code>/speckit.checklist</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Slash command syntax varies by agent</h3>
+        <p>
+          After running <code>specify init</code>, your AI coding agent will have access to these structured
+          development commands. The invocation syntax differs depending on the agent:
+        </p>
+        <table>
+          <thead>
+            <tr><th>Agent</th><th>Command syntax</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>GitHub Copilot</td>
+              <td><code>/speckit.constitution</code>, <code>/speckit.specify</code>, …</td>
+              <td>Templates are installed in <code>.github/prompts/</code></td>
+            </tr>
+            <tr>
+              <td>Claude Code</td>
+              <td><code>/speckit-constitution</code>, <code>/speckit-specify</code>, …</td>
+              <td>Installs as skills in <code>.claude/skills/</code></td>
+            </tr>
+            <tr>
+              <td>Codex CLI</td>
+              <td><code>$speckit-constitution</code>, <code>$speckit-specify</code>, …</td>
+              <td>Requires <code>--ai-skills</code> flag during <code>specify init</code></td>
+            </tr>
+            <tr>
+              <td>Cursor, Windsurf, others</td>
+              <td><code>/speckit.constitution</code>, <code>/speckit.specify</code>, …</td>
+              <td>Standard dotted slash commands</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <div class="callout-label">🤖 Supported AI agents</div>
+          <p>
+            GitHub Spec Kit supports 20+ agents at the time of writing, including GitHub Copilot,
+            Claude Code, Cursor, Windsurf, Gemini CLI, Codex CLI, Amazon Q Developer, Kiro, Amp,
+            Roo Code, Junie, and more. A generic mode (<code>--ai generic</code>) lets you bring
+            any unsupported agent by pointing <code>--ai-commands-dir</code> at your agent's command directory.
+            See the <a href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">spec-kit repository</a> for the current full list.
+          </p>
+        </div>
+
+        <div class="callout">
+          <div class="callout-label">🧩 Extensions &amp; Presets</div>
+          <p>
+            Beyond the core workflow, Spec Kit has a growing community ecosystem.
+            <strong>Extensions</strong> add new commands and workflows — for example, Jira integration,
+            post-implementation code review, Azure DevOps sync, or V-Model test traceability.
+            <strong>Presets</strong> override templates and terminology without changing tooling — useful
+            for enforcing organizational spec formats or regulatory standards.
+            Both are managed with <code>specify extension add &lt;name&gt;</code> and <code>specify preset add &lt;name&gt;</code>.
+          </p>
+        </div>
+
+        <!-- ── Section 4 ─────────────────────────────────────────────── -->
+        <h2 id="enhancement-commands">Enhancement Commands</h2>
+        <p>
+          Beyond the core five commands, Spec Kit provides three optional commands that improve
+          artifact quality before implementation starts. Used together, they form a quality gate
+          between spec generation and coding.
+        </p>
+
+        <h3>/speckit.clarify — gap analysis</h3>
+        <p>
+          Run <code>/speckit.clarify</code> after generating an initial spec to surface ambiguities,
+          missing details, and underspecified edge cases. The AI reviews your spec and generates
+          targeted questions — for example:
+        </p>
+        <ul>
+          <li><em>"The spec mentions file upload but doesn't specify maximum concurrent uploads. Should there be a limit?"</em></li>
+          <li><em>"Error handling for network failures isn't specified. What should happen if the upload connection is lost?"</em></li>
+        </ul>
+        <p>
+          For each question, the AI often provides multiple-choice options. You select or provide a
+          custom answer, and the spec is updated accordingly. Run it multiple times — a first pass
+          surfaces major gaps, a second covers edge case details, a third fine-tunes nonfunctional
+          requirements. Stop when Copilot has no more questions or only raises features you intend to defer.
+        </p>
+
+        <h3>/speckit.analyze — cross-artifact consistency</h3>
+        <p>
+          Run <code>/speckit.analyze</code> after generating <code>plan.md</code> and
+          <code>tasks.md</code> but before starting implementation. It performs cross-artifact
+          consistency checking: does the plan implement all spec requirements? Do tasks cover all
+          plan elements? Does everything align with the constitution? Typical findings include:
+        </p>
+        <ul>
+          <li><em>"Plan proposes PostgreSQL, but constitution requires Azure SQL Database."</em></li>
+          <li><em>"Specification requires audit logging, but plan doesn't describe logging implementation."</em></li>
+          <li><em>"Task list omits database migration scripts mentioned in plan."</em></li>
+        </ul>
+        <p>
+          Each identified inconsistency is an issue that would otherwise surface during implementation
+          or code review. Catching them during analysis prevents costly rework.
+        </p>
+
+        <h3>/speckit.checklist — quality validation</h3>
+        <p>
+          <code>/speckit.checklist</code> generates a custom checklist based on your specification —
+          essentially "unit tests for English prose." The AI produces verification questions such as:
+        </p>
+        <ul>
+          <li><em>"Does every user story have corresponding acceptance criteria?"</em></li>
+          <li><em>"Are all error scenarios documented with specific error messages?"</em></li>
+          <li><em>"Do nonfunctional requirements include measurable success criteria?"</em></li>
+        </ul>
+        <p>Any "no" answers reveal gaps to close before sharing with stakeholders or proceeding to implementation.</p>
+
+        <!-- ── Section 5 ─────────────────────────────────────────────── -->
+        <h2 id="git-integration">Git Integration and Project Organization</h2>
+        <p>
+          All Spec Kit artifacts are plain markdown files stored in your Git repository alongside
+          source code. This gives you change tracking, branch-based development, and comprehensive
+          pull request reviews — reviewers see both what you built (spec) and how you built it (code).
+        </p>
+
+        <h3>Project structure</h3>
+        <pre><code>my-project/
+├── .github/
+│   ├── agents/
+│   └── prompts/          ← Spec Kit slash command templates
+├── .specify/
+│   ├── memory/
+│   │   └── constitution.md
+│   ├── scripts/
+│   └── templates/
+├── SourceCode/
+│   └── ...
+└── specs/
+    └── 001-document-upload-feature/
+        ├── spec.md
+        ├── plan.md
+        └── tasks.md</code></pre>
+        <p>
+          Features are numbered sequentially (<code>001</code>, <code>002</code>) to track development
+          order. For teams working on multiple features concurrently, each feature has its own
+          directory containing its complete specification, plan, and tasks — preventing confusion and
+          enabling parallel work without conflicts.
+        </p>
+
+        <h3>Feature tracking with SPECIFY_FEATURE</h3>
+        <p>
+          In Git-based workflows, Spec Kit infers the active feature from your branch name. If you're
+          on branch <code>feature/document-upload</code>, Spec Kit automatically reads and writes
+          artifacts in <code>specs/document-upload/</code>. For non-Git workflows or manual override,
+          set the environment variable explicitly:
+        </p>
+        <pre><code># PowerShell
+$env:SPECIFY_FEATURE = "001-document-upload"
+
+# Bash / zsh
+export SPECIFY_FEATURE="001-document-upload"</code></pre>
+        <div class="callout">
+          <div class="callout-label">⚠️ Important</div>
+          <p>
+            <code>SPECIFY_FEATURE</code> must be set in the context of the agent you're working with
+            <em>before</em> invoking <code>/speckit.plan</code> or follow-up commands. Without it, the
+            AI may read the wrong <code>spec.md</code> if multiple features are in progress.
+          </p>
+        </div>
+
+        <h3>Continuous workflow: command chaining</h3>
+        <p>
+          Spec Kit supports iterative development through progressive command chaining. If requirements
+          change at any point, return to the relevant phase, update the artifact, and regenerate downstream artifacts:
+        </p>
+        <div class="step-list">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-text">Generate initial spec: <code>/speckit.specify</code></div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-text">Identify gaps: <code>/speckit.clarify</code></div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-text">Update spec based on answers, then create the plan: <code>/speckit.plan</code></div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-text">Verify cross-artifact consistency: <code>/speckit.analyze</code></div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">5</div>
+            <div class="step-text">Generate tasks: <code>/speckit.tasks</code></div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">6</div>
+            <div class="step-text">Implement incrementally: <code>/speckit.implement</code></div>
+          </div>
+        </div>
+
+        <!-- ── Section 6 ─────────────────────────────────────────────── -->
+        <h2 id="development-scenarios">Development Scenarios</h2>
+        <p>Spec Kit supports four development patterns, each with distinct usage approaches:</p>
+
+        <h3>Greenfield (0-to-1)</h3>
+        <p>
+          The primary use case — transforming a high-level product vision into a concrete, structured
+          implementation path from scratch. Start with <code>/speckit.constitution</code> to establish
+          project principles, then use <code>/speckit.specify</code> for each feature as you build
+          the application iteratively.
+        </p>
+
+        <h3>Brownfield enhancement</h3>
+        <p>
+          For existing applications, your constitution documents existing architectural patterns and
+          constraints. New feature specifications reference those established patterns. When adding a
+          document upload feature to an existing employee portal, the plan shows how the new feature
+          integrates with the current React front end, .NET back end, and Azure infrastructure — rather
+          than proposing a separate implementation.
+        </p>
+
+        <h3>Refactoring and modernization</h3>
+        <p>
+          Treat the desired end state as the specification, create a plan for the refactoring approach,
+          and generate incremental tasks. This structured approach prevents the common problem of
+          starting a refactor and getting lost mid-process with partially working code.
+        </p>
+
+        <h3>Exploratory development</h3>
+        <p>
+          Generate multiple plans from the same specification — for example, one using Azure Blob
+          Storage and another using Azure Files. Implement both, compare results, and choose the
+          better approach based on actual experience rather than assumptions.
+        </p>
+
+        <!-- ── Section 7 ─────────────────────────────────────────────── -->
+        <h2 id="constitution-file">The Constitution File</h2>
+        <p>
+          The constitution (<code>constitution.md</code>) captures the non-negotiable principles,
+          constraints, and standards that govern your project. It acts as a standing guardrail: every
+          generated spec, plan, task, and code output is checked against it automatically. Write a
+          principle once; Spec Kit enforces it throughout every phase.
+        </p>
+        <p>Key benefits in enterprise settings:</p>
+        <ul>
+          <li><strong>Consistency enforcement</strong> — prevents architectural drift across long projects or multiple developers.</li>
+          <li><strong>Compliance documentation</strong> — makes security policies and regulatory requirements explicit and auditable.</li>
+          <li><strong>Institutional knowledge capture</strong> — preserves hard-won architectural lessons in a form AI can reference.</li>
+          <li><strong>Reduced cognitive load</strong> — developers don't need to remember every organizational standard while prompting.</li>
+        </ul>
+
+        <h3>Constitution structure</h3>
+        <table>
+          <thead>
+            <tr><th>Section</th><th>What to define</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Technology standards</td>
+              <td>Approved cloud platform, frameworks, databases, secret management tooling</td>
+            </tr>
+            <tr>
+              <td>Security requirements</td>
+              <td>Authentication, authorization, encryption standards, PII handling rules</td>
+            </tr>
+            <tr>
+              <td>Performance and scalability</td>
+              <td>Response time targets (e.g., 200 ms at p95), concurrency limits, caching policy, async thresholds</td>
+            </tr>
+            <tr>
+              <td>Coding standards</td>
+              <td>Language conventions, minimum test coverage, logging interfaces, documentation requirements</td>
+            </tr>
+            <tr>
+              <td>Compliance and governance</td>
+              <td>Regulatory obligations, accessibility (WCAG 2.1 AA), audit log retention periods</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Keep every principle specific and measurable — <em>"API responses complete within 200 ms for
+          95% of requests"</em> is more useful than <em>"the system should be fast."</em>
+        </p>
+
+        <h3>Creating the constitution</h3>
+        <p>
+          Run <code>/speckit.constitution</code> in GitHub Copilot Chat with a natural language
+          description of your project constraints. For a new project, Copilot generates a structured
+          <code>constitution.md</code> from scratch. For an existing project, it reviews the codebase
+          and infers principles from what it finds.
+        </p>
+        <p>After generation, review the output critically:</p>
+        <ul>
+          <li>Add missing requirements (e.g., specific logging formats your organization mandates).</li>
+          <li>Remove generic boilerplate that provides no concrete guidance.</li>
+          <li>Replace vague statements with measurable criteria.</li>
+          <li>Align with internal standards documents where they exist.</li>
+          <li>Validate with security, compliance, and architecture teams before treating it as authoritative.</li>
+        </ul>
+
+        <h3>How the constitution integrates into the workflow</h3>
+        <p>Every core command respects the constitution automatically:</p>
+        <ul>
+          <li><code>/speckit.specify</code> — flags spec requirements that conflict with constitution principles before you proceed.</li>
+          <li><code>/speckit.plan</code> — generates plans with explicit sections demonstrating compliance with each relevant principle.</li>
+          <li><code>/speckit.analyze</code> — compares spec, plan, and tasks against the constitution and surfaces deviations.</li>
+          <li><code>/speckit.implement</code> — produces code that honors constitution constraints automatically (e.g., using encrypted storage when mandated).</li>
+        </ul>
+
+        <h3>Enterprise constitution example</h3>
+        <pre><code>## Azure Platform Standards
+- Host all services on Azure App Service or Azure Container Apps.
+- Use Azure Blob Storage for document storage.
+- Secrets stored exclusively in Azure Key Vault.
+
+## Identity Integration
+- Authenticate via Microsoft Entra ID using OAuth 2.0 / OpenID Connect.
+- Implement RBAC using Microsoft Entra ID groups. No custom authentication.
+
+## Corporate Compliance
+- Audit logging per enterprise retention policies (minimum 90 days).
+- Accessibility: WCAG 2.1 Level AA minimum.
+- Scan all dependencies for known vulnerabilities before deployment.
+
+## Development Standards
+- Back end: .NET 10 following organizational coding conventions.
+- Minimum 80% unit test coverage.
+- All APIs documented with OpenAPI/Swagger.</code></pre>
+
+        <!-- ── Section 8 ─────────────────────────────────────────────── -->
+        <h2 id="spec-file">Writing the Spec File</h2>
+        <p>
+          The spec file (<code>spec.md</code>) is the single source of truth for what a feature
+          should do. Every implementation decision traces back to it — if something isn't in the spec,
+          it doesn't get built unless the spec is updated first.
+        </p>
+
+        <h3>Spec structure</h3>
+        <table>
+          <thead>
+            <tr><th>Section</th><th>What to include</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Summary</td><td>One or two sentences describing the feature from an end-user perspective</td></tr>
+            <tr><td>User stories</td><td>Brief narratives of how users interact with the feature</td></tr>
+            <tr><td>Acceptance criteria</td><td>Specific, testable conditions that mark the feature as complete</td></tr>
+            <tr><td>Functional requirements</td><td>Detailed descriptions of system behavior, broken into sub-areas</td></tr>
+            <tr><td>Nonfunctional requirements</td><td>Performance, security, scalability, and compliance attributes with measurable thresholds</td></tr>
+            <tr><td>Edge cases</td><td>Error conditions, boundary behaviors, and unusual scenarios with explicit handling descriptions</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Generating a spec with /speckit.specify</h3>
+        <p>
+          Run <code>/speckit.specify</code> in GitHub Copilot Chat with a natural language description
+          covering: what the feature does, who uses it, where it lives in the system, any constraints,
+          and expected error handling. Copilot generates a structured <code>spec.md</code> covering
+          all six sections.
+        </p>
+        <p>
+          After generation, review for completeness, accuracy, and consistency. The initial draft is
+          a strong starting point but rarely final — use <code>/speckit.clarify</code> to close gaps
+          before moving to planning.
+        </p>
+
+        <h3>Spec writing best practices</h3>
+        <ul>
+          <li><strong>Be specific and measurable.</strong> Replace "support large files" with "support files up to 50 MB."</li>
+          <li><strong>Use consistent terminology.</strong> If you call them "documents" in the summary, don't switch to "files" later.</li>
+          <li><strong>Cover error handling explicitly.</strong> Specify the exact message and behavior for each failure mode.</li>
+          <li><strong>Define what, not how.</strong> The spec states requirements; implementation decisions belong in the plan.</li>
+          <li><strong>Keep scope manageable.</strong> If a spec exceeds roughly 300 lines, split it into separate feature specs.</li>
+          <li><strong>Validate against the constitution.</strong> Any conflict caught here is far cheaper to fix than after implementation.</li>
+        </ul>
+
+        <!-- ── Section 9 ─────────────────────────────────────────────── -->
+        <h2 id="plan-file">Creating the Plan File</h2>
+        <p>
+          The plan file (<code>plan.md</code>) bridges the gap between what the spec defines and the
+          concrete tasks that follow. The spec answers <em>what</em> to build; the plan answers
+          <em>how</em> to build it. This separation is intentional — if you switch from Azure Blob
+          Storage to Azure Files, <code>plan.md</code> changes while <code>spec.md</code> remains
+          largely untouched.
+        </p>
+
+        <h3>Plan structure</h3>
+        <table>
+          <thead>
+            <tr><th>Section</th><th>What to include</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Architecture overview</td><td>High-level description of how components interact</td></tr>
+            <tr><td>Technology stack and key decisions</td><td>Explicit technology choices with rationales</td></tr>
+            <tr><td>Implementation sequence</td><td>Logical order of implementation steps, from setup to completion</td></tr>
+            <tr><td>Constitution verification</td><td>Explicit confirmation that proposed solutions comply with constitution principles</td></tr>
+            <tr><td>Assumptions and open questions</td><td>Documented assumptions and unresolved decisions before coding starts</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Generating a plan with /speckit.plan</h3>
+        <p>
+          Run <code>/speckit.plan</code> in GitHub Copilot Chat. Before invoking it, provide context
+          about your existing stack — frameworks, infrastructure, authentication setup — so Copilot
+          produces a plan that fits your environment rather than a greenfield solution. After
+          generation, review the output against three questions:
+        </p>
+        <ul>
+          <li>Does every spec requirement map to an implementation approach in the plan?</li>
+          <li>Do all technology choices align with the constitution and organizational standards?</li>
+          <li>Are assumptions and open questions documented so stakeholders can address them before implementation starts?</li>
+        </ul>
+
+        <h3>Common planning pitfalls</h3>
+        <ul>
+          <li><strong>Skipping planning entirely.</strong> Jumping straight from spec to code increases the risk of architectural mistakes that are costly to undo.</li>
+          <li><strong>Accepting the first draft without review.</strong> AI-generated plans are starting points, not final designs.</li>
+          <li><strong>Over-constraining implementation.</strong> The plan should guide, not dictate every line; leave tactical decisions to developers.</li>
+          <li><strong>Ignoring constitution conflicts.</strong> Address them immediately in the plan rather than discovering them during code review.</li>
+          <li><strong>Letting the plan go stale.</strong> When implementation reveals a better approach, update <code>plan.md</code> so it remains a useful reference.</li>
+        </ul>
+
+        <!-- ── Section 10 ────────────────────────────────────────────── -->
+        <h2 id="tasks-and-implement">Generating Tasks and Implementing Code</h2>
+        <p>
+          The tasks file (<code>tasks.md</code>) converts architectural decisions in
+          <code>plan.md</code> into specific, actionable work items. Each task is the smallest unit
+          of work that can be implemented, tested, and verified independently. Well-scoped tasks
+          share four characteristics:
+        </p>
+        <ul>
+          <li><strong>Actionable</strong> — clearly states what needs to be done.</li>
+          <li><strong>Testable</strong> — completion can be verified objectively.</li>
+          <li><strong>Independent</strong> — can be completed without waiting for unrelated work.</li>
+          <li><strong>Time-bounded</strong> — completable in hours to a day, not weeks.</li>
+        </ul>
+
+        <h3>Generating tasks with /speckit.tasks</h3>
+        <p>
+          Run <code>/speckit.tasks</code> in GitHub Copilot Chat. The AI reads both
+          <code>spec.md</code> and <code>plan.md</code> and produces a numbered, phase-organized task
+          list. A typical phase structure for a complex feature looks like:
+        </p>
+        <ul>
+          <li><strong>Phase 1 — Foundation:</strong> database schema, configuration, service class scaffolding.</li>
+          <li><strong>Phase 2 — Core functionality:</strong> API endpoints, storage integration, metadata persistence.</li>
+          <li><strong>Phase 3 — Front end:</strong> UI components, client-side validation, progress indicators.</li>
+          <li><strong>Phase 4 — Security:</strong> authentication checks, server-side validation, audit logging.</li>
+          <li><strong>Phase 5 — Testing and docs:</strong> unit tests, integration tests, OpenAPI documentation.</li>
+        </ul>
+        <p>
+          Each phase creates a natural milestone: after Phase 2 the back end works; after Phase 3 users
+          can interact with it; after Phase 4 it is production-ready. After generation, verify that
+          every plan element maps to at least one task and that sequencing is logical (schema before
+          API, API before front end).
+        </p>
+
+        <h3>Implementing with /speckit.implement</h3>
+        <p>
+          Run <code>/speckit.implement</code> with a specific task number, a range, or a description
+          taken from <code>tasks.md</code>. The AI works through tasks sequentially, referencing
+          <code>spec.md</code>, <code>plan.md</code>, and <code>tasks.md</code> to keep code aligned
+          with the overall architecture:
+        </p>
+        <pre><code>/speckit.implement Implement the MVP first strategy (Tasks: T001 - T027)</code></pre>
+        <p>
+          After each batch, verify the results before proceeding — run the application and tests to
+          confirm the task objective is met. If the AI flags ambiguity or needs confirmation to
+          build or run, respond promptly to keep the session moving.
+        </p>
+
+        <h3>Managing tasks during implementation</h3>
+        <ul>
+          <li><strong>Scope growth.</strong> When a task reveals unexpected complexity, break it into smaller tasks and update <code>tasks.md</code> before proceeding.</li>
+          <li><strong>Blocked tasks.</strong> Mark them explicitly with the reason and a tracking reference so they are not forgotten.</li>
+          <li><strong>Changing priorities.</strong> Reorder, add, or defer tasks in <code>tasks.md</code> as business needs evolve.</li>
+          <li><strong>Discovered ambiguity.</strong> Pause, trace back to <code>spec.md</code> and <code>plan.md</code> for the original intent, update the task description, then continue.</li>
+        </ul>
+
+        <!-- ── Section 11 ────────────────────────────────────────────── -->
+        <h2 id="environment-setup">Setting Up the Environment</h2>
+        <p>
+          A working Spec Kit environment requires five components: the <strong>Specify CLI</strong>,
+          the <strong><code>uv</code> package manager</strong> used to install it, a
+          <strong>code editor with AI integration</strong> (VS Code + GitHub Copilot is the primary
+          configuration), a <strong>Git repository</strong>, and whatever
+          <strong>programming runtime</strong> your tech stack requires.
+        </p>
+
+        <h3>Prerequisites</h3>
+        <table>
+          <thead>
+            <tr><th>Requirement</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Python 3.11+</td><td>Required by the <code>specify-cli</code> package</td></tr>
+            <tr><td><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener noreferrer">uv</a></td><td>Fast Python package manager; used to install and manage <code>specify-cli</code></td></tr>
+            <tr><td>Git</td><td>Required for branch-based feature tracking</td></tr>
+            <tr><td>Supported AI agent</td><td>GitHub Copilot in VS Code is the primary target; 20+ agents are supported</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Installation options</h3>
+
+        <p><strong>Option 1: Persistent installation (recommended)</strong> — installs once and makes the <code>specify</code> command available system-wide. Pin a stable release tag (see <a href="https://github.com/github/spec-kit/releases" target="_blank" rel="noopener noreferrer">releases</a> for the latest):</p>
+        <pre><code># Persistent install — replace vX.Y.Z with the latest release tag
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
+
+# Or install latest from main (may include unreleased changes)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git</code></pre>
+
+        <p><strong>Option 2: One-time usage (no install)</strong> — runs directly without installing:</p>
+        <pre><code>uvx --from git+https://github.com/github/spec-kit.git@vX.Y.Z specify init &lt;PROJECT_NAME&gt;</code></pre>
+
+        <p><strong>Option 3: Enterprise / air-gapped</strong> — if your environment blocks access to PyPI or GitHub, use <code>pip download</code> to create portable OS-specific wheel bundles on a connected machine. See the <a href="https://github.com/github/spec-kit/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">Enterprise Installation guide</a> for step-by-step instructions.</p>
+
+        <h3>Initializing a project</h3>
+        <p>Run <code>specify init</code> in your project directory to scaffold the spec-driven structure:</p>
+        <pre><code># Initialize a new project with GitHub Copilot
+specify init my-project --ai copilot
+
+# Initialize in the current directory
+specify init --here --ai copilot
+
+# Windows — generate PowerShell scripts instead of bash
+specify init --here --ai copilot --script ps
+
+# Codex CLI / Antigravity — requires skills mode
+specify init my-project --ai codex --ai-skills</code></pre>
+        <p>This generates the <code>.github/prompts/</code> directory containing prompt templates for every <code>/speckit.*</code> command, artifact template files, and any agent-specific configuration.</p>
+
+        <h3>Key init flags</h3>
+        <table>
+          <thead>
+            <tr><th>Flag</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>--ai &lt;agent&gt;</code></td><td>Select the AI agent (copilot, claude, gemini, cursor-agent, windsurf, codex, etc.)</td></tr>
+            <tr><td><code>--ai-skills</code></td><td>Install templates as agent skills (required for Codex CLI and Antigravity)</td></tr>
+            <tr><td><code>--script ps</code></td><td>Generate PowerShell scripts instead of bash (Windows / cross-platform)</td></tr>
+            <tr><td><code>--here</code> / <code>--force</code></td><td>Initialize into an existing directory; <code>--force</code> skips confirmation</td></tr>
+            <tr><td><code>--no-git</code></td><td>Skip Git repository initialization</td></tr>
+            <tr><td><code>--github-token</code></td><td>Supply a token for corporate GitHub environments</td></tr>
+            <tr><td><code>--skip-tls</code></td><td>Bypass TLS verification behind a proxy (not recommended for production)</td></tr>
+            <tr><td><code>--branch-numbering</code></td><td><code>sequential</code> (default) or <code>timestamp</code> — useful for distributed teams to avoid numbering conflicts</td></tr>
+            <tr><td><code>--debug</code></td><td>Enable verbose output for troubleshooting</td></tr>
+          </tbody>
+        </table>
+
+        <p>After init, verify your environment is ready:</p>
+        <pre><code>specify check</code></pre>
+        <p>This confirms Git is configured and the selected AI agent is accessible before you start.</p>
+
+        <div class="callout">
+          <div class="callout-label">🏢 Enterprise considerations</div>
+          <p>
+            <strong>Corporate proxies:</strong> configure proxy settings and custom certificate authorities before installing via <code>uv</code>.
+            <strong>Extension approval:</strong> VS Code extension installation may require a security review; plan accordingly.
+            <strong>Azure DevOps / GitHub Enterprise Server:</strong> artifacts integrate with Azure Repos and pull requests; tasks can reference Azure Boards work items via the Azure DevOps community extension.
+          </p>
+        </div>
+
+        <!-- ── Section 12: Summary ────────────────────────────────────── -->
+        <h2 id="summary">Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-card-label">Why</div>
+            <p>Without a shared source of truth, requirements drift and AI-generated code misses the mark. SDD keeps intent and implementation aligned from the first line.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">How</div>
+            <p>GitHub Spec Kit structures the four SDD phases — Specify, Plan, Tasks, Implement — into slash commands backed by versioned markdown artifacts that live in your repository.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">What</div>
+            <p>Production-ready code that aligns with your requirements, organizational standards, and security constraints — generated by GitHub Copilot from a clear, constitution-governed specification.</p>
+          </div>
+        </div>
+
+        <!-- ── References ─────────────────────────────────────────────── -->
+        <h2 id="references">References</h2>
+        <ul class="references-list">
+          <li>
+            <a href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">
+              GitHub Spec Kit — official repository
+            </a>
+          </li>
+          <li>
+            <a href="https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-enterprise-developers/" target="_blank" rel="noopener noreferrer">
+              MS Learn: Implement spec-driven development using GitHub Spec Kit
+            </a>
+          </li>
+          <li>
+            <a href="https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-enterprise-developers/5-write-effective-spec-file" target="_blank" rel="noopener noreferrer">
+              MS Learn: Generate a clear, precise, and effective spec
+            </a>
+          </li>
+          <li>
+            <a href="https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-enterprise-developers/6-create-technical-plan-file" target="_blank" rel="noopener noreferrer">
+              MS Learn: Create a detailed technical plan
+            </a>
+          </li>
+          <li>
+            <a href="https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-enterprise-developers/7-generate-implementation-tasks-file" target="_blank" rel="noopener noreferrer">
+              MS Learn: Generate tasks and implement code
+            </a>
+          </li>
+          <li>
+            <a href="https://learn.microsoft.com/en-us/training/modules/spec-driven-development-github-spec-kit-enterprise-developers/8-examine-github-spec-kit-development-environment" target="_blank" rel="noopener noreferrer">
+              MS Learn: Examine the GitHub Spec Kit development environment
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/github/spec-kit/blob/main/docs/installation.md" target="_blank" rel="noopener noreferrer">
+              Spec Kit: Enterprise and air-gapped installation guide
+            </a>
+          </li>
+        </ul>
+
+        <!-- AI note -->
+        <div class="ai-note">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Draft refined with AI assistance.
+        </div>
+
+      </div><!-- /.post-body -->
+    </article>
+
+    <!-- ── Table of contents ──────────────────────────────────────────── -->
+    <aside class="toc-aside" aria-label="Table of contents">
+      <div class="toc-box">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          <li><a href="#what-is-sdd">What Is SDD?</a></li>
+          <li><a href="#enterprise-value">Enterprise Value</a></li>
+          <li><a href="#spec-kit-overview">Spec Kit Overview</a></li>
+          <li><a href="#enhancement-commands">Enhancement Commands</a></li>
+          <li><a href="#git-integration">Git Integration</a></li>
+          <li><a href="#development-scenarios">Dev Scenarios</a></li>
+          <li><a href="#constitution-file">Constitution File</a></li>
+          <li><a href="#spec-file">Spec File</a></li>
+          <li><a href="#plan-file">Plan File</a></li>
+          <li><a href="#tasks-and-implement">Tasks &amp; Implement</a></li>
+          <li><a href="#environment-setup">Environment Setup</a></li>
+          <li><a href="#summary">Summary</a></li>
+          <li><a href="#references">References</a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- TOC active-state tracking -->
+  <script>
+    (function () {
+      var links    = document.querySelectorAll('.toc-list a');
+      var headings = Array.from(document.querySelectorAll('.post-body h2[id]'));
+
+      function update() {
+        var current = '';
+        headings.forEach(function (h) {
+          if (window.scrollY >= h.offsetTop - 90) current = h.id;
+        });
+        links.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      update();
+    }());
+  </script>
+
+</body>
+</html>
