@@ -49,6 +49,47 @@ the **Golden Circle Format** (Why → How → What):
 > Model Context Protocol, GitHub Copilot's agent mode discovers tools, selects the
 > right one, and executes it — giving you an AI that operates, not only answers.
 
+#### Required body structure
+
+Every draft in `newblogideas/` must use the following section flow so the HTML
+conversion (see `.github/copilot-instructions.md` → "Converting a Draft to a
+Published Post") produces a consistent post:
+
+1. **Opening hook** — 1–2 paragraphs that restate the *Why* and frame the problem.
+2. **Core content sections** — one `##` per major idea, in logical order. Each
+   `##` heading must be unique and convertible to a kebab-case slug (it becomes
+   the H2 `id` and the TOC anchor in the rendered HTML).
+3. **`### Sub-sections`** — used only inside a `##` section; do not appear in
+   the TOC. Avoid `####` and deeper.
+4. **Procedural steps** — write numbered lists (`1.`, `2.`, …) with one short
+   imperative sentence per step; these render as `.step-card` components.
+5. **Tips, warnings, notes** — write as blockquotes prefixed with a label such
+   as `> **💡 Tip:**`, `> **⚠️ Important:**`, or `> **🤖 Note:**`. These render
+   as `.callout` boxes.
+6. **`## Summary`** — exactly three bullets in Why / How / What order. These
+   render as the 3-card `.summary-grid`. Do **not** rename to "Conclusion" or
+   "TL;DR".
+7. **`## References`** — bullet list of external links only (no inline links to
+   internal pages). Each item is one descriptive link; renders as
+   `.references-list` with the `↗` prefix.
+
+#### Heading slug rule
+
+`## What Is Model Context Protocol?` → HTML `id="what-is-model-context-protocol"`.
+Drop punctuation, lowercase, hyphenate. Keep heading text human-readable; the
+TOC label can be shortened during HTML conversion.
+
+#### Images
+
+`![alt text](../images/<file>.png)` — paths are relative to the eventual
+`posts/*.html` location, not to the markdown file.
+
+#### AI disclosure
+
+The `ai_note` front-matter field controls whether the rendered post shows the
+"Draft refined with AI assistance." footer. Always set it explicitly (`true` or
+`false`); never omit it.
+
 ## Validation Checklist
 
 Ensure compliance with the following validation requirements:

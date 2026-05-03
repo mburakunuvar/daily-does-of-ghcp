@@ -8,6 +8,22 @@ applyTo: '**/*.html, **/*.css, **/*.js'
 Follow these guidelines when updating or creating HTML/CSS styles for browser rendering. Color names
 represent the full spectrum of their respective hue ranges (e.g., "blue" includes navy, sky blue, etc.).
 
+## Canonical Palette for Blog Posts
+
+For any `posts/*.html` file (and any embedded `<style>` block within), use the design tokens defined
+in `.github/copilot-instructions.md` → "CSS Design Tokens (`:root`)". Do not introduce new color
+values; extend through the existing token set:
+
+- **60% primary** — `--bg` (`#ffffff`), `--bg-subtle` (`#f8fafc`)
+- **30% secondary** — `--bg-secondary` (`#e8f1fb`)
+- **10% accent** — `--accent` (`#e07b1a`), used **only** on step-card circles, callout left border,
+  callout/summary-card labels, references `↗` glyph, list-bullet dots, and the active TOC marker
+
+The reference implementations are
+`posts/spec-driven-development-with-github-copilot.html` (canonical superset CSS) and
+`posts/integrate-mcp-with-copilot.html` (canonical structure). Diverging from the tokens or
+applying `--accent` as a background fill violates the 60-30-10 rule below.
+
 ## Color Definitions
 
 - **Hot Colors**: Oranges, reds, and yellows

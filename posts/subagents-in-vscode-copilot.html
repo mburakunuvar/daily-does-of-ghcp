@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Subagents in VS Code Copilot - Daily Dose of GHCP</title>
+  <title>Subagents in VS Code Copilot — Daily Dose of GHCP</title>
+  <meta name="description" content="Subagents let GitHub Copilot's main agent delegate focused subtasks to isolated workers — keeping the main context clean, enabling parallel review passes, and unlocking orchestration patterns like coordinator-and-worker." />
+  <meta property="og:title" content="Subagents: How Copilot Delegates Work in VS Code" />
+  <meta property="og:description" content="How subagents keep Copilot's main context clean, enable parallel work, and power orchestration patterns in VS Code and Copilot CLI." />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -140,6 +145,54 @@
         Expand to see the full details, or keep it collapsed and stay focused.
       </p>
 
+      <h3>Agent vs subagent: the mental model</h3>
+      <p>
+        Think of the main agent as a project lead and subagents as focused contributors. The two
+        differ on five axes that show up in everyday use:
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Agent</th>
+            <th>Subagent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>How it starts</strong></td>
+            <td>Selected by the user or configured for the workflow</td>
+            <td>Launched by another agent or orchestrator</td>
+          </tr>
+          <tr>
+            <td><strong>Lifetime</strong></td>
+            <td>Persists across the main conversation or session</td>
+            <td>Temporary; exists only for the delegated task</td>
+          </tr>
+          <tr>
+            <td><strong>Context</strong></td>
+            <td>Carries the broader conversation and goals</td>
+            <td>Gets a narrower prompt and its own isolated context</td>
+          </tr>
+          <tr>
+            <td><strong>Scope</strong></td>
+            <td>Coordinates the whole task</td>
+            <td>Performs one focused piece of work</td>
+          </tr>
+          <tr>
+            <td><strong>Output</strong></td>
+            <td>Talks directly with the user</td>
+            <td>Reports back to the main agent, which synthesizes the result</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        That isolation is the main reason subagents can outperform a single monolithic agent on
+        larger tasks: the parent keeps the big picture while the workers absorb the noisy
+        intermediate work — research, code inspection, specialized review passes, or independent
+        implementation tracks.
+      </p>
+
       <h3>Four key properties</h3>
       <table>
         <thead>
@@ -234,6 +287,28 @@ Implement using test-driven development:
         before any code gets written.
       </p>
 
+      <h3>Beyond VS Code: <code>/fleet</code> in Copilot CLI</h3>
+      <p>
+        Subagents are not a VS Code-only idea. In GitHub Copilot CLI, the clearest end-user entry
+        point is the <strong><code>/fleet</code></strong> command. Fleet acts as an orchestrator
+        that decomposes a larger objective, launches multiple background subagents, respects
+        dependencies between them, and synthesizes a single final result.
+      </p>
+      <pre><code>/fleet Update the auth docs, refactor the auth service, and add related tests.</code></pre>
+      <p>For non-interactive runs (CI, scripts, headless usage):</p>
+      <pre><code>copilot -p "/fleet Update the auth docs, refactor the auth service, and add related tests." --no-ask-user</code></pre>
+      <p>The behavior differs from a single chat turn in four important ways:</p>
+      <ul>
+        <li>The orchestrator plans work items first, before any execution.</li>
+        <li>Independent tasks run in parallel; dependent ones run in order.</li>
+        <li>Each subagent gets its own context window.</li>
+        <li>All subagents share the same filesystem, so overlapping writes should be avoided.</li>
+      </ul>
+      <p>
+        That makes <code>/fleet</code> a practical way to launch subagents even if you are not
+        authoring custom <code>.agent.md</code> files yourself.
+      </p>
+
       <h3>Nested subagents</h3>
       <p>
         By default, subagents cannot spawn further subagents — this prevents infinite recursion.
@@ -242,11 +317,45 @@ Implement using test-driven development:
         Maximum nesting depth is <strong>5 levels</strong>.
       </p>
 
+      <h3>Platform nuance: handoffs are not universal</h3>
+      <p>
+        VS Code documents both subagents and a <code>handoffs</code> frontmatter property for
+        passing work between agents. GitHub's
+        <a href="https://docs.github.com/en/copilot/customizing-copilot/github-copilot-agents/configuration-reference-for-github-copilot-agents" target="_blank" rel="noopener noreferrer">custom agent configuration reference</a>,
+        however, notes that <code>handoffs</code> and <code>argument-hint</code> are currently
+        ignored for the Copilot cloud agent on github.com. Think about delegation features in
+        product-specific terms:
+      </p>
+      <ul>
+        <li><strong>VS Code</strong> — supports subagents, allowlists, and handoff-oriented composition.</li>
+        <li><strong>Copilot CLI</strong> — exposes practical orchestration through commands like <code>/fleet</code>.</li>
+        <li><strong>GitHub.com cloud agent</strong> — supports custom agents, but some VS Code-specific frontmatter is intentionally ignored.</li>
+      </ul>
+      <p>
+        If you share agent files across surfaces, document those differences so users know which
+        behaviors are portable and which are editor-specific.
+      </p>
+
+      <h3>Repository examples worth inspecting</h3>
+      <p>
+        The <a href="https://github.com/github/awesome-copilot" target="_blank" rel="noopener noreferrer">github/awesome-copilot</a>
+        repository has concrete, copy-pasteable examples of every pattern above:
+      </p>
+      <ul>
+        <li><a href="https://github.com/github/awesome-copilot/blob/main/agents/rug-orchestrator.agent.md" target="_blank" rel="noopener noreferrer"><code>rug-orchestrator.agent.md</code></a> — a strong coordinator example that enables the <code>agent</code> tool and restricts delegation with <code>agents: ['SWE', 'QA']</code>.</li>
+        <li><a href="https://github.com/github/awesome-copilot/blob/main/agents/gem-orchestrator.agent.md" target="_blank" rel="noopener noreferrer"><code>gem-orchestrator.agent.md</code></a> — shows invocation control with <code>user-invocable</code> and <code>disable-model-invocation</code>.</li>
+        <li><a href="https://github.com/github/awesome-copilot/blob/main/agents/context7.agent.md" target="_blank" rel="noopener noreferrer"><code>context7.agent.md</code></a> — a concrete VS Code-style <code>handoffs</code> definition that hands off work after research is complete.</li>
+        <li><a href="https://github.com/github/awesome-copilot/blob/main/agents/custom-agent-foundry.agent.md" target="_blank" rel="noopener noreferrer"><code>custom-agent-foundry.agent.md</code></a> — documents the VS Code <code>handoffs</code> shape, useful as a template before authoring your own coordinator.</li>
+      </ul>
+
       <h3>Documentation</h3>
       <ul>
+        <li><a href="https://awesome-copilot.github.com/learning-hub/agents-and-subagents/" target="_blank" rel="noopener noreferrer">Awesome Copilot Learning Hub — Agents and Subagents</a></li>
         <li><a href="https://code.visualstudio.com/docs/copilot/concepts/agents#_subagents" target="_blank" rel="noopener noreferrer">Agents Concepts — Subagents (VS Code Docs)</a></li>
         <li><a href="https://code.visualstudio.com/docs/copilot/agents/subagents" target="_blank" rel="noopener noreferrer">Subagents in Visual Studio Code (VS Code Docs)</a></li>
+        <li><a href="https://docs.github.com/en/copilot/customizing-copilot/github-copilot-agents/configuration-reference-for-github-copilot-agents" target="_blank" rel="noopener noreferrer">GitHub Copilot Agents — Configuration Reference (GitHub Docs)</a></li>
         <li><a href="https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent-in-your-ide" target="_blank" rel="noopener noreferrer">Using Copilot Agent Mode in Your IDE (GitHub Docs)</a></li>
+        <li><a href="https://github.com/github/awesome-copilot" target="_blank" rel="noopener noreferrer">github/awesome-copilot — agent and subagent examples</a></li>
       </ul>
 
     </div>

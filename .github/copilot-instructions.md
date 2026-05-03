@@ -36,9 +36,10 @@ Read these before touching the relevant file types — do not duplicate what the
 |--|--|--|
 | Stylesheet | Links `../style.css` | Self-contained `<style>` block — **no** `../style.css` link |
 | Layout | Sidebar + `.layout` / `.post-body` | Article + sticky TOC aside, no sidebar |
-| Canonical example | `posts/subagents-in-vscode-copilot.html` | `posts/integrate-mcp-with-copilot.html` ✅ |
+| Canonical CSS (superset) | n/a | `posts/spec-driven-development-with-github-copilot.html` ✅ |
+| Canonical structure (minimal) | `posts/subagents-in-vscode-copilot.html` | `posts/integrate-mcp-with-copilot.html` ✅ |
 
-**Never mix the two patterns.** Use `integrate-mcp-with-copilot.html` as the template for all new posts.
+**Never mix the two patterns.** For all new posts, copy the **`<style>` block from `spec-driven-development-with-github-copilot.html`** (it is a strict superset that includes `.post-body table`, `.post-body h3`, `.callout ul`, and `.step-text strong`) and follow the **page structure of `integrate-mcp-with-copilot.html`**. Do not omit CSS rules even if a given post does not currently use tables or H3 — the next edit may add them.
 
 ---
 
@@ -76,12 +77,71 @@ Read these before touching the relevant file types — do not duplicate what the
 3. `<article>` — `.hero-image` → `.hero-body` → `.post-body`
 4. `.hero-body` — date badge · category badges → `<h1>` → summary → tags → author + reading time
 5. `.post-body h2` — `border-left: 4px solid var(--accent)` + `id` attribute for TOC anchors
-6. `.step-list` / `.step-card` — numbered step cards for procedural sequences
-7. `.callout` — tip/warning box (light-blue background, orange left border)
-8. `.summary-grid` — 3-column Why/How/What cards; collapses to 1 col ≤ 900px
-9. `.references-list` — external links prefixed with `↗`
-10. `.ai-note` — AI disclosure line at the very bottom of `.post-body`
-11. `<aside class="toc-aside">` — sticky TOC; JS active-state tracking via scroll; `display:none` ≤ 900px
+6. `.post-body h3` — sub-sections inside an H2; **no** TOC entry, no left border, no `id` required
+7. `.step-list` / `.step-card` — numbered step cards for procedural sequences
+8. `.callout` — tip/warning box (light-blue background, orange left border); may contain `<p>` or `<ul>`
+9. `.post-body table` — striped rows (`tr:nth-child(even)`), header has `--bg-secondary` fill
+10. `.summary-grid` — 3-column Why/How/What cards; collapses to 1 col ≤ 900px
+11. `.references-list` — external links prefixed with `↗`
+12. `.ai-note` — AI disclosure line at the very bottom of `.post-body`
+13. `<aside class="toc-aside">` — sticky TOC; JS active-state tracking via scroll; `display:none` ≤ 900px
+
+### Hero Body — Exact Conventions
+
+Match these literal patterns so all posts read consistently:
+
+```html
+<div class="post-meta">
+  <span class="date-badge">Apr 4, 2026</span>            <!-- format: Mmm D, YYYY -->
+  <span class="badge">📘 Tutorials</span>                <!-- emoji + category from categories.txt -->
+  <span class="badge">🤖 Copilot in IDE</span>           <!-- 1–3 badges total -->
+</div>
+<h1 class="post-title">{post_title}</h1>
+<p class="post-summary">{Why → How → What summary, one paragraph}</p>
+<div class="tag-list">
+  <span class="tag">{tag}</span> …                       <!-- one <span class="tag"> per front-matter tag -->
+</div>
+<div class="author-row">by <strong>{author}</strong> · {N} min read</div>
+```
+
+- **Reading time:** word count ÷ 200, rounded to the nearest minute, never `0 min`.
+- **Category badges** must use one of the labels from `categories.txt`, prefixed by an emoji.
+
+### H2 IDs and TOC Labels
+
+- Every `.post-body h2` **must** have an `id` that is the kebab-case slug of the heading (e.g. `What Is MCP?` → `id="what-is-mcp"`).
+- Every TOC `<a href="#…">` **must** match an existing H2 `id` exactly.
+- TOC link text is a **shortened** form of the H2 (3–5 words), not the full heading. Example: `What Is Model Context Protocol?` → TOC label `What Is MCP?`.
+
+### Callout Conventions
+
+```html
+<div class="callout">
+  <div class="callout-label">💡 Tip</div>           <!-- UPPERCASE-styled by CSS; emoji optional -->
+  <p>…</p>                                          <!-- or <ul>…</ul> for bullet callouts -->
+</div>
+```
+
+Common labels: `💡 Tip`, `⚠️ Important`, `🤖 Supported AI agents`, `🏢 Enterprise considerations`. Keep them short — 2–4 words.
+
+### AI Note (verbatim block at end of `.post-body`)
+
+```html
+<div class="ai-note">
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="8" x2="12" y2="12"/>
+    <line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  Draft refined with AI assistance.
+</div>
+```
+
+### TOC Active-State Script (verbatim, end of `<body>`)
+
+The IIFE at the bottom of both reference posts (queries `.toc-list a` + `.post-body h2[id]`, toggles `.active` on scroll with a 90 px offset) is required. Copy it unchanged.
 
 ---
 
@@ -109,16 +169,20 @@ Dense paragraphs cause technical readers to tune out. Apply the right component 
 
 `newblogideas/*.md` → `posts/<post_slug>.html`
 
-1. Read front matter: `post_title`, `author`, `post_date`, `featured_image`, `categories`, `tags`, `summary`
-2. Scaffold from `posts/integrate-mcp-with-copilot.html` — copy the full `<style>` block and page structure unchanged
-3. Populate all `<head>` meta tags from front matter values
-4. Map each markdown `## Section` to a `<h2 id="slug">` in `.post-body`; match the `id` to the TOC `href`
-5. Numbered markdown lists → `.step-list` + `.step-card` components
-6. Tip paragraphs or blockquotes → `.callout` component
-7. Final `## Summary` bullet list → `.summary-grid` Why / How / What cards
-8. Images → `<figure class="section-image"><img … /><figcaption>…</figcaption></figure>`
-9. Do **not** repeat the hero image as a section figure inside `.post-body`
-10. All external links → `target="_blank" rel="noopener noreferrer"`
+1. Read front matter: `post_title`, `author`, `post_date`, `featured_image`, `categories`, `tags`, `summary`, `ai_note`
+2. Scaffold from `posts/spec-driven-development-with-github-copilot.html` — copy the full `<style>` block (superset CSS), the page structure of `integrate-mcp-with-copilot.html`, and the closing TOC-tracking `<script>` unchanged
+3. Populate all `<head>` meta tags from front matter values; format `post_date` as `Mmm D, YYYY` for the `.date-badge`
+4. Map each markdown `## Section` to a `<h2 id="kebab-slug">` in `.post-body`; use the same kebab-case slug as the TOC `href`. TOC label is a shortened 3–5 word form
+5. Markdown `### Sub-section` → `<h3>` (no id, no TOC entry)
+6. Numbered markdown lists describing a procedure → `.step-list` + `.step-card` components
+7. Tip / warning / note blockquotes → `.callout` with an UPPERCASE label (emoji optional)
+8. Markdown tables → `<table>` inside `.post-body` (the canonical CSS already styles them)
+9. Final `## Summary` bullet list → `.summary-grid` Why / How / What cards (preserve order)
+10. Final `## References` bullet list → `<ul class="references-list">` with `target="_blank" rel="noopener noreferrer"`
+11. Inline images → `<figure class="section-image"><img … /><figcaption>…</figcaption></figure>`
+12. Do **not** repeat the hero image as a section figure inside `.post-body`
+13. If front-matter `ai_note` is truthy, append the verbatim `.ai-note` block (see § AI Note above)
+14. All external links → `target="_blank" rel="noopener noreferrer"`
 
 ---
 
@@ -128,4 +192,6 @@ Dense paragraphs cause technical readers to tune out. Apply the right component 
 - **Never reuse the hero image** as an inline `<figure>` — it will display twice
 - **Image paths from posts**: always `../images/<filename>` (one level up)
 - **Old posts use sidebar layout** — do not apply new-style components to them
-- **TOC `href` must match `h2 id`** exactly, or scroll tracking silently breaks
+- **TOC `href` must match `h2 id`** exactly (kebab-case), or scroll tracking silently breaks
+- **Do not strip CSS rules** from the canonical `<style>` block even if a given post does not use them (table / h3 / callout-list rules must remain so future edits don't break)
+- **`accent` is a 10% color** — only on step circles, callout left-border, callout label text, summary-card label text, references `↗`, list-bullet dots, and TOC active marker. Never as a background fill or H2 background.
