@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introducing Agent HQ: Any Agent, Any Way You Work — Daily Dose of GHCP</title>
+  <meta name="description" content="AI agents are powerful in isolation but fragmented across tools. With Agent HQ, GitHub unifies every agent — Copilot, Claude, Codex, Jules, and more — onto a single platform built on Git, pull requests, and Actions: one command center where you can assign, steer, and govern any agent from anywhere." />
+  <meta property="og:title" content="Introducing Agent HQ: Any Agent, Any Way You Work" />
+  <meta property="og:description" content="GitHub's Agent HQ unifies Copilot, Claude, Codex, and more onto a single platform built on the primitives you already trust — one command center for every coding agent." />
+  <meta property="og:image" content="../images/agent-hq-any-agent-any-way-you-work.png" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    /* ─── Custom properties ─────────────────────────────────────────── */
+    :root {
+      --bg:            #ffffff;
+      --bg-subtle:     #f8fafc;
+      --bg-secondary:  #e8f1fb;
+      --accent:        #e07b1a;
+      --accent-light:  #fef3e7;
+      --text:          #1f2328;
+      --text-secondary:#57606a;
+      --link:          #0550ae;
+      --link-hover:    #033d8a;
+      --border:        #d0d7de;
+      --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color:      var(--text);
+      background: var(--bg-subtle);
+      line-height: 1.7;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ─── Nav bar ────────────────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+    }
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-back:hover {
+      background: var(--bg-secondary);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* ─── Page layout ────────────────────────────────────────────────── */
+    .page-wrapper {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 36px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 210px;
+      grid-template-areas: "article toc";
+      gap: 36px;
+      align-items: start;
+    }
+
+    /* ─── Article shell ──────────────────────────────────────────────── */
+    article {
+      grid-area: article;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ─── Hero image ─────────────────────────────────────────────────── */
+    .hero-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── Hero body ───────────────────────────────────────────────────── */
+    .hero-body {
+      padding: 30px 40px 26px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to bottom, #f8fafc, #ffffff);
+    }
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      align-items: center;
+    }
+    .date-badge {
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-secondary);
+      color: var(--link);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .badge {
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--bg-subtle);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+    .post-title {
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .post-summary {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    .author-row {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .author-row strong { color: var(--text); }
+
+    /* ─── Post body ──────────────────────────────────────────────────── */
+    .post-body {
+      padding: 36px 40px 48px;
+    }
+
+    .post-body h2 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 40px 0 14px;
+      padding-left: 14px;
+      border-left: 4px solid var(--accent);
+      line-height: 1.3;
+    }
+    .post-body h2:first-child { margin-top: 0; }
+
+    .post-body h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 26px 0 10px;
+    }
+
+    .post-body p {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .post-body ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 18px;
+    }
+    .post-body ul li {
+      font-size: 15.5px;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 8px;
+      padding-left: 22px;
+      position: relative;
+    }
+    .post-body ul li::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .post-body strong { font-weight: 700; color: var(--text); }
+    .post-body em { font-style: italic; }
+
+    .post-body code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .post-body pre {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      margin-bottom: 18px;
+    }
+    .post-body pre code {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font-size: 13px;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+
+    /* ─── Table ──────────────────────────────────────────────────────── */
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 14.5px;
+    }
+    .post-body th {
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .post-body td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .post-body tr:nth-child(even) td { background: var(--bg-subtle); }
+
+    /* ─── Section image ──────────────────────────────────────────────── */
+    .section-image {
+      margin: 24px 0 28px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .section-image img { width: 100%; }
+    .section-image figcaption {
+      font-size: 12px;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    /* ─── Step cards ─────────────────────────────────────────────────── */
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .step-card {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-text {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      padding-top: 4px;
+    }
+    .step-text strong { color: var(--text); }
+
+    /* ─── Callout box ────────────────────────────────────────────────── */
+    .callout {
+      background: #eef4fb;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 8px 0 24px;
+    }
+    .callout-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .callout p {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 0 !important;
+    }
+    .callout ul {
+      margin-bottom: 0 !important;
+    }
+    .callout ul li {
+      font-size: 15px !important;
+    }
+
+    /* ─── Summary cards ──────────────────────────────────────────────── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .summary-card {
+      background: var(--bg-secondary);
+      border: 1px solid #c5d8f0;
+      border-radius: 10px;
+      padding: 18px 18px 16px;
+    }
+    .summary-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .summary-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 0 !important;
+    }
+
+    /* ─── References ─────────────────────────────────────────────────── */
+    .references-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .references-list li {
+      padding-left: 0 !important;
+      margin-bottom: 10px !important;
+    }
+    .references-list li::before { display: none !important; }
+    .references-list a {
+      font-size: 14.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .references-list a::before {
+      content: '↗';
+      font-size: 13px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    /* ─── AI note ────────────────────────────────────────────────────── */
+    .ai-note {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ─── Table of contents ──────────────────────────────────────────── */
+    .toc-aside {
+      grid-area: toc;
+      position: sticky;
+      top: 68px;
+      align-self: start;
+    }
+    .toc-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .toc-list li a {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: block;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border-left: 2px solid transparent;
+      line-height: 1.4;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+    }
+    .toc-list li a:hover,
+    .toc-list li a.active {
+      background: var(--bg-secondary);
+      color: var(--text);
+      border-left-color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .page-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-areas: "article";
+        padding: 20px 16px 60px;
+        gap: 0;
+      }
+      .toc-aside { display: none; }
+      .hero-body  { padding: 22px 22px 20px; }
+      .post-body  { padding: 26px 22px 40px; }
+      .post-title { font-size: 22px; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .hero-body { padding: 18px 16px; }
+      .post-body { padding: 20px 16px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav bar ─────────────────────────────────────────────────────── -->
+  <nav class="site-nav">
+    <a href="../index.html" class="btn-back">
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      All Posts
+    </a>
+  </nav>
+
+  <!-- ── Page wrapper ────────────────────────────────────────────────── -->
+  <div class="page-wrapper">
+
+    <!-- ── Article ───────────────────────────────────────────────────── -->
+    <article>
+
+      <!-- Hero image -->
+      <img
+        src="../images/agent-hq-any-agent-any-way-you-work.png"
+        alt="Agent HQ: a single command center for every coding agent inside GitHub"
+        class="hero-image"
+      />
+
+      <!-- Hero body -->
+      <div class="hero-body">
+        <div class="post-meta">
+          <span class="date-badge">May 3, 2026</span>
+          <span class="badge">📰 News</span>
+        </div>
+        <h1 class="post-title">Introducing Agent HQ: Any Agent, Any Way You Work</h1>
+        <p class="post-summary">
+          AI agents are powerful in isolation but fragmented across tools — forcing
+          developers to context-switch, manage multiple subscriptions, and juggle
+          disconnected interfaces. With Agent HQ, GitHub unifies every agent —
+          Copilot, Claude, Codex, Jules, and more — onto a single platform built
+          on the primitives you already trust: Git, pull requests, and Actions.
+          The result is one command center where you can assign, steer, and
+          govern any agent from anywhere, without leaving your workflow.
+        </p>
+        <div class="tag-list">
+          <span class="tag">GitHub Copilot</span>
+          <span class="tag">Agent HQ</span>
+          <span class="tag">Mission Control</span>
+          <span class="tag">Multi-agent</span>
+          <span class="tag">Enterprise</span>
+          <span class="tag">GitHub Universe</span>
+        </div>
+        <div class="author-row">by <strong>Burak Unuvar</strong> · 5 min read</div>
+      </div>
+
+      <!-- Post body -->
+      <div class="post-body">
+
+        <p>
+          The current AI landscape presents a familiar challenge: incredible capability
+          fragmented across different tools and interfaces. You build with Copilot in
+          VS Code, but the agent from another vendor lives somewhere else. Mission
+          control is missing — and every context switch costs you momentum.
+        </p>
+        <p>
+          At GitHub Universe 2025, GitHub announced <strong>Agent HQ</strong>: the
+          platform's next evolution, designed so that agents don't need to be bolted
+          on. They work the way you already work, on the infrastructure you already
+          trust.
+        </p>
+
+        <!-- Section 1 -->
+        <h2 id="what-is-agent-hq">What Is Agent HQ?</h2>
+        <p>
+          Agent HQ is GitHub's open ecosystem for coding agents. Instead of managing a
+          patchwork of disconnected tools or subscribing to multiple services,
+          developers now have a single platform that brings together agents from:
+        </p>
+        <ul>
+          <li><strong>Anthropic</strong> (Claude)</li>
+          <li><strong>OpenAI</strong> (Codex)</li>
+          <li><strong>Google</strong> (Jules)</li>
+          <li><strong>Cognition</strong>, <strong>xAI</strong>, and more</li>
+        </ul>
+        <p>
+          All of these are available as part of your <strong>paid GitHub Copilot
+          subscription</strong> — no new accounts, no extra billing surfaces, no
+          duplicated context. The primitives you rely on — Git, pull requests, issues,
+          GitHub Actions — remain unchanged. Agent HQ layers new orchestration
+          capability on top of that solid foundation.
+        </p>
+
+        <div class="callout">
+          <div class="callout-label">💡 Tip</div>
+          <p>
+            Claude and Codex went into <strong>public preview on February 4, 2026</strong>
+            for Copilot Pro+ and Copilot Enterprise subscribers, available in GitHub,
+            GitHub Mobile, and VS Code — with <strong>Copilot CLI support coming soon</strong>.
+            Each agent session consumes one premium request, and access is expected to
+            expand to more Copilot subscription types over time.
+          </p>
+        </div>
+
+        <!-- Section 2 -->
+        <h2 id="why-it-matters">Why GitHub-Native Agents Matter</h2>
+        <p>
+          Coding agents are only useful if they fit into how teams already build
+          software. Running them inside GitHub instead of as external tools changes
+          three things in practice:
+        </p>
+        <ul>
+          <li><strong>Explore tradeoffs early.</strong> Run agents in parallel to surface competing approaches and edge cases before the code hardens.</li>
+          <li><strong>Keep context attached to the work.</strong> Agents operate inside your repository, issues, and pull requests instead of starting from stateless prompts — there is no copy-paste between tools, documents, and threads.</li>
+          <li><strong>Avoid new review processes.</strong> Agent-generated changes show up as draft pull requests and comments, reviewed the same way you would review a teammate's work. No new dashboards, no parallel AI workflow to learn.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">🗣️ From Anthropic</div>
+          <p>
+            "We're bringing Claude into GitHub to meet developers where they are. With
+            Agent HQ, Claude can commit code and comment on pull requests, enabling
+            teams to iterate and ship faster and with more confidence."
+            <br/>— <em>Katelyn Lesse, Head of Platform, Anthropic</em>
+          </p>
+        </div>
+
+        <!-- Section 3 -->
+        <h2 id="mission-control">Mission Control: One Command Center Everywhere</h2>
+        <p>
+          The centrepiece of Agent HQ is <strong>mission control</strong> — a unified
+          interface that follows you across GitHub, VS Code, mobile, and the CLI. Think
+          of it as a task dispatcher for your fleet of agents. With mission control you
+          can:
+        </p>
+        <ul>
+          <li>Choose from the available agents and assign them discrete tasks.</li>
+          <li>Run multiple agents in parallel on different parts of a project.</li>
+          <li>Track progress from any device without switching surfaces.</li>
+          <li>Use new <strong>branch controls</strong> to decide when CI and checks should run on agent-created code.</li>
+          <li>Manage <strong>agent identity</strong> — which agent is building what, and under which access policy.</li>
+          <li>Resolve merge conflicts with one-click resolution and browse changed files with improved navigation.</li>
+        </ul>
+        <p>
+          Mission control also connects to <strong>Slack</strong>, <strong>Linear</strong>,
+          <strong>Atlassian Jira</strong>, <strong>Microsoft Teams</strong>,
+          <strong>Azure Boards</strong>, and <strong>Raycast</strong> — so you can steer
+          agents from wherever your team already communicates.
+        </p>
+
+        <!-- Section 4 -->
+        <h2 id="governance">Code Quality, Metrics, and the Control Plane</h2>
+        <p>
+          Agent HQ ships three enterprise-grade capabilities that move AI governance
+          from ad hoc to systematic:
+        </p>
+
+        <h3>GitHub Code Quality (public preview)</h3>
+        <p>
+          "LGTM" on a pull request doesn't guarantee the codebase stays healthy.
+          <strong>GitHub Code Quality</strong> adds org-wide visibility into
+          maintainability, reliability, and test coverage across every repository. It
+          extends Copilot's existing security checks to also flag reliability and
+          maintainability regressions in changed code — and runs an automatic
+          first-line Copilot review before the code ever reaches a human reviewer.
+        </p>
+
+        <h3>Copilot Metrics Dashboard (public preview)</h3>
+        <p>
+          Organisations need to understand how Copilot is being used and what impact
+          it is having. The <strong>Copilot Metrics Dashboard</strong> surfaces usage
+          statistics and acceptance rates across the entire organisation, with API
+          access for custom reporting pipelines.
+        </p>
+
+        <h3>Enterprise Control Plane (public preview)</h3>
+        <p>
+          The <strong>control plane</strong> is the governance layer for the agentic
+          era. In one place, enterprise admins can:
+        </p>
+        <ul>
+          <li>Define which agents are permitted in the organisation.</li>
+          <li>Control which models are available to each team.</li>
+          <li>Set security policies and audit logging requirements.</li>
+          <li>Manage access to MCP servers and third-party integrations.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">🏢 Enterprise considerations</div>
+          <p>
+            The control plane is separate from existing GitHub Enterprise policy
+            settings. Evaluate which controls your security and compliance teams need
+            before rolling out third-party agents to your organisation.
+          </p>
+        </div>
+
+        <!-- Section 5 -->
+        <h2 id="getting-started">Getting Started with Claude and Codex Today</h2>
+        <p>
+          Claude and Codex are available now in public preview for <strong>Copilot
+          Pro+</strong> and <strong>Copilot Enterprise</strong> subscribers. Before you
+          can use them, they must be explicitly enabled in your account settings —
+          they are not on by default.
+        </p>
+
+        <h3>Enabling third-party agents</h3>
+        <div class="step-list">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-text">From the upper-right of any GitHub page, click your profile picture, then <strong>Copilot settings</strong>.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-text">In the sidebar under <strong>Copilot</strong>, click <strong>Cloud agent</strong>.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-text">On the Copilot cloud agent page, under <strong>Partner agents</strong>, toggle on <strong>Anthropic Claude</strong>, <strong>OpenAI Codex</strong>, or both.</div>
+          </div>
+        </div>
+        <p>
+          Third-party agents inherit the <strong>same repository access</strong> as the
+          Copilot cloud agent — they can only act in repositories where cloud agent is
+          already enabled.
+        </p>
+
+        <div class="callout">
+          <div class="callout-label">⚠️ Important</div>
+          <p>
+            Third-party coding agents are available on Copilot <strong>Pro, Pro+,
+            Business, and Enterprise</strong> plans (not Copilot Free). On Business and
+            Enterprise, the ability to enable Claude and Codex is controlled by policy
+            at the organisation or enterprise level, not in personal settings — so the
+            toggle may be hidden or read-only depending on how your admins have
+            configured it.
+          </p>
+        </div>
+
+        <h3>Starting an agent session</h3>
+        <p>You have three surfaces to choose from:</p>
+        <ul>
+          <li><strong>GitHub.com / GitHub Mobile</strong> — Open the <strong>Agents</strong> tab in any enabled repository, enter your request, select an agent using the Copilot icon, and submit. Sessions run asynchronously; you can follow progress in real time or review completed logs later.</li>
+          <li><strong>VS Code (version 1.109 or later)</strong> — Open the Agent sessions view from the title bar or press <code>Ctrl+Shift+P</code> / <code>Cmd+Shift+P</code> and search for "agent sessions". Choose a session type (Local, Cloud, or Background) and pick your agent.</li>
+          <li><strong>Issues and pull requests</strong> — Assign an issue directly to Copilot, Claude, or Codex. Mention <code>@Copilot</code>, <code>@Claude</code>, or <code>@Codex</code> in a pull request comment to request follow-up work. Agents submit draft pull requests that go through your normal review workflow.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">💡 Tip</div>
+          <p>
+            Agent output is always reviewable — agents submit draft pull requests and
+            comments, not direct commits. Review their work the same way you would
+            review a teammate's contribution.
+          </p>
+        </div>
+
+        <!-- Section 6 -->
+        <h2 id="comparing-agents">Comparing Agents Side by Side</h2>
+        <p>
+          One of the most powerful — and underused — capabilities of Agent HQ is
+          running multiple agents on the <strong>same task</strong> to compare how
+          they reason. You can assign Copilot, Claude, and Codex to the same issue
+          simultaneously and review the resulting draft pull requests side by side.
+        </p>
+        <p>Practical strategies for multi-agent review:</p>
+        <ul>
+          <li><strong>Architectural guardrails</strong> — Ask one agent to evaluate modularity and coupling to identify changes that could introduce unintended side effects.</li>
+          <li><strong>Logical pressure testing</strong> — Use another agent to hunt for edge cases, async pitfalls, or scale assumptions that could cause production issues.</li>
+          <li><strong>Pragmatic implementation</strong> — Have a third agent propose the smallest backward-compatible change to minimise the blast radius of a refactor.</li>
+        </ul>
+        <p>
+          This shifts your review from <em>syntax checking</em> to <em>strategic
+          decision-making</em>: you are comparing approaches, not debugging code.
+          Because all agent activity stays attached to the repository — as comments,
+          draft PRs, and session logs — there is no context lost between runs, and no
+          new review processes to learn.
+        </p>
+
+        <!-- Section 7 — Summary cards -->
+        <h2 id="summary">Summary</h2>
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="summary-card-label">Why</div>
+            <p>AI agents are increasingly capable but fragmented across incompatible surfaces — forcing developers to manage context, credentials, and cognitive overhead across too many tools.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">How</div>
+            <p>Agent HQ unifies agents from Anthropic, OpenAI, Google, and others into GitHub's existing primitives (Git, PRs, Actions) and layers mission control, multi-agent assignment, and an enterprise governance stack on top.</p>
+          </div>
+          <div class="summary-card">
+            <div class="summary-card-label">What</div>
+            <p>One command center to orchestrate any agent from anywhere, with code quality, access control, and audit logging handled at the platform level — not bolted on after the fact.</p>
+          </div>
+        </div>
+
+        <!-- Section 8 — References -->
+        <h2 id="references">References</h2>
+        <ul class="references-list">
+          <li>
+            <a href="https://github.blog/news-insights/company-news/welcome-home-agents/" target="_blank" rel="noopener noreferrer">
+              Introducing Agent HQ: Any agent, any way you work — GitHub Blog
+            </a>
+          </li>
+          <li>
+            <a href="https://github.blog/news-insights/company-news/pick-your-agent-use-claude-and-codex-on-agent-hq/" target="_blank" rel="noopener noreferrer">
+              Pick your agent: Use Claude and Codex on Agent HQ — GitHub Blog
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies#enabling-or-disabling-third-party-coding-agents-in-your-repositories" target="_blank" rel="noopener noreferrer">
+              Enabling third-party coding agents — GitHub Docs
+            </a>
+          </li>
+          <li>
+            <a href="https://github.blog/changelog/2025-10-28-a-mission-control-to-assign-steer-and-track-copilot-coding-agent-tasks/" target="_blank" rel="noopener noreferrer">
+              Mission Control changelog — GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.blog/changelog/2025-10-28-github-code-quality-in-public-preview/" target="_blank" rel="noopener noreferrer">
+              GitHub Code Quality changelog — GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.blog/changelog/2025-10-28-copilot-usage-metrics-dashboard-and-api-in-public-preview/" target="_blank" rel="noopener noreferrer">
+              Copilot Metrics Dashboard changelog — GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.blog/changelog/2025-10-28-enterprise-ai-controls-the-agent-control-plane-are-in-public-preview/" target="_blank" rel="noopener noreferrer">
+              Enterprise Control Plane changelog — GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/features/copilot/plans" target="_blank" rel="noopener noreferrer">
+              GitHub Copilot Plans
+            </a>
+          </li>
+        </ul>
+
+        <!-- AI note -->
+        <div class="ai-note">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Draft refined with AI assistance.
+        </div>
+
+      </div><!-- /.post-body -->
+    </article>
+
+    <!-- ── Table of contents ──────────────────────────────────────────── -->
+    <aside class="toc-aside" aria-label="Table of contents">
+      <div class="toc-box">
+        <div class="toc-title">On this page</div>
+        <ul class="toc-list">
+          <li><a href="#what-is-agent-hq">What Is Agent HQ?</a></li>
+          <li><a href="#why-it-matters">Why It Matters</a></li>
+          <li><a href="#mission-control">Mission Control</a></li>
+          <li><a href="#governance">Governance Stack</a></li>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#comparing-agents">Comparing Agents</a></li>
+          <li><a href="#summary">Summary</a></li>
+          <li><a href="#references">References</a></li>
+        </ul>
+      </div>
+    </aside>
+
+  </div><!-- /.page-wrapper -->
+
+  <!-- TOC active-state tracking -->
+  <script>
+    (function () {
+      var links    = document.querySelectorAll('.toc-list a');
+      var headings = Array.from(document.querySelectorAll('.post-body h2[id]'));
+
+      function update() {
+        var current = '';
+        headings.forEach(function (h) {
+          if (window.scrollY >= h.offsetTop - 90) current = h.id;
+        });
+        links.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+      }
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>
