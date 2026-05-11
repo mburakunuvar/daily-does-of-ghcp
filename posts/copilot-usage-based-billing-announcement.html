@@ -3,33 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Integrate MCP with Copilot — Daily Dose of GHCP</title>
-  <meta name="description" content="AI tools need a standard way to act on your behalf, not just reply. By adopting Model Context Protocol, GitHub Copilot's agent mode discovers tools, selects the right one, and executes it — giving you an AI that operates, not only answers." />
-  <meta property="og:title" content="Integrate MCP with Copilot" />
-  <meta property="og:description" content="By adopting MCP, GitHub Copilot's agent mode discovers tools, selects the right one, and executes it — giving you an AI that operates, not only answers." />
-  <meta property="og:image" content="../images/integrate-mcp-with-copilot.png" />
+  <title>GitHub Copilot Moves to Usage-Based Billing: What Changes on June 1, 2026 — Daily Dose of GHCP</title>
+  <meta name="description" content="On June 1, 2026, GitHub Copilot moves from premium request units to GitHub AI Credits. See what changes, what stays included, and the new base-plan credit allotments." />
+  <meta property="og:title" content="GitHub Copilot Moves to Usage-Based Billing: What Changes on June 1, 2026" />
+  <meta property="og:description" content="GitHub Copilot is moving to usage-based billing on June 1, 2026. GitHub AI Credits replace premium request units; base prices stay the same." />
+  <meta property="og:image" content="../images/copilot-usage-based-billing-announcement.png" />
   <meta property="og:type" content="article" />
   <meta name="twitter:card" content="summary_large_image" />
   <style>
     /* ─── Custom properties ─────────────────────────────────────────── */
     :root {
-      /* 60% primary — white / near-white backgrounds */
       --bg:            #ffffff;
       --bg-subtle:     #f8fafc;
-      /* 30% secondary — light blue-gray for cards, code, section tints */
       --bg-secondary:  #e8f1fb;
-      /* 10% accent — muted orange, small decorative elements only */
       --accent:        #e07b1a;
       --accent-light:  #fef3e7;
-      /* text */
       --text:          #1f2328;
       --text-secondary:#57606a;
-      /* links */
       --link:          #0550ae;
       --link-hover:    #033d8a;
-      /* borders */
       --border:        #d0d7de;
-      /* typography */
       --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     }
@@ -78,7 +71,7 @@
       text-decoration: none;
     }
 
-    /* ─── Page layout (article + aside) ─────────────────────────────── */
+    /* ─── Page layout ────────────────────────────────────────────────── */
     .page-wrapper {
       max-width: 1080px;
       margin: 0 auto;
@@ -107,7 +100,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ─── Hero body (title + meta) ───────────────────────────────────── */
+    /* ─── Hero body ───────────────────────────────────────────────────── */
     .hero-body {
       padding: 30px 40px 26px;
       border-bottom: 1px solid var(--border);
@@ -187,6 +180,13 @@
     }
     .post-body h2:first-child { margin-top: 0; }
 
+    .post-body h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 26px 0 10px;
+    }
+
     .post-body p {
       font-size: 15.5px;
       line-height: 1.75;
@@ -246,6 +246,30 @@
       line-height: 1.6;
     }
 
+    /* ─── Table ──────────────────────────────────────────────────────── */
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 14.5px;
+    }
+    .post-body th {
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .post-body td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .post-body tr:nth-child(even) td { background: var(--bg-subtle); }
+
     /* ─── Section image ──────────────────────────────────────────────── */
     .section-image {
       margin: 24px 0 28px;
@@ -298,6 +322,7 @@
       color: var(--text);
       padding-top: 4px;
     }
+    .step-text strong { color: var(--text); }
 
     /* ─── Callout box ────────────────────────────────────────────────── */
     .callout {
@@ -319,6 +344,12 @@
       font-size: 15px;
       line-height: 1.7;
       margin-bottom: 0 !important;
+    }
+    .callout ul {
+      margin-bottom: 0 !important;
+    }
+    .callout ul li {
+      font-size: 15px !important;
     }
 
     /* ─── Summary cards ──────────────────────────────────────────────── */
@@ -474,30 +505,30 @@
 
       <!-- Hero image -->
       <img
-        src="../images/integrate-mcp-with-copilot.png"
-        alt="MCP as the bridge between GitHub Copilot and external tools"
+        src="../images/copilot-usage-based-billing-announcement.png"
+        alt="GitHub Copilot usage-based billing announcement"
         class="hero-image"
       />
 
       <!-- Hero body -->
       <div class="hero-body">
         <div class="post-meta">
-          <span class="date-badge">Apr 4, 2026</span>
+          <span class="date-badge">May 11, 2026</span>
           <span class="badge">📘 RecentUpdates-Announcements</span>
-          <span class="badge">🤖 Copilot in IDE</span>
         </div>
-        <h1 class="post-title">Integrate MCP with Copilot</h1>
+        <h1 class="post-title">GitHub Copilot Moves to Usage-Based Billing</h1>
         <p class="post-summary">
-          AI tools need a standard way to act on your behalf, not just reply.
-          By adopting Model Context Protocol, GitHub Copilot's agent mode discovers
-          tools, selects the right one, and executes it — giving you an AI that
-          operates, not only answers.
+          GitHub Copilot is moving to usage-based billing on June 1, 2026. GitHub AI
+          Credits replace premium request units while base subscription prices and
+          included experiences stay the same — here is a concise, source-grounded
+          view of what is changing, what is included, and why GitHub is making the move.
         </p>
         <div class="tag-list">
           <span class="tag">GitHub Copilot</span>
-          <span class="tag">MCP</span>
-          <span class="tag">Agent mode</span>
-          <span class="tag">Tool calling</span>
+          <span class="tag">Usage-based billing</span>
+          <span class="tag">GitHub AI Credits</span>
+          <span class="tag">Pricing</span>
+          <span class="tag">Announcement</span>
         </div>
         <div class="author-row">by <strong>Burak Unuvar</strong> · 4 min read</div>
       </div>
@@ -505,184 +536,130 @@
       <!-- Post body -->
       <div class="post-body">
 
-        <!-- Section 1 -->
-        <h2 id="what-is-mcp">What Is Model Context Protocol?</h2>
+        <h2 id="what-is-changing">What Is Changing on June 1, 2026</h2>
         <p>
-          Model Context Protocol, or MCP, is often described as "USB-C for AI." That
-          comparison works because MCP gives AI tools a standard way to connect to
-          external systems.
+          GitHub Copilot is moving to usage-based billing on <strong>June 1, 2026</strong>.
+          The change is straightforward at the surface — premium request units are being
+          replaced by <strong>GitHub AI Credits</strong> — but the implications for teams,
+          budgets, and day-to-day prompting are wider than a unit rename.
         </p>
-        <p>
-          Instead of hard-coding one integration at a time, an MCP server exposes its
-          capabilities in a structured format. That includes what tools are available,
-          what each tool does, and what input schema each tool expects. A client such as
-          GitHub Copilot can then inspect that catalog and decide how to use it.
-        </p>
-        <p>
-          In practical terms, MCP helps Copilot move beyond plain text generation. It
-          lets the model discover tools, understand their parameters, and call them with
-          much less guesswork.
-        </p>
-
-        <!-- Section 2 -->
-        <h2 id="why-mcp-matters">Why MCP Matters in Copilot</h2>
-        <p>
-          When MCP is available, Copilot is not limited to only reading your prompt and
-          replying with prose. It can reason over the tools exposed by the MCP server and
-          decide whether a tool call is useful for the task.
-        </p>
-        <p>At a high level, Copilot evaluates three things:</p>
+        <p>The unit that meters Copilot usage is changing from premium requests to AI Credits:</p>
         <ul>
-          <li>Does this request require a tool at all?</li>
-          <li>Which tool best matches the user's intent?</li>
-          <li>Which arguments should be passed based on the tool's schema?</li>
+          <li>Copilot plans include a monthly allotment of AI Credits.</li>
+          <li>AI Credits are consumed based on token usage — input, output, and cached tokens.</li>
+          <li>The cost of a given task depends on the model used and the number of tokens consumed.</li>
+          <li>For Business and Enterprise, included credits are pooled at the billing entity level rather than locked to a single user.</li>
+          <li>If the included pool is exhausted, admins choose whether to allow additional usage at published rates or cap spend.</li>
+          <li>Copilot code review will also consume GitHub Actions minutes in addition to AI Credits.</li>
         </ul>
-        <p>
-          Once a tool is selected, Copilot can execute it, inspect the result, and use
-          that output to continue the workflow. That makes the interaction feel much more
-          agentic: the model is no longer just answering, it is operating.
-        </p>
 
-        <!-- Section 3 -->
-        <h2 id="how-it-works">How MCP Tool Calling Works in Agent Mode</h2>
-        <p>In agent mode, the loop is typically straightforward:</p>
-
-        <div class="step-list">
-          <div class="step-card">
-            <div class="step-number">1</div>
-            <div class="step-text">You ask Copilot to do something in natural language.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">2</div>
-            <div class="step-text">Copilot checks the available tools and their schemas.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">3</div>
-            <div class="step-text">It selects the tool or tools that best fit the request.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">4</div>
-            <div class="step-text">It fills in the required arguments and executes the call.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">5</div>
-            <div class="step-text">
-              It reads the tool result and decides whether to answer, continue, or call
-              another tool.
-            </div>
-          </div>
-        </div>
-
-        <p>
-          That tool-aware loop is the core reason MCP feels powerful. The model is not
-          just generating text about an action. It can actually perform the action when a
-          matching tool exists.
-        </p>
-        <figure class="section-image">
-          <img
-            src="../images/mcp-tool-calling-by-agentmode.png"
-            alt="Diagram showing the agent mode tool-calling flow"
-          />
-          <figcaption>Agent mode tool-calling flow</figcaption>
-        </figure>
-
-        <!-- Section 4 -->
-        <h2 id="what-you-can-do">What You Can Do With It</h2>
-        <p>
-          With the right MCP server behind it, Copilot can do far more than edit files
-          in your repository. Depending on the tools that are exposed, you can ask it to:
-        </p>
-        <ul>
-          <li>Discover similar public repositories for inspiration.</li>
-          <li>
-            Search issues using rich context such as titles, descriptions, comments,
-            or reactions.
-          </li>
-          <li>Turn promising ideas into GitHub issues before they get lost.</li>
-          <li>Retrieve an issue, make changes on a branch, and open a pull request.</li>
-          <li>Monitor GitHub Actions workflow runs and analyze build failures.</li>
-          <li>Review code security findings and Dependabot alerts across your projects.</li>
-        </ul>
-        <p>
-          That is the real value of MCP: it connects natural-language intent to concrete,
-          structured actions.
-        </p>
-
-        <!-- Section 5 -->
-        <h2 id="getting-started">Getting Started</h2>
-        <p>
-          The easiest way to try this is through the remote GitHub MCP Server, which is
-          hosted by GitHub and requires no local setup. In VS Code 1.101 or later, open
-          the Copilot Chat panel, toggle Agent mode, and add the server using the
-          one-click install from the
-          <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer">
-            GitHub MCP Server repository
-          </a>.
-          Once connected, the tools are immediately available in your agent sessions.
-        </p>
-        <p>
-          If you prefer a guided walkthrough, the
-          <a href="https://github.com/skills/integrate-mcp-with-copilot/" target="_blank" rel="noopener noreferrer">
-            GitHub Skills: Integrate MCP with Copilot
-          </a>
-          exercise takes you through the full flow — from setup to opening a pull
-          request — in under an hour.
-        </p>
-
-        <!-- Section 6 — Callout -->
-        <h2 id="prompting-tip">A Small Prompting Tip</h2>
         <div class="callout">
-          <div class="callout-label">💡 Tip</div>
+          <div class="callout-label">⚠️ Important</div>
           <p>
-            In VS Code agent mode, type <code>#tools</code> in the chat input to see the
-            full list of tools available from your connected MCP servers. Selecting a tool
-            from that list gives Copilot a direct hint about which capability to use.
-            That does not replace MCP — it simply makes tool discovery more explicit when
-            you know exactly what you want Copilot to do.
+            The premium-request model applies until June 1, 2026. Internal communications,
+            dashboards, and budget reports should reflect the transition date so finance and
+            engineering see the same picture.
           </p>
         </div>
 
-        <!-- Section 7 — Summary cards -->
+        <h2 id="base-pricing">Base Plan Pricing Is Not Changing</h2>
+        <p>
+          The base monthly subscription price stays the same on every plan. What changes is
+          that each plan now ships with a matching dollar value of included AI Credits.
+        </p>
+        <table>
+          <thead>
+            <tr><th>Plan</th><th>Base price</th><th>Included AI Credits</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Copilot Pro</td><td>$10 / month</td><td>$10 in AI Credits</td></tr>
+            <tr><td>Copilot Pro+</td><td>$39 / month</td><td>$39 in AI Credits</td></tr>
+            <tr><td>Copilot Business</td><td>$19 / user / month</td><td>$19 per user in AI Credits</td></tr>
+            <tr><td>Copilot Enterprise</td><td>$39 / user / month</td><td>$39 per user in AI Credits</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="promotional-credits">Promotional Included Usage for Business and Enterprise</h2>
+        <p>
+          To smooth the transition, existing Business and Enterprise customers receive extra
+          included AI Credits for <strong>June, July, and August 2026</strong>.
+        </p>
+        <ul>
+          <li>Copilot Business: $30 per user per month in AI Credits.</li>
+          <li>Copilot Enterprise: $70 per user per month in AI Credits.</li>
+        </ul>
+        <p>
+          This promotional window is a good baseline for observing real token consumption
+          before configuring stricter budgets.
+        </p>
+
+        <h2 id="stays-included">What Stays Included and Unmetered</h2>
+        <p>
+          Not every Copilot interaction consumes AI Credits. The most common day-to-day
+          experiences remain included.
+        </p>
+        <ul>
+          <li>Code completions stay included and unmetered.</li>
+          <li>Next Edit suggestions stay included and unmetered.</li>
+          <li>These experiences should continue to be the default for routine coding.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">💡 Tip</div>
+          <p>
+            Encourage developers to keep using completions and Next Edit suggestions as their
+            primary loop. AI Credits should be reserved for chat, agentic, and review workflows
+            where the deeper context is worth the spend.
+          </p>
+        </div>
+
+        <h2 id="why-the-change">Why GitHub Is Making This Change</h2>
+        <p>
+          Copilot has evolved from an in-editor assistant into an <strong>agentic development
+          platform</strong> that can run longer, multi-step tasks across repositories. A flat
+          request-based model does not reflect the wide range of compute these tasks now consume.
+        </p>
+        <p>
+          Usage-based billing aligns cost with actual model and token consumption, improves
+          budget control for organizations, and supports a more sustainable Copilot experience
+          as agentic workloads grow.
+        </p>
+
         <h2 id="summary">Summary</h2>
         <div class="summary-grid">
           <div class="summary-card">
             <div class="summary-card-label">Why</div>
-            <p>MCP makes Copilot more useful by helping it act, not just answer.</p>
+            <p>Copilot is evolving into an agentic platform with workloads that vary widely in cost, and the previous flat unit model no longer reflects what customers actually consume.</p>
           </div>
           <div class="summary-card">
             <div class="summary-card-label">How</div>
-            <p>
-              Copilot reads the tool schema, chooses the right tool, passes the required
-              inputs, and uses the result to continue the task.
-            </p>
+            <p>GitHub AI Credits replace premium request units, meter usage by tokens and model, and pool included credits at the billing entity for Business and Enterprise — while base subscription prices stay the same.</p>
           </div>
           <div class="summary-card">
             <div class="summary-card-label">What</div>
-            <p>
-              A standard way for tools and services to expose their capabilities to AI.
-            </p>
+            <p>Teams enter June 1, 2026 with a clearer view of what is changing, what stays included, and where to invest follow-up planning effort.</p>
           </div>
         </div>
 
-        <!-- Section 8 — References -->
         <h2 id="references">References</h2>
         <ul class="references-list">
           <li>
-            <a href="https://github.com/skills/integrate-mcp-with-copilot/" target="_blank" rel="noopener noreferrer">
-              GitHub Skills: Integrate MCP with Copilot
+            <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank" rel="noopener noreferrer">
+              GitHub announcement: GitHub Copilot is moving to usage-based billing
             </a>
           </li>
           <li>
-            <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer">
-              GitHub MCP Server
+            <a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises" target="_blank" rel="noopener noreferrer">
+              Usage-based billing for organizations and enterprises
             </a>
           </li>
           <li>
-            <a href="https://code.visualstudio.com/docs/copilot/chat/mcp-servers" target="_blank" rel="noopener noreferrer">
-              VS Code — MCP Servers in Agent Mode
+            <a href="https://docs.github.com/en/billing/how-tos/set-up-budgets" target="_blank" rel="noopener noreferrer">
+              Set up budgets
             </a>
           </li>
         </ul>
+
 
         <!-- AI note -->
         <div class="ai-note">
@@ -704,12 +681,11 @@
       <div class="toc-box">
         <div class="toc-title">On this page</div>
         <ul class="toc-list">
-          <li><a href="#what-is-mcp">What Is MCP?</a></li>
-          <li><a href="#why-mcp-matters">Why It Matters</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#what-you-can-do">What You Can Do</a></li>
-          <li><a href="#getting-started">Getting Started</a></li>
-          <li><a href="#prompting-tip">Prompting Tip</a></li>
+          <li><a href="#what-is-changing">What Is Changing</a></li>
+          <li><a href="#base-pricing">Base Pricing</a></li>
+          <li><a href="#promotional-credits">Promotional Credits</a></li>
+          <li><a href="#stays-included">What Stays Included</a></li>
+          <li><a href="#why-the-change">Why the Change</a></li>
           <li><a href="#summary">Summary</a></li>
           <li><a href="#references">References</a></li>
         </ul>

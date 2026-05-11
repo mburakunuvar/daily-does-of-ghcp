@@ -46,8 +46,11 @@ Each post focuses on one specific feature, capability, or architectural detail. 
 - **Copilot SDK** — Programmatic access and extension development
 - **Copilot in UI** — GitHub.com browser features
 - **Copilot coding agent** — Autonomous agent sessions and their management
-- **Tutorials** — Step-by-step walkthroughs for specific Copilot workflows
-- **Lessons Learnt** — Real-world experiences, mistakes, and insights from using Copilot day-to-day
+- **Copilot code review** — PR review agents, automatic reviews, and review-time governance
+- **News** — Headline GitHub Copilot releases and platform-level announcements
+- **Advanced** — Power-user workflows that build on a working knowledge of Copilot
+- **RecentUpdates-Announcements** — Recent feature updates, pricing changes, and announcements
+- **BestPractices&LessonsLearnt** — Real-world experiences, mistakes, and insights from using Copilot day-to-day
 
 ---
 

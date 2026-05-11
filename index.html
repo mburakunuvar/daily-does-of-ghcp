@@ -16,10 +16,8 @@
     }
 
     .filter-label {
-      <a class="card" href="posts/ghcp-across-multiple-surfaces.html" data-category="Beginners">
       font-weight: 600;
       color: var(--text-muted);
-          <span class="badge">🌐 Beginners</span>
     }
 
     .filter-btn {
@@ -113,6 +111,10 @@
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
                   Copilot Coding Agent
                 </a></li>
+                <li><a href="javascript:void(0)" data-filter="Copilot code review">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2.5 1.75a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-1.28.53l-2.47-2.47H3.25a.75.75 0 0 1-.75-.75Zm1.5.75v8.25h5.56a.75.75 0 0 1 .53.22l1.91 1.91V2.5Zm6.28 2.22a.75.75 0 0 1 0 1.06L7.81 8.25l-.97-.97a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.06 0l2.94-2.94a.75.75 0 0 0 0-1.06Z"/></svg>
+                  Copilot Code Review
+                </a></li>
               </ul>
             </li>
             <li><a href="javascript:void(0)" data-filter="Copilot CLI">
@@ -133,9 +135,9 @@
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M14.184 1.143v-.001l1.422 2.464a1.75 1.75 0 0 1-.757 2.451L3.104 11.713a1.75 1.75 0 0 1-2.275-.702l-.447-.775a1.75 1.75 0 0 1 .53-2.32L11.682.573a1.748 1.748 0 0 1 2.502.57Zm-4.709 9.32h-.001l2.644 3.863a.75.75 0 1 1-1.238.848l-1.881-2.75v2.826a.75.75 0 0 1-1.5 0v-2.826l-1.881 2.75a.75.75 0 1 1-1.238-.848l2.049-2.992a.746.746 0 0 1 .293-.253l1.809-.87a.749.749 0 0 1 .944.252ZM9.436 3.92h-.001l-4.97 3.39.942 1.63 5.42-2.61Zm3.091-2.108h.001l-1.85 1.26 1.505 2.605 2.016-.97a.247.247 0 0 0 .13-.151.247.247 0 0 0-.022-.199l-1.422-2.464a.253.253 0 0 0-.161-.119.254.254 0 0 0-.197.038ZM1.756 9.157a.25.25 0 0 0-.075.33l.447.775a.25.25 0 0 0 .325.1l1.598-.769-.83-1.436-1.465 1Z"/></svg>
           Deep Dive
         </a></li>
-        <li><a href="javascript:void(0)" data-filter="Tutorials">
+        <li><a href="javascript:void(0)" data-filter="RecentUpdates-Announcements">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"/></svg>
-          Tutorials
+          RecentUpdates-Announcements
         </a></li>
         <li><a href="javascript:void(0)" data-filter="BestPractices&LessonsLearnt">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7-3.25v2.636l1.22 1.22a.75.75 0 1 1-1.06 1.06l-1.5-1.5a.749.749 0 0 1-.22-.53V4.75a.75.75 0 0 1 1.5 0Z"/></svg>
@@ -191,12 +193,13 @@
         <button class="filter-btn filter-btn-sub" data-filter="Copilot in IDE">Copilot in IDE</button>
         <button class="filter-btn filter-btn-sub" data-filter="Copilot in UI">Copilot in UI</button>
         <button class="filter-btn filter-btn-subsub" data-filter="Copilot coding agent">↳ Coding Agent</button>
+        <button class="filter-btn filter-btn-subsub" data-filter="Copilot code review">↳ Code Review</button>
         <button class="filter-btn filter-btn-sub" data-filter="Copilot CLI">Copilot CLI</button>
         <button class="filter-btn filter-btn-sub" data-filter="Copilot SDK">Copilot SDK</button>
       </div>
       <button class="filter-btn" data-filter="Advanced">🚀 Advanced</button>
       <button class="filter-btn" data-filter="Deep Dive">🔍 Deep Dive</button>
-      <button class="filter-btn" data-filter="Tutorials">📖 Tutorials</button>
+      <button class="filter-btn" data-filter="RecentUpdates-Announcements">📖 RecentUpdates-Announcements</button>
       <button class="filter-btn" data-filter="BestPractices&LessonsLearnt">⏱ BestPractices&LessonsLearnt</button>
     </div>
 
@@ -208,6 +211,84 @@
 
     <!-- Cards grid -->
     <div class="cards-grid" id="cardsGrid">
+
+      <!-- Card: GitHub Copilot Moves to Usage-Based Billing -->
+      <a class="card" href="posts/copilot-usage-based-billing-announcement.html" data-category="RecentUpdates-Announcements">
+        <div class="card-meta">
+          <span class="card-date">11 May 2026</span>
+          <span class="badge">📘 RecentUpdates-Announcements</span>
+        </div>
+        <div class="card-title">GitHub Copilot Moves to Usage-Based Billing</div>
+        <div class="card-summary">
+          GitHub Copilot is moving to usage-based billing on June 1, 2026.
+          GitHub AI Credits replace premium request units while base subscription
+          prices and included experiences stay the same — a concise, source-grounded
+          view of what is changing, what is included, and why GitHub is making the move.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Budgets, Caps, and Alerts — Admin Playbook for Copilot AI Credits -->
+      <a class="card" href="posts/copilot-ai-credits-admin-playbook.html" data-category="BestPractices&LessonsLearnt">
+        <div class="card-meta">
+          <span class="card-date">11 May 2026</span>
+          <span class="badge">📘 BestPractices&LessonsLearnt</span>
+        </div>
+        <div class="card-title">Budgets, Caps, and Alerts: An Admin Playbook for Copilot AI Credits</div>
+        <div class="card-summary">
+          Configure multi-scope budgets, hard caps, threshold alerts, and an explicit
+          additional-usage policy before June 1, 2026. A practical playbook so the
+          first billing cycle under Copilot's usage-based model holds no surprises.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Efficient Token Usage in GitHub Copilot -->
+      <a class="card" href="posts/efficient-token-usage-for-copilot.html" data-category="BestPractices&LessonsLearnt">
+        <div class="card-meta">
+          <span class="card-date">11 May 2026</span>
+          <span class="badge">📘 BestPractices&LessonsLearnt</span>
+        </div>
+        <div class="card-title">Efficient Token Usage in GitHub Copilot</div>
+        <div class="card-summary">
+          Under usage-based billing, prompting with intent saves credits and makes
+          Copilot feel faster and more accurate. Default to auto model selection,
+          scope prompts tightly, pick the smallest capable workflow, and reset
+          unproductive threads — practical developer habits that compound.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Rolling Out Copilot Usage-Based Billing -->
+      <a class="card" href="posts/copilot-billing-rollout-faq-and-checklist.html" data-category="BestPractices&LessonsLearnt">
+        <div class="card-meta">
+          <span class="card-date">11 May 2026</span>
+          <span class="badge">📘 BestPractices&LessonsLearnt</span>
+        </div>
+        <div class="card-title">Rolling Out Copilot Usage-Based Billing: FAQ, Policies, and Checklist</div>
+        <div class="card-summary">
+          A chosen budget policy, model selection guidance, an FAQ, and a phased
+          checklist with success criteria turn the June 1, 2026 Copilot billing
+          transition from a configuration sprint into a structured rollout —
+          adaptable to any organization's risk profile.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
+
+      <!-- Card: Copilot Code Review Agents -->
+      <a class="card" href="posts/copilot-code-review-agents.html" data-category="Copilot code review">
+        <div class="card-meta">
+          <span class="card-date">11 May 2026</span>
+          <span class="badge">🖥️ Copilot in UI</span>
+          <span class="badge">✅ Copilot code review</span>
+        </div>
+        <div class="card-title">Copilot Code Review Agents on GitHub</div>
+        <div class="card-summary">
+          Copilot code review now combines PR feedback with agentic capabilities like full-project context and handoff to cloud agent fixes.
+          Learn where it is available, what licensing and policy gates apply, how automatic review triggers work, and what changes in billing from June 1, 2026.
+        </div>
+        <span class="card-link">Read more <span class="arrow">→</span></span>
+      </a>
 
       <!-- Card: Introducing Agent HQ -->
       <a class="card" href="posts/agent-hq-any-agent-any-way-you-work.html" data-category="News">
@@ -318,10 +399,11 @@
 
       <!-- Card: GitHub Copilot for Azure -->
       <a class="card" href="posts/github-copilot-for-azure.html" data-category="Copilot in IDE">
-      <a class="card" href="posts/ghcp-across-multiple-surfaces.html" data-category="Beginners">
+        <div class="card-meta">
           <span class="card-date">12 March 2026</span>
           <span class="badge">💬 Copilot in IDE</span>
           <span class="badge">🌐 Beginners</span>
+        </div>
         <div class="card-title">GitHub Copilot for Azure</div>
         <div class="card-summary">
           GitHub Copilot for Azure brings Azure-aware prompts, tool calls, and live cloud context into your IDE.

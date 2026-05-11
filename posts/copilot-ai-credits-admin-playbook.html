@@ -3,33 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Integrate MCP with Copilot — Daily Dose of GHCP</title>
-  <meta name="description" content="AI tools need a standard way to act on your behalf, not just reply. By adopting Model Context Protocol, GitHub Copilot's agent mode discovers tools, selects the right one, and executes it — giving you an AI that operates, not only answers." />
-  <meta property="og:title" content="Integrate MCP with Copilot" />
-  <meta property="og:description" content="By adopting MCP, GitHub Copilot's agent mode discovers tools, selects the right one, and executes it — giving you an AI that operates, not only answers." />
-  <meta property="og:image" content="../images/integrate-mcp-with-copilot.png" />
+  <title>Budgets, Caps, and Alerts: An Admin Playbook for Copilot AI Credits — Daily Dose of GHCP</title>
+  <meta name="description" content="A practical admin playbook for the June 1, 2026 Copilot billing transition: multi-scope budgets, hard caps, threshold alerts, and an explicit additional-usage policy." />
+  <meta property="og:title" content="Budgets, Caps, and Alerts: An Admin Playbook for Copilot AI Credits" />
+  <meta property="og:description" content="Configure multi-scope budgets, hard caps, threshold alerts, and an additional-usage policy for Copilot AI Credits before June 1, 2026." />
+  <meta property="og:image" content="../images/copilot-ai-credits-admin-playbook.png" />
   <meta property="og:type" content="article" />
   <meta name="twitter:card" content="summary_large_image" />
   <style>
     /* ─── Custom properties ─────────────────────────────────────────── */
     :root {
-      /* 60% primary — white / near-white backgrounds */
       --bg:            #ffffff;
       --bg-subtle:     #f8fafc;
-      /* 30% secondary — light blue-gray for cards, code, section tints */
       --bg-secondary:  #e8f1fb;
-      /* 10% accent — muted orange, small decorative elements only */
       --accent:        #e07b1a;
       --accent-light:  #fef3e7;
-      /* text */
       --text:          #1f2328;
       --text-secondary:#57606a;
-      /* links */
       --link:          #0550ae;
       --link-hover:    #033d8a;
-      /* borders */
       --border:        #d0d7de;
-      /* typography */
       --font:      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
     }
@@ -78,7 +71,7 @@
       text-decoration: none;
     }
 
-    /* ─── Page layout (article + aside) ─────────────────────────────── */
+    /* ─── Page layout ────────────────────────────────────────────────── */
     .page-wrapper {
       max-width: 1080px;
       margin: 0 auto;
@@ -107,7 +100,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* ─── Hero body (title + meta) ───────────────────────────────────── */
+    /* ─── Hero body ───────────────────────────────────────────────────── */
     .hero-body {
       padding: 30px 40px 26px;
       border-bottom: 1px solid var(--border);
@@ -187,6 +180,13 @@
     }
     .post-body h2:first-child { margin-top: 0; }
 
+    .post-body h3 {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 26px 0 10px;
+    }
+
     .post-body p {
       font-size: 15.5px;
       line-height: 1.75;
@@ -246,6 +246,30 @@
       line-height: 1.6;
     }
 
+    /* ─── Table ──────────────────────────────────────────────────────── */
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 14.5px;
+    }
+    .post-body th {
+      background: var(--bg-secondary);
+      color: var(--text);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .post-body td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      line-height: 1.55;
+    }
+    .post-body tr:nth-child(even) td { background: var(--bg-subtle); }
+
     /* ─── Section image ──────────────────────────────────────────────── */
     .section-image {
       margin: 24px 0 28px;
@@ -298,6 +322,7 @@
       color: var(--text);
       padding-top: 4px;
     }
+    .step-text strong { color: var(--text); }
 
     /* ─── Callout box ────────────────────────────────────────────────── */
     .callout {
@@ -319,6 +344,12 @@
       font-size: 15px;
       line-height: 1.7;
       margin-bottom: 0 !important;
+    }
+    .callout ul {
+      margin-bottom: 0 !important;
+    }
+    .callout ul li {
+      font-size: 15px !important;
     }
 
     /* ─── Summary cards ──────────────────────────────────────────────── */
@@ -474,215 +505,225 @@
 
       <!-- Hero image -->
       <img
-        src="../images/integrate-mcp-with-copilot.png"
-        alt="MCP as the bridge between GitHub Copilot and external tools"
+        src="../images/copilot-ai-credits-admin-playbook.png"
+        alt="Admin playbook for GitHub Copilot AI Credits and budgets"
         class="hero-image"
       />
 
       <!-- Hero body -->
       <div class="hero-body">
         <div class="post-meta">
-          <span class="date-badge">Apr 4, 2026</span>
-          <span class="badge">📘 RecentUpdates-Announcements</span>
-          <span class="badge">🤖 Copilot in IDE</span>
+          <span class="date-badge">May 11, 2026</span>
+          <span class="badge">📘 BestPractices&LessonsLearnt</span>
         </div>
-        <h1 class="post-title">Integrate MCP with Copilot</h1>
+        <h1 class="post-title">Budgets, Caps, and Alerts: An Admin Playbook for Copilot AI Credits</h1>
         <p class="post-summary">
-          AI tools need a standard way to act on your behalf, not just reply.
-          By adopting Model Context Protocol, GitHub Copilot's agent mode discovers
-          tools, selects the right one, and executes it — giving you an AI that
-          operates, not only answers.
+          GitHub provides four budget scopes, configurable alerts, and an additional-usage
+          policy that admins choose deliberately. This playbook walks through the admin
+          actions worth completing before the June 1, 2026 Copilot billing transition so
+          the first billing cycle holds no surprises.
         </p>
         <div class="tag-list">
           <span class="tag">GitHub Copilot</span>
-          <span class="tag">MCP</span>
-          <span class="tag">Agent mode</span>
-          <span class="tag">Tool calling</span>
+          <span class="tag">Usage-based billing</span>
+          <span class="tag">Budget controls</span>
+          <span class="tag">Cost centers</span>
+          <span class="tag">Enterprise</span>
         </div>
-        <div class="author-row">by <strong>Burak Unuvar</strong> · 4 min read</div>
+        <div class="author-row">by <strong>Burak Unuvar</strong> · 6 min read</div>
       </div>
 
       <!-- Post body -->
       <div class="post-body">
 
-        <!-- Section 1 -->
-        <h2 id="what-is-mcp">What Is Model Context Protocol?</h2>
+        <h2 id="review-preview-bill">Review the Preview Bill First</h2>
         <p>
-          Model Context Protocol, or MCP, is often described as "USB-C for AI." That
-          comparison works because MCP gives AI tools a standard way to connect to
-          external systems.
+          When Copilot usage is metered by tokens, governance shifts from "Can we use this?" to
+          "Can we control spend without slowing teams down?" Before configuring any controls,
+          build a baseline of what current usage would look like under the new model.
         </p>
-        <p>
-          Instead of hard-coding one integration at a time, an MCP server exposes its
-          capabilities in a structured format. That includes what tools are available,
-          what each tool does, and what input schema each tool expects. A client such as
-          GitHub Copilot can then inspect that catalog and decide how to use it.
-        </p>
-        <p>
-          In practical terms, MCP helps Copilot move beyond plain text generation. It
-          lets the model discover tools, understand their parameters, and call them with
-          much less guesswork.
-        </p>
-
-        <!-- Section 2 -->
-        <h2 id="why-mcp-matters">Why MCP Matters in Copilot</h2>
-        <p>
-          When MCP is available, Copilot is not limited to only reading your prompt and
-          replying with prose. It can reason over the tools exposed by the MCP server and
-          decide whether a tool call is useful for the task.
-        </p>
-        <p>At a high level, Copilot evaluates three things:</p>
-        <ul>
-          <li>Does this request require a tool at all?</li>
-          <li>Which tool best matches the user's intent?</li>
-          <li>Which arguments should be passed based on the tool's schema?</li>
-        </ul>
-        <p>
-          Once a tool is selected, Copilot can execute it, inspect the result, and use
-          that output to continue the workflow. That makes the interaction feel much more
-          agentic: the model is no longer just answering, it is operating.
-        </p>
-
-        <!-- Section 3 -->
-        <h2 id="how-it-works">How MCP Tool Calling Works in Agent Mode</h2>
-        <p>In agent mode, the loop is typically straightforward:</p>
-
         <div class="step-list">
           <div class="step-card">
             <div class="step-number">1</div>
-            <div class="step-text">You ask Copilot to do something in natural language.</div>
+            <div class="step-text">Open the Billing Overview page in early May 2026.</div>
           </div>
           <div class="step-card">
             <div class="step-number">2</div>
-            <div class="step-text">Copilot checks the available tools and their schemas.</div>
+            <div class="step-text">Inspect projected Copilot costs for the upcoming cycle.</div>
           </div>
           <div class="step-card">
             <div class="step-number">3</div>
-            <div class="step-text">It selects the tool or tools that best fit the request.</div>
+            <div class="step-text">Identify high-usage users, teams, repositories, and cost centers.</div>
           </div>
           <div class="step-card">
             <div class="step-number">4</div>
-            <div class="step-text">It fills in the required arguments and executes the call.</div>
-          </div>
-          <div class="step-card">
-            <div class="step-number">5</div>
-            <div class="step-text">
-              It reads the tool result and decides whether to answer, continue, or call
-              another tool.
-            </div>
+            <div class="step-text">Note any outliers that may need user-level budgets later.</div>
           </div>
         </div>
-
         <p>
-          That tool-aware loop is the core reason MCP feels powerful. The model is not
-          just generating text about an action. It can actually perform the action when a
-          matching tool exists.
+          A baseline keeps the rollout grounded. Budgets set without observed data tend to
+          either block legitimate work or fail to catch real overspending.
         </p>
-        <figure class="section-image">
-          <img
-            src="../images/mcp-tool-calling-by-agentmode.png"
-            alt="Diagram showing the agent mode tool-calling flow"
-          />
-          <figcaption>Agent mode tool-calling flow</figcaption>
-        </figure>
 
-        <!-- Section 4 -->
-        <h2 id="what-you-can-do">What You Can Do With It</h2>
+        <h2 id="set-budgets">Set Budgets at the Right Scope</h2>
         <p>
-          With the right MCP server behind it, Copilot can do far more than edit files
-          in your repository. Depending on the tools that are exposed, you can ask it to:
+          GitHub provides four budget scopes. Each one serves a different governance need, and
+          admins should pick scopes deliberately rather than stacking all four.
         </p>
         <ul>
-          <li>Discover similar public repositories for inspiration.</li>
-          <li>
-            Search issues using rich context such as titles, descriptions, comments,
-            or reactions.
-          </li>
-          <li>Turn promising ideas into GitHub issues before they get lost.</li>
-          <li>Retrieve an issue, make changes on a branch, and open a pull request.</li>
-          <li>Monitor GitHub Actions workflow runs and analyze build failures.</li>
-          <li>Review code security findings and Dependabot alerts across your projects.</li>
+          <li><strong>Enterprise budget</strong> — global control and centralized oversight.</li>
+          <li><strong>Organization budget</strong> — business-unit or tenant-level ownership.</li>
+          <li><strong>Cost center budget</strong> — the direct answer for per-team accountability.</li>
+          <li><strong>User budget</strong> — individual limits and exception control.</li>
         </ul>
-        <p>
-          That is the real value of MCP: it connects natural-language intent to concrete,
-          structured actions.
-        </p>
 
-        <!-- Section 5 -->
-        <h2 id="getting-started">Getting Started</h2>
-        <p>
-          The easiest way to try this is through the remote GitHub MCP Server, which is
-          hosted by GitHub and requires no local setup. In VS Code 1.101 or later, open
-          the Copilot Chat panel, toggle Agent mode, and add the server using the
-          one-click install from the
-          <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer">
-            GitHub MCP Server repository
-          </a>.
-          Once connected, the tools are immediately available in your agent sessions.
-        </p>
-        <p>
-          If you prefer a guided walkthrough, the
-          <a href="https://github.com/skills/integrate-mcp-with-copilot/" target="_blank" rel="noopener noreferrer">
-            GitHub Skills: Integrate MCP with Copilot
-          </a>
-          exercise takes you through the full flow — from setup to opening a pull
-          request — in under an hour.
-        </p>
-
-        <!-- Section 6 — Callout -->
-        <h2 id="prompting-tip">A Small Prompting Tip</h2>
         <div class="callout">
-          <div class="callout-label">💡 Tip</div>
+          <div class="callout-label">⚠️ Important</div>
           <p>
-            In VS Code agent mode, type <code>#tools</code> in the chat input to see the
-            full list of tools available from your connected MCP servers. Selecting a tool
-            from that list gives Copilot a direct hint about which capability to use.
-            That does not replace MCP — it simply makes tool discovery more explicit when
-            you know exactly what you want Copilot to do.
+            Avoid overlapping budgets that could unexpectedly block users. When a user-level
+            budget is exhausted, that user's Copilot access is halted even if the organization
+            credit pool still has credits available.
           </p>
         </div>
 
-        <!-- Section 7 — Summary cards -->
+        <h3>Why cost centers are the right unit for per-team budgets</h3>
+        <ul>
+          <li>Cost centers map cleanly to engineering team ownership.</li>
+          <li>Costs become attributable without manual per-user credit tracking.</li>
+          <li>A user belongs to one cost center at a time, which simplifies reporting.</li>
+          <li>GitHub teams do not automatically sync to cost centers — plan identity mapping (ideally via SCIM) as part of onboarding and offboarding.</li>
+        </ul>
+
+        <h2 id="caps">Decide When Budgets Should Act as Caps</h2>
+        <p>
+          A budget can either monitor or enforce. Both roles are valid; admins should be
+          explicit about which is which.
+        </p>
+        <div class="step-list">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-text">Enable <strong>Stop usage when budget limit is reached</strong> for budgets that must act as hard caps.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-text">Apply hard caps to pilots, cost-sensitive teams, or users who should not exceed a defined allowance.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-text">Use monitoring-only budgets at the enterprise and organization level during the baseline window.</div>
+          </div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-text">Move to caps only after observed usage stabilizes.</div>
+          </div>
+        </div>
+
+        <h2 id="alerts">Configure Alerts That Drive Action</h2>
+        <p>
+          Alerts are useful only if the recipients can act on them. Default to a small set of
+          thresholds tied to clear owners.
+        </p>
+        <ul>
+          <li>Enable budget threshold alerts at <strong>75%</strong>, <strong>90%</strong>, and <strong>100%</strong>.</li>
+          <li>Enable included usage alerts at <strong>90%</strong> and <strong>100%</strong>.</li>
+          <li>Assign recipients who can act quickly: billing managers, platform owners, and engineering managers.</li>
+        </ul>
+
+        <div class="callout">
+          <div class="callout-label">💡 Tip</div>
+          <p>
+            Treat 75%, 90%, and 100% alerts as action points, not just informational emails.
+            Document the expected response for each threshold so alerts do not become noise.
+          </p>
+        </div>
+
+        <h2 id="additional-usage-policy">Define the Additional Usage Policy</h2>
+        <p>
+          When included AI Credits are exhausted, admins choose what happens next. The policy
+          should be explicit, written, and shared with engineering leadership.
+        </p>
+        <ul>
+          <li><strong>Allow additional usage</strong> — usage continues at published rates after the included pool is exhausted.</li>
+          <li><strong>Block additional usage</strong> — usage is blocked until the next billing cycle.</li>
+          <li><strong>Mixed policy</strong> — allow additional usage for approved cost centers, block it elsewhere, and require explicit exceptions for the rest.</li>
+        </ul>
+
+        <h2 id="map-ownership">Map Ownership Before You Need It</h2>
+        <p>
+          Spend controls fail when nobody owns the response. Assign owners during configuration,
+          not during the first incident.
+        </p>
+        <ul>
+          <li>Budget configuration owner.</li>
+          <li>Alert response owner.</li>
+          <li>User communication owner.</li>
+          <li>Cost center review owner.</li>
+          <li>Exception approval owner.</li>
+        </ul>
+
+        <h2 id="caveats">Caveats to Plan For</h2>
+        <p>
+          A few operational details matter during rollout. Bake them into the runbook before
+          June 1.
+        </p>
+        <ul>
+          <li>Included credits are pooled at the billing entity for Business and Enterprise — individual heavy users can consume more while lighter usage offsets total spend.</li>
+          <li>There is no automatic fallback to cheaper models when a budget is exhausted. Usage either continues at higher cost or stops, based on policy.</li>
+          <li>Seat additions increase the credit pool immediately.</li>
+          <li>Seat removals take effect in the next billing cycle.</li>
+          <li>Copilot code review consumes both AI Credits and GitHub Actions minutes — account for it in both budgets.</li>
+        </ul>
+
+        <h2 id="operating-model">Suggested Operating Model</h2>
+        <table>
+          <thead>
+            <tr><th>Area</th><th>Recommendation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Default model behavior</td><td>Use auto model selection where available</td></tr>
+            <tr><td>Budget strategy</td><td>Enterprise/org monitoring budgets plus targeted cost-center or user caps</td></tr>
+            <tr><td>Alerting</td><td>75%, 90%, 100% budget alerts plus included usage alerts</td></tr>
+            <tr><td>Exceptions</td><td>Allow additional usage only for approved users, teams, or cost centers</td></tr>
+            <tr><td>Review cadence</td><td>Weekly during preview, then after each billing cycle</td></tr>
+            <tr><td>Communication</td><td>Share guidance before June 1, refresh after first month of usage data</td></tr>
+          </tbody>
+        </table>
+
         <h2 id="summary">Summary</h2>
         <div class="summary-grid">
           <div class="summary-card">
             <div class="summary-card-label">Why</div>
-            <p>MCP makes Copilot more useful by helping it act, not just answer.</p>
+            <p>Usage-based billing makes Copilot spend a platform-engineering concern, not just a procurement line item, and admins need controls that match team accountability.</p>
           </div>
           <div class="summary-card">
             <div class="summary-card-label">How</div>
-            <p>
-              Copilot reads the tool schema, chooses the right tool, passes the required
-              inputs, and uses the result to continue the task.
-            </p>
+            <p>Multi-scope budgets, hard caps, threshold alerts, an explicit additional usage policy, and clear ownership turn the new billing model into layered, predictable governance.</p>
           </div>
           <div class="summary-card">
             <div class="summary-card-label">What</div>
-            <p>
-              A standard way for tools and services to expose their capabilities to AI.
-            </p>
+            <p>Admins enter June 1, 2026 with budgets configured, alerts wired to the right responders, and an exception process that does not slow engineering down.</p>
           </div>
         </div>
 
-        <!-- Section 8 — References -->
         <h2 id="references">References</h2>
         <ul class="references-list">
           <li>
-            <a href="https://github.com/skills/integrate-mcp-with-copilot/" target="_blank" rel="noopener noreferrer">
-              GitHub Skills: Integrate MCP with Copilot
+            <a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-organizations-and-enterprises" target="_blank" rel="noopener noreferrer">
+              Usage-based billing for organizations and enterprises
             </a>
           </li>
           <li>
-            <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener noreferrer">
-              GitHub MCP Server
+            <a href="https://docs.github.com/en/billing/how-tos/set-up-budgets" target="_blank" rel="noopener noreferrer">
+              Set up budgets
             </a>
           </li>
           <li>
-            <a href="https://code.visualstudio.com/docs/copilot/chat/mcp-servers" target="_blank" rel="noopener noreferrer">
-              VS Code — MCP Servers in Agent Mode
+            <a href="https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/" target="_blank" rel="noopener noreferrer">
+              GitHub announcement: GitHub Copilot is moving to usage-based billing
             </a>
           </li>
         </ul>
+
 
         <!-- AI note -->
         <div class="ai-note">
@@ -704,12 +745,14 @@
       <div class="toc-box">
         <div class="toc-title">On this page</div>
         <ul class="toc-list">
-          <li><a href="#what-is-mcp">What Is MCP?</a></li>
-          <li><a href="#why-mcp-matters">Why It Matters</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#what-you-can-do">What You Can Do</a></li>
-          <li><a href="#getting-started">Getting Started</a></li>
-          <li><a href="#prompting-tip">Prompting Tip</a></li>
+          <li><a href="#review-preview-bill">Preview Bill</a></li>
+          <li><a href="#set-budgets">Budget Scopes</a></li>
+          <li><a href="#caps">Hard Caps</a></li>
+          <li><a href="#alerts">Alerts</a></li>
+          <li><a href="#additional-usage-policy">Usage Policy</a></li>
+          <li><a href="#map-ownership">Ownership</a></li>
+          <li><a href="#caveats">Caveats</a></li>
+          <li><a href="#operating-model">Operating Model</a></li>
           <li><a href="#summary">Summary</a></li>
           <li><a href="#references">References</a></li>
         </ul>

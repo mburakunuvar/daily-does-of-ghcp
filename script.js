@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (filterBtns.length && cards.length) {
     const categoryParents = {
-      'Beginners': ['Beginners', 'Copilot in IDE', 'Copilot in UI', 'Copilot CLI', 'Copilot SDK', 'Copilot coding agent'],
-      'Copilot in UI': ['Copilot in UI', 'Copilot coding agent'],
+      'Beginners': ['Beginners', 'Copilot in IDE', 'Copilot in UI', 'Copilot CLI', 'Copilot SDK', 'Copilot coding agent', 'Copilot code review'],
+      'Copilot in UI': ['Copilot in UI', 'Copilot coding agent', 'Copilot code review'],
     };
 
     const applyFilter = filter => {

@@ -93,7 +93,7 @@ Match these literal patterns so all posts read consistently:
 ```html
 <div class="post-meta">
   <span class="date-badge">Apr 4, 2026</span>            <!-- format: Mmm D, YYYY -->
-  <span class="badge">📘 Tutorials</span>                <!-- emoji + category from categories.txt -->
+  <span class="badge">📘 RecentUpdates-Announcements</span>                <!-- emoji + category from index.html data-category values -->
   <span class="badge">🤖 Copilot in IDE</span>           <!-- 1–3 badges total -->
 </div>
 <h1 class="post-title">{post_title}</h1>

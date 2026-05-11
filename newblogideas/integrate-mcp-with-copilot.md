@@ -6,7 +6,7 @@ post_slug: integrate-mcp-with-copilot
 microsoft_alias: buraknvar
 featured_image: ../images/integrate-mcp-with-copilot.png
 categories:
-  - Tutorials
+  - RecentUpdates-Announcements
   - Copilot in IDE
 tags:
   - GitHub Copilot
